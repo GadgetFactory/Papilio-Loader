@@ -9,7 +9,7 @@ if %~x1 == .bit goto :BittoSvf
 
 :SVFProg
 cd /D %~dp0bin
-cp %SVFFile% %TMPFile%
+copy %SVFFile% %TMPFile%
 del %CMDFILE%
 echo cable ft2232 > %CMDFILE%
 echo bsdl path . >> %CMDFILE%
