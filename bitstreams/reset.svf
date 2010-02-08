@@ -1,0 +1,20 @@
+// Created using Xilinx iMPACT Software [ISE - 11.1]
+// Date: Mon Nov 02 14:14:44 2009
+
+TRST OFF;
+ENDIR IDLE;
+ENDDR IDLE;
+STATE RESET;
+STATE IDLE;
+FREQUENCY 1E6 HZ;
+TIR 0 ;
+HIR 0 ;
+TDR 0 ;
+HDR 0 ;
+TIR 0 ;
+HIR 0 ;
+HDR 0 ;
+TDR 0 ;
+//Loading device with 'idcode' instruction.
+SIR 6 TDI (0B) SMASK (3f) ;
+
