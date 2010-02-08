@@ -1,0 +1,19 @@
+Package STD_1532_2002 is -- Attribute definitions for ISC description
+  use STD_1149_1_2001.all; -- Refer to BSDL definitions
+
+  attribute ISC_Conformance: BSDL_Extension;
+  attribute ISC_Pin_Behavior: BSDL_Extension;
+  attribute ISC_Fixed_System_Pins: BSDL_Extension; -- Optional
+  attribute ISC_Status: BSDL_Extension;
+  attribute ISC_Blank_Usercode: BSDL_Extension;
+  attribute ISC_Security: BSDL_Extension; -- Optional
+  attribute ISC_Flow: BSDL_Extension;
+  attribute ISC_Procedure: BSDL_Extension;
+  attribute ISC_Action: BSDL_Extension;
+  attribute ISC_Illegal_Exit: BSDL_Extension; -- Optional
+  attribute ISC_Design_Warning: BSDL_Extension; -- Optional
+end STD_1532_2002;
+
+Package Body STD_1532_2002 is
+  -- No content, this package body is required by BSDL syntax
+end STD_1532_2002;

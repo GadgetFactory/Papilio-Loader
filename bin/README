@@ -1,0 +1,176 @@
+Date Created: Wed Sep 24 12:44:57 PDT 2008
+
+The following files are included in this archive: 
+xc3s100e.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:38-07 $
+xc3s100e.bsd:-- Use Statements
+xc3s100e.bsd:-- Component Conformance Statement(s)
+xc3s100e_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:39-07 $
+xc3s100e_1532.bsd:-- Use Statements
+xc3s100e_1532.bsd:-- Component Conformance Statement(s)
+xc3s100e_cp132.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:40-07 $
+xc3s100e_cp132.bsd:-- Use Statements
+xc3s100e_cp132.bsd:-- Component Conformance Statement(s)
+xc3s100e_cp132_1532.bsd:-- Xilinx, Inc. $State: Exp $ $Date: 2008-03-19 14:29:28-08 $
+xc3s100e_cp132_1532.bsd:-- Use Statements
+xc3s100e_cp132_1532.bsd:-- Component Conformance Statement(s)
+xc3s100e_pq208.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:41-07 $
+xc3s100e_pq208.bsd:-- Use Statements
+xc3s100e_pq208.bsd:-- Component Conformance Statement(s)
+xc3s100e_pq208_1532.bsd:-- Xilinx, Inc. $State: Exp $ $Date: 2008-03-19 14:29:28-08 $
+xc3s100e_pq208_1532.bsd:-- Use Statements
+xc3s100e_pq208_1532.bsd:-- Component Conformance Statement(s)
+xc3s100e_tq144.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:42-07 $
+xc3s100e_tq144.bsd:-- Use Statements
+xc3s100e_tq144.bsd:-- Component Conformance Statement(s)
+xc3s100e_tq144_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:42-07 $
+xc3s100e_tq144_1532.bsd:-- Use Statements
+xc3s100e_tq144_1532.bsd:-- Component Conformance Statement(s)
+xc3s100e_vq100.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:43-07 $
+xc3s100e_vq100.bsd:-- Use Statements
+xc3s100e_vq100.bsd:-- Component Conformance Statement(s)
+xc3s100e_vq100_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:43-07 $
+xc3s100e_vq100_1532.bsd:-- Use Statements
+xc3s100e_vq100_1532.bsd:-- Component Conformance Statement(s)
+xc3s1200e.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:44-07 $
+xc3s1200e.bsd:-- Use Statements
+xc3s1200e.bsd:-- Component Conformance Statement(s)
+xc3s1200e_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:44-07 $
+xc3s1200e_1532.bsd:-- Use Statements
+xc3s1200e_1532.bsd:-- Component Conformance Statement(s)
+xc3s1200e_fg320.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:45-07 $
+xc3s1200e_fg320.bsd:-- Use Statements
+xc3s1200e_fg320.bsd:-- Component Conformance Statement(s)
+xc3s1200e_fg320_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:46-07 $
+xc3s1200e_fg320_1532.bsd:-- Use Statements
+xc3s1200e_fg320_1532.bsd:-- Component Conformance Statement(s)
+xc3s1200e_fg400.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:46-07 $
+xc3s1200e_fg400.bsd:-- Use Statements
+xc3s1200e_fg400.bsd:-- Component Conformance Statement(s)
+xc3s1200e_fg400_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:47-07 $
+xc3s1200e_fg400_1532.bsd:-- Use Statements
+xc3s1200e_fg400_1532.bsd:-- Component Conformance Statement(s)
+xc3s1200e_ft256.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:47-07 $
+xc3s1200e_ft256.bsd:-- Use Statements
+xc3s1200e_ft256.bsd:-- Component Conformance Statement(s)
+xc3s1200e_ft256_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:48-07 $
+xc3s1200e_ft256_1532.bsd:-- Use Statements
+xc3s1200e_ft256_1532.bsd:-- Component Conformance Statement(s)
+xc3s1200e_pq208.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:49-07 $
+xc3s1200e_pq208.bsd:-- Use Statements
+xc3s1200e_pq208.bsd:-- Component Conformance Statement(s)
+xc3s1200e_pq208_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:49-07 $
+xc3s1200e_pq208_1532.bsd:-- Use Statements
+xc3s1200e_pq208_1532.bsd:-- Component Conformance Statement(s)
+xc3s1600e.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:50-07 $
+xc3s1600e.bsd:-- Use Statements
+xc3s1600e.bsd:-- Component Conformance Statement(s)
+xc3s1600e_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:51-07 $
+xc3s1600e_1532.bsd:-- Use Statements
+xc3s1600e_1532.bsd:-- Component Conformance Statement(s)
+xc3s1600e_fg320.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:51-07 $
+xc3s1600e_fg320.bsd:-- Use Statements
+xc3s1600e_fg320.bsd:-- Component Conformance Statement(s)
+xc3s1600e_fg320_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:52-07 $
+xc3s1600e_fg320_1532.bsd:-- Use Statements
+xc3s1600e_fg320_1532.bsd:-- Component Conformance Statement(s)
+xc3s1600e_fg400.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:53-07 $
+xc3s1600e_fg400.bsd:-- Use Statements
+xc3s1600e_fg400.bsd:-- Component Conformance Statement(s)
+xc3s1600e_fg400_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:53-07 $
+xc3s1600e_fg400_1532.bsd:-- Use Statements
+xc3s1600e_fg400_1532.bsd:-- Component Conformance Statement(s)
+xc3s1600e_fg484.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:54-07 $
+xc3s1600e_fg484.bsd:-- Use Statements
+xc3s1600e_fg484.bsd:-- Component Conformance Statement(s)
+xc3s1600e_fg484_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:54-07 $
+xc3s1600e_fg484_1532.bsd:-- Use Statements
+xc3s1600e_fg484_1532.bsd:-- Component Conformance Statement(s)
+xc3s1600e_pq208.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:55-07 $
+xc3s1600e_pq208.bsd:-- Use Statements
+xc3s1600e_pq208.bsd:-- Component Conformance Statement(s)
+xc3s1600e_pq208_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:56-07 $
+xc3s1600e_pq208_1532.bsd:-- Use Statements
+xc3s1600e_pq208_1532.bsd:-- Component Conformance Statement(s)
+xc3s250e.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:56-07 $
+xc3s250e.bsd:-- Use Statements
+xc3s250e.bsd:-- Component Conformance Statement(s)
+xc3s250e_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:57-07 $
+xc3s250e_1532.bsd:-- Use Statements
+xc3s250e_1532.bsd:-- Component Conformance Statement(s)
+xc3s250e_cp132.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:57-07 $
+xc3s250e_cp132.bsd:-- Use Statements
+xc3s250e_cp132.bsd:-- Component Conformance Statement(s)
+xc3s250e_cp132_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:58-07 $
+xc3s250e_cp132_1532.bsd:-- Use Statements
+xc3s250e_cp132_1532.bsd:-- Component Conformance Statement(s)
+xc3s250e_ft256.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:58-07 $
+xc3s250e_ft256.bsd:-- Use Statements
+xc3s250e_ft256.bsd:-- Component Conformance Statement(s)
+xc3s250e_ft256_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:59-07 $
+xc3s250e_ft256_1532.bsd:-- Use Statements
+xc3s250e_ft256_1532.bsd:-- Component Conformance Statement(s)
+xc3s250e_pq208.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:00:59-07 $
+xc3s250e_pq208.bsd:-- Use Statements
+xc3s250e_pq208.bsd:-- Component Conformance Statement(s)
+xc3s250e_pq208_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:00-07 $
+xc3s250e_pq208_1532.bsd:-- Use Statements
+xc3s250e_pq208_1532.bsd:-- Component Conformance Statement(s)
+xc3s250e_tq144.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:00-07 $
+xc3s250e_tq144.bsd:-- Use Statements
+xc3s250e_tq144.bsd:-- Component Conformance Statement(s)
+xc3s250e_tq144_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:01-07 $
+xc3s250e_tq144_1532.bsd:-- Use Statements
+xc3s250e_tq144_1532.bsd:-- Component Conformance Statement(s)
+xc3s250e_vq100.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:01-07 $
+xc3s250e_vq100.bsd:-- Use Statements
+xc3s250e_vq100.bsd:-- Component Conformance Statement(s)
+xc3s250e_vq100_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:02-07 $
+xc3s250e_vq100_1532.bsd:-- Use Statements
+xc3s250e_vq100_1532.bsd:-- Component Conformance Statement(s)
+xc3s500e.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:02-07 $
+xc3s500e.bsd:-- Use Statements
+xc3s500e.bsd:-- Component Conformance Statement(s)
+xc3s500e_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:03-07 $
+xc3s500e_1532.bsd:-- Use Statements
+xc3s500e_1532.bsd:-- Component Conformance Statement(s)
+xc3s500e_cp132.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:03-07 $
+xc3s500e_cp132.bsd:-- Use Statements
+xc3s500e_cp132.bsd:-- Component Conformance Statement(s)
+xc3s500e_cp132_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:04-07 $
+xc3s500e_cp132_1532.bsd:-- Use Statements
+xc3s500e_cp132_1532.bsd:-- Component Conformance Statement(s)
+xc3s500e_fg320.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:04-07 $
+xc3s500e_fg320.bsd:-- Use Statements
+xc3s500e_fg320.bsd:-- Component Conformance Statement(s)
+xc3s500e_fg320_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:05-07 $
+xc3s500e_fg320_1532.bsd:-- Use Statements
+xc3s500e_fg320_1532.bsd:-- Component Conformance Statement(s)
+xc3s500e_ft256.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:05-07 $
+xc3s500e_ft256.bsd:-- Use Statements
+xc3s500e_ft256.bsd:-- Component Conformance Statement(s)
+xc3s500e_ft256_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:06-07 $
+xc3s500e_ft256_1532.bsd:-- Use Statements
+xc3s500e_ft256_1532.bsd:-- Component Conformance Statement(s)
+xc3s500e_pq208.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:07-07 $
+xc3s500e_pq208.bsd:-- Use Statements
+xc3s500e_pq208.bsd:-- Component Conformance Statement(s)
+xc3s500e_pq208_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:07-07 $
+xc3s500e_pq208_1532.bsd:-- Use Statements
+xc3s500e_pq208_1532.bsd:-- Component Conformance Statement(s)
+xc3s500e_vq100.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:08-07 $
+xc3s500e_vq100.bsd:-- Use Statements
+xc3s500e_vq100.bsd:-- Component Conformance Statement(s)
+xc3s500e_vq100_1532.bsd:-- Xilinx, Inc. $State: PRELIMINARY $ $Date: 2008-05-29 16:01:08-07 $
+xc3s500e_vq100_1532.bsd:-- Use Statements
+xc3s500e_vq100_1532.bsd:-- Component Conformance Statement(s)
+
+DESCRIPTION: These are the Boundary Scan Description Language (BSDL) files generated by Xilinx. 
+
+When the State is denoted as FINAL in the comments at the top of the BSDL file, the files have been verified against hardware. 
+
+PLATFORM: This file may be used on any computer platform. It is a text file. 
+
+INSTALLATION/USE: Installation and use of this file is dependent on the type of system you are using and the purpose you are using this file. 
+
+PROBLEMS?: If you have any problems with this BSDL file, go to http://support.xilinx.com -> enter text 'bsdl' in the text search box at the left of the page. If none of these records resolve your problem you should contact our technical support at: http://www.xilinx.com/support/services/contact_info.htm 
+

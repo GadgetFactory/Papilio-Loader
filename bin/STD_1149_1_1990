@@ -1,0 +1,255 @@
+--
+-- $Id: STD_1149_1_1990 943 2008-01-22 21:14:43Z arniml $
+--
+-- Email header accompanying the original Yacc code:
+--   http://www.eda.org/vug_bbs/bsdl.parser
+-- 
+-- -----------------------------------8<--------------------------------------
+-- 
+-- Hello All,
+-- 
+-- This is this first mailing of the BSDL* Version 0.0 parser specifications
+-- we are sending to people who request it from our publicized E-Mail address;
+-- 
+--              bsdl%hpmtlx@hplabs.HP.com
+-- 
+-- You are free to redistribute this at will, but we feel that it would be
+-- better if respondents asked for it directly so that their addresses can
+-- be entered into our list for future mailings and updates.
+-- 
+-- It would be helpful if you could confirm receipt of this transmission.
+-- We also would be very interested to hear about your experiences with this
+-- information and what you are planning to do with BSDL.
+-- 
+-- Regards,
+-- 
+-- Ken Parker
+-- Hewlett-Packard Company
+-- 
+-- 
+-- *Boundary-Scan Description Language - as documented in:
+-- 
+-- "A Language for Describing Boundary-Scan Devices", K.P. Parker
+-- and S. Oresjo, Proceedings 1990 International Test Conference,
+-- Washington DC, pp 222-234
+-- 
+-- 
+-- - -----------------cut here---------------------------------------------------
+-- 
+-- 
+-- 901004.0721                                  Hewlett-Packard Company
+-- 901016.1049                                  Manufacturing Test Division
+--                                              P.O. Box 301
+--                                              Loveland, Colorado  80537
+--                                              USA
+-- 
+--                                                              October 1990
+-- Hello BSDL Parser Requestor,
+-- 
+--    This Electronic Mail reply contains the computer specifications for
+-- Hewlett-Packard's Version 0.0 BSDL parser.  This section of the reply
+-- explains the contents of the rest of this file.
+-- 
+-- This file is composed of seven (7) parts:
+-- 
+--    1) How to use this file
+-- 
+--    2) UNIX* Lex source  (lexicographical tokenizing rules)
+-- 
+--    3) UNIX* Yacc source (BNF-like syntax description)
+-- 
+--    4) A sample main program to recognize BSDL.
+-- 
+--    5) A BSDL description of the Texas Instruments 74bct8374 that is
+--       recognized by the parser, for testing purposes.
+-- 
+--    6) The VHDL package STD_1149_1_1990 needed by this parser.
+-- 
+--    7) [added 901016] Porting experiences to other systems.
+-- 
+-- 
+-- RECOMMENDATION: Save a copy of this file in archival storage before
+--                 processing it via the instructions below.  This will
+--                 allow you to recover from errors, and allow you to
+--                 compare subsequently released data for changes.
+-- 
+-- DISCLAIMERS:
+-- 
+-- 1.  The IEEE 1149.1 Working Group has not endorsed BSDL Version 0.0 and
+--     therefore no person may represent it as an IEEE standard or imply that
+--     a resulting IEEE standard will be identical to it.
+-- 
+-- 2.  The IEEE 1149.1 Working Group recognizes that BSDL Version 0.0 is a
+--     well-conceived initiative that is likely to excelerate the creation
+--     of tools that support the 1149.1 standard.  As such, changes and
+--     enhancements will be carefully considered so as not to needlessly
+--     disrupt these development efforts.  The overriding goal is the
+--     ultimate success of the 1149.1 standard.
+-- 
+-- LEGAL NOTICES:
+-- 
+--     Hewlett-Packard Company makes no warranty of any kind with regard to
+--     this information, including, but not limited to, the implied
+--     waranties of merchantability and fitness for a particular purpose.
+-- 
+--     Hewlett-Packard Company shall not be liable for errors contained
+--     herein or direct, indirect, special, incidental, or consequential
+--     damages in connection with the furnishing, performance, or use of
+--     this material.
+-- 
+-- 
+-- *UNIX is a trademark of AT&T in the USA and other countries.
+-- 
+
+--  STD_1149_1_1990    VHDL Package and Package Body in support of 
+--  BSDL Version 0.0
+--
+
+ package STD_1149_1_1990 is             -- Created 900525
+
+ -- Give pin mapping declarations
+
+ attribute PIN_MAP : string;
+ subtype PIN_MAP_STRING is string; 
+
+ -- Give TAP control declarations
+
+ type CLOCK_LEVEL is (LOW, BOTH);
+ type CLOCK_INFO  is record
+   FREQ : real;
+   LEVEL: CLOCK_LEVEL;
+ end record;
+
+ attribute  TAP_SCAN_IN   : boolean;
+ attribute  TAP_SCAN_OUT  : boolean;
+ attribute  TAP_SCAN_CLOCK: CLOCK_INFO;
+ attribute  TAP_SCAN_MODE : boolean;
+ attribute  TAP_SCAN_RESET: boolean;
+
+ -- Give instruction register declarations
+
+ attribute  INSTRUCTION_LENGTH : integer;
+ attribute  INSTRUCTION_OPCODE : string;
+ attribute  INSTRUCTION_CAPTURE : string;
+ attribute  INSTRUCTION_DISABLE : string;
+ attribute  INSTRUCTION_GUARD : string;
+ attribute  INSTRUCTION_PRIVATE : string;
+ attribute  INSTRUCTION_USAGE : string;
+ attribute  INSTRUCTION_SEQUENCE : string;
+
+ -- Give ID and USER code declarations
+
+ type ID_BITS is ('0', '1', 'x', 'X');
+ type ID_STRING is array (31 downto 0) of ID_BITS;
+ attribute IDCODE_REGISTER  :  ID_STRING;
+ attribute USERCODE_REGISTER:  ID_STRING;
+
+ -- Give register declarations
+
+ attribute REGISTER_ACCESS : string;
+
+ -- Give boundary cell declarations
+
+ type BSCAN_INST is (EXTEST, SAMPLE, INTEST, RUNBIST);
+ type CELL_TYPE is (INPUT, INTERNAL, CLOCK,
+                      CONTROL, CONTROLR, OUTPUT2, 
+                      OUTPUT3, BIDIR_IN, BIDIR_OUT);
+ type CAP_DATA is (PI, PO, UPD, CAP, X, ZERO, ONE);
+ type CELL_DATA is record
+   CT : CELL_TYPE;
+   I  : BSCAN_INST;
+   CD : CAP_DATA;
+ end record;
+ type CELL_INFO is array (positive range <>) of CELL_DATA;
+
+ -- Boundary Cell defered constants (see package body)
+
+ constant BC_1  : CELL_INFO; 
+ constant BC_2  : CELL_INFO; 
+ constant BC_3  : CELL_INFO; 
+ constant BC_4  : CELL_INFO; 
+ constant BC_5  : CELL_INFO; 
+ constant BC_6  : CELL_INFO; 
+
+ -- Boundary Register declarations
+
+ attribute BOUNDARY_CELLS : string;
+ attribute BOUNDARY_LENGTH : integer;
+ attribute BOUNDARY_REGISTER : string;
+
+ -- Miscellaneous
+
+ attribute DESIGN_WARNING : string;
+end STD_1149_1_1990;  -- End of 1149.1-1990 Package
+
+
+package body STD_1149_1_1990 is   -- Standard Boundary Cells  
+                                  -- Written  900525
+
+-- Description for f10-12, f10-16, f10-18c, f10-18d, f10-21c
+
+constant BC_1 : CELL_INFO := 
+ ((INPUT,   EXTEST,  PI),  (OUTPUT2,  EXTEST,  PI),
+  (INPUT,   SAMPLE,  PI),  (OUTPUT2,  SAMPLE,  PI),
+  (INPUT,   INTEST,  PI),  (OUTPUT2,  INTEST,  PI),
+  (INPUT,   RUNBIST, PI),  (OUTPUT2,  RUNBIST, PI),
+  (OUTPUT3, EXTEST,  PI),  (INTERNAL, EXTEST,  PI),
+  (OUTPUT3, SAMPLE,  PI),  (INTERNAL, SAMPLE,  PI),
+  (OUTPUT3, INTEST,  PI),  (INTERNAL, INTEST,  PI),
+  (OUTPUT3, RUNBIST, PI),  (INTERNAL, RUNBIST, PI),
+  (CONTROL, EXTEST,  PI),  (CONTROLR, EXTEST,  PI),
+  (CONTROL, SAMPLE,  PI),  (CONTROLR, SAMPLE,  PI),
+  (CONTROL, INTEST,  PI),  (CONTROLR, INTEST,  PI),
+  (CONTROL, RUNBIST, PI),  (CONTROLR, RUNBIST, PI) );
+
+-- Description for f10-8, f10-17, f10-19c, f10-19d, f10-22c
+
+constant BC_2 : CELL_INFO := 
+ ((INPUT,   EXTEST,  PI),  (OUTPUT2, EXTEST,   UPD),
+  (INPUT,   SAMPLE,  PI),  (OUTPUT2, SAMPLE,   PI),
+  (INPUT,   INTEST,  UPD),  -- Intest on output2 not supported
+  (INPUT,   RUNBIST, UPD), (OUTPUT2, RUNBIST, UPD),
+  (OUTPUT3, EXTEST,  UPD), (INTERNAL, EXTEST,  PI),
+  (OUTPUT3, SAMPLE,  PI),  (INTERNAL, SAMPLE,  PI),
+  (OUTPUT3, INTEST,  PI),  (INTERNAL, INTEST,  UPD),
+  (OUTPUT3, RUNBIST, PI),  (INTERNAL, RUNBIST, UPD),
+  (CONTROL, EXTEST,  UPD), (CONTROLR, EXTEST, UPD),
+  (CONTROL, SAMPLE,  PI),  (CONTROLR, SAMPLE,  PI),
+  (CONTROL, INTEST,  PI),  (CONTROLR, INTEST,  PI),
+  (CONTROL, RUNBIST, PI),  (CONTROLR, RUNBIST, PI) );
+
+-- Description for f10-9
+
+constant BC_3 : CELL_INFO := 
+ ((INPUT, EXTEST,  PI),    (INTERNAL, EXTEST,  PI),
+  (INPUT, SAMPLE,  PI),    (INTERNAL, SAMPLE,  PI),
+  (INPUT, INTEST,  PI),    (INTERNAL, INTEST,  PI),
+  (INPUT, RUNBIST, PI),    (INTERNAL, RUNBIST, PI) );
+
+-- Description for f10-10, f10-11
+
+constant BC_4 : CELL_INFO := 
+ ((INPUT, EXTEST,  PI),  -- Intest on input not supported                    
+  (INPUT, SAMPLE,  PI),  -- Runbist on input not supported                    
+  (CLOCK, EXTEST,  PI),   (INTERNAL, EXTEST,  PI),
+  (CLOCK, SAMPLE,  PI),   (INTERNAL, SAMPLE,  PI),
+  (CLOCK, INTEST,  PI),   (INTERNAL, INTEST,  PI),
+  (CLOCK, RUNBIST, PI),   (INTERNAL, RUNBIST, PI) );
+
+-- Description for f10-20c, a combined Input/Control
+
+constant BC_5 : CELL_INFO := 
+ ((INPUT, EXTEST,  PI),   (CONTROL, EXTEST,  PI),
+  (INPUT, SAMPLE,  PI),   (CONTROL, SAMPLE,  PI),
+  (INPUT, INTEST,  UPD),  (CONTROL, INTEST,  UPD),
+  (INPUT, RUNBIST, PI),   (CONTROL, RUNBIST, PI) );
+
+-- Description for f10-22d, a reversible cell
+
+constant BC_6 : CELL_INFO := 
+ ((BIDIR_IN, EXTEST,  PI),  (BIDIR_OUT, EXTEST,  UPD),
+  (BIDIR_IN, SAMPLE,  PI),  (BIDIR_OUT, SAMPLE,  PI),
+  (BIDIR_IN, INTEST,  UPD), (BIDIR_OUT, INTEST,  PI),
+  (BIDIR_IN, RUNBIST, UPD), (BIDIR_OUT, RUNBIST, PI) );
+
+end STD_1149_1_1990;  -- End of 1149.1-1990 Package Body
