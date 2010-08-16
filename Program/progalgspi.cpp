@@ -17,6 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 Changes:
+1   Added support for all AT45DB devices..
 */
 
 #include "ProgAlgSpi.h"
@@ -137,6 +138,22 @@ bool ProgAlgSpi::Spi_Identify(bool verbose)
                 case 0x4: /* AT45DB041 */
                     Pages=2048;
                     PageSize=264;
+                    break;
+                case 0x5: /* AT45DB081 */
+                    Pages=4096;
+                    PageSize=264;
+                    break;
+                case 0x6: /* AT45DB161 */
+                    Pages=4096;
+                    PageSize=528;
+                    break;
+                case 0x7: /* AT45DB321 */
+                    Pages=8192;
+                    PageSize=528;
+                    break;
+                case 0x8: /* AT45DB641 */
+                    Pages=8192;
+                    PageSize=1056;
                     break;
                 default:
                     printf("Uknown Flash Size\n");

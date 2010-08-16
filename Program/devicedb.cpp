@@ -29,12 +29,13 @@ Dmitry Teytelman [dimtey@gmail.com] 19 May 2006 [applied 13 Aug 2006]:
 #endif
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "devicedb.h"
 
 #include "config.h"
 
-using namespace std;
+//using namespace std;
 
 DeviceDB::DeviceDB(const char *fname)
 {
