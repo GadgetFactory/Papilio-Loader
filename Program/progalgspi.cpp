@@ -180,13 +180,9 @@ bool ProgAlgSpi::Spi_Identify(bool verbose)
 bool ProgAlgSpi::Spi_Check(bool verbose)
 {
     byte tdo[4];
-    byte StatusReg_Mask=0xbd;// Ready and static bits ok
-    byte StatusReg_Val=0x94;
+    byte StatusReg_Mask=0x83;// Ready and static bits ok
+    byte StatusReg_Val=0x80;
     byte StatusReg_Cmd[2]={0xd7,0x0};
-
-    byte testi[8]={"\x9f\x0\x0\x0\x0"};
-    byte testo[8];
-    Spi_Command(testi,testo,40);
 
     Spi_Command(StatusReg_Cmd, tdo, 16);
     if((tdo[1]&StatusReg_Mask) != StatusReg_Val)
