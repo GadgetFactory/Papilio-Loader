@@ -17,18 +17,18 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 
-
 #ifndef IOFTDI_H
 #define IOFTDI_H
 
-#define USE_FTD2XX
+#include "config.h"
 
-//#include <ftdi.h>
-//#include <usb.h>
-#include <windows.h>
-
-#if defined USE_FTD2XX
-#include "ftd2xx.h"
+#ifdef WINDOWS
+	#include <windows.h>
+	#include "ftd2xx.h"
+	#define USE_FTD2XX
+#else
+	#include <ftdi.h>
+	#include <usb.h>
 #endif
 
 #include "iobase.h"
@@ -91,7 +91,7 @@ class IOFtdi : public IOBase
 {
  protected:
 #if defined (USE_FTD2XX)
-  FT_HANDLE ftdi;   
+  FT_HANDLE ftdi;
 #else
   struct ftdi_context ftdi;
 #endif

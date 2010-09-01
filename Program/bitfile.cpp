@@ -28,7 +28,7 @@ Dmitry Teytelman [dimtey@gmail.com] 14 Jun 2006 [applied 13 Aug 2006]:
 
 #include <sys/types.h>
 #include <sys/stat.h>
-//#include <unistd.h>
+#include <unistd.h>
 #include <errno.h>
 #include <string.h>
 

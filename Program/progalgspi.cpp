@@ -20,9 +20,18 @@ Changes:
 1   Added support for all AT45DB devices..
 */
 
-#include "ProgAlgSpi.h"
-#include <windows.h>
-#include <time.h>
+#ifdef WINDOWS
+	#include <windows.h>
+#else
+  #define Sleep(ms) usleep((ms * 1000))
+#endif
+
+#include <sys/time.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+#include "progalgspi.h"
 
 
 
@@ -156,7 +165,7 @@ bool ProgAlgSpi::Spi_Identify(bool verbose)
                     PageSize=1056;
                     break;
                 default:
-                    printf("Uknown Flash Size\n");
+                    printf("Unknown Atmel Flash Size (0x%.2x)\n", (tdo[2]&0x1f));
                     return false;
             }
             if(verbose)

@@ -1,7 +1,29 @@
-const char fb_string[]={
-"01C10093 6 XC3S100E;"
-"01C1A093 6 XC3S250E;"
-"01C22093 6 XC3S500E;"
-"01C2E093 6 XC3S1200E;"
-"01C3A093 6 XC3S1600E;"
-};
+/* config.h.  Generated from config.h.in by configure.  */
+/* config.h.in.  Generated from configure.ac by autoheader.  */
+
+/* Name of package */
+#define PACKAGE "butterflyprog"
+
+/* Define to the address where bug reports for this package should be sent. */
+#define PACKAGE_BUGREPORT ""
+
+/* Define to the full name of this package. */
+#define PACKAGE_NAME "butterflyprog"
+
+/* Define to the full name and version of this package. */
+#define PACKAGE_STRING "butterflyprog 1.4"
+
+/* Define to the one symbol short name of this package. */
+#define PACKAGE_TARNAME "butterflyprog"
+
+/* Define to the home page for this package. */
+#define PACKAGE_URL ""
+
+/* Define to the version of this package. */
+#define PACKAGE_VERSION "1.4"
+
+/* Version number of package */
+#define VERSION "1.4"
+
+/* Cross-compiling for windows */
+/* #undef WINDOWS */

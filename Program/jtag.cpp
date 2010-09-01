@@ -17,8 +17,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "jtag.h"
-#include <windows.h>
-#define usleep(x) Sleep((x+999)/1000)
+#include <unistd.h>
+
+#ifdef WINDOWS
+	#include <windows.h>
+	#define usleep(x) Sleep((x+999)/1000)
+#endif
 
 Jtag::Jtag(IOBase *iob)
 {

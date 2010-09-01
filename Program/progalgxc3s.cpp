@@ -22,6 +22,8 @@ Dmitry Teytelman [dimtey@gmail.com] 14 Jun 2006 [applied 13 Aug 2006]:
     Added programming time measurements.
 */
 
+#include <sys/time.h>
+
 #include "progalgxc3s.h"
 
 const byte ProgAlgXC3S::JPROGRAM=0x0b;

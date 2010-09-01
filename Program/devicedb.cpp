@@ -31,9 +31,10 @@ Dmitry Teytelman [dimtey@gmail.com] 19 May 2006 [applied 13 Aug 2006]:
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "devicedb.h"
+#include <stdio.h>
 
-#include "config.h"
+#include "devicedb.h"
+#include "devlist.h"
 
 //using namespace std;
 
