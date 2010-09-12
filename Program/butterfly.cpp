@@ -21,13 +21,22 @@ Changes:
 
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream>
 
-#include <string.h>
+
+// C standard libraries
+#include <stdio.h> // fprintf() printf() stderr
+#include <stdlib.h>  // exit()
+#include <string.h> // strlen() strcpy()
+
+
+// C POSIX
+#include <unistd.h> // getopt()
+
+// C++ standard libraries
+#include <iostream>
 #include <memory>
-#include <unistd.h>
+
+
 
 #include "io_exception.h"
 #include "ioftdi.h"
@@ -162,7 +171,7 @@ int main(int argc, char **argv)
                     spi_options=ProgAlgSpi::FULL;
                     break;
                 default:
-                    printf("Unknown argument: \"%c\" to option: \"%s\"\n",c, optarg[0]);
+                    printf("Unknown argument: \"%c\" to option: \"%c\"\n",c, optarg[0]);
                     usage(argv[0]);
             }
             break;

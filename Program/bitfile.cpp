@@ -31,6 +31,7 @@ Dmitry Teytelman [dimtey@gmail.com] 14 Jun 2006 [applied 13 Aug 2006]:
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -197,7 +198,7 @@ unsigned long BitFile::saveAs(int style, const char  *device, const char *fname)
 {
     if(length<=0)
         return length;
-    int clip;
+    unsigned int clip;
     /* Don't store 0xff bytes from the end of the flash */
     for(clip=length-1; (buffer[clip] == 0xff) && clip>0; clip--){};
     FILE *fp=fopen(fname,"wb");

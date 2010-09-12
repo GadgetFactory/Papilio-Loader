@@ -205,7 +205,7 @@ bool ProgAlgSpi::Spi_Check(bool verbose)
 
 bool ProgAlgSpi::Spi_Erase(bool verbose)
 {
-    int i,x;
+    unsigned int i,x;
     bool fail=false;
     byte data[4];
 
@@ -241,12 +241,12 @@ bool ProgAlgSpi::Spi_Erase(bool verbose)
 
 bool ProgAlgSpi::Spi_Write(const byte *write_data, int length, bool verbose)
 {
-    int i,x;
+    unsigned int i,x;
     bool fail=false;
     byte *data;
-    int wBytes=(length/8)+((length%8)?(8-(length%8)):0);
-    int bufsize=sizeof(byte)*(PageSize+4);
-    int DoPages=wBytes/PageSize;
+    unsigned int wBytes=(length/8)+((length%8)?(8-(length%8)):0);
+    unsigned int bufsize=sizeof(byte)*(PageSize+4);
+    unsigned int DoPages=wBytes/PageSize;
 
     data=(byte*)malloc(bufsize);
 
@@ -315,13 +315,13 @@ bool ProgAlgSpi::Spi_Write(const byte *write_data, int length, bool verbose)
 
 bool ProgAlgSpi::Spi_Verify(const byte *verify_data, int length, bool verbose)
 {
-    int i;
+    unsigned int i;
     bool fail=false;
     byte *data;
     byte *tdo;
-    int wBytes=(length/8)+((length%8)?(8-(length%8)):0);
-    int bufsize=sizeof(byte)*(PageSize+4);
-    int DoPages=wBytes/PageSize;
+    unsigned int wBytes=(length/8)+((length%8)?(8-(length%8)):0);
+    unsigned int bufsize=sizeof(byte)*(PageSize+4);
+    unsigned int DoPages=wBytes/PageSize;
 
     data=(byte*)malloc(bufsize);
     tdo=(byte*)malloc(bufsize);

@@ -37,10 +37,10 @@ class ProgAlgSpi
         byte BYPASS;
         byte USER1;
         byte IDCODE;
-        int PageSize;//in bytes
-        int Pages;//Total number of pages
+        unsigned int PageSize;//in bytes
+        unsigned int Pages;//Total number of pages
         int SpiAddressShift;//how many times is the address shifted
-        int Max_Retries;
+        unsigned int Max_Retries;
         int tP;// Page Programming Time (256/264 bytes) 2 4 ms
         int tPE;// Page Erase Time (256/264 bytes) 13 32 ms
 

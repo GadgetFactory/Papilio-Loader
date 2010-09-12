@@ -6,10 +6,18 @@ This will generate the configure string and various autotools dependencies.
 Then, to compile a linux binary ("butterflyprog"):
 
 	./configure && make
+	
+If you want to output the compiler warnings :
+
+	./configure CXXFLAGS=-Wall && make
 
 Or to generate a windows binary ("butterflyprog.exe"):
 
 	./configure --host=i586-mingw32msvc --build=i686-linux && make
+        
+If you want to output the compiler warnings :
+
+        ./configure --host=i586-mingw32msvc --build=i686-linux CXXFLAGS="-Wall -DWINDOWS" && make
 
 That is assuming you have MinGW installed. On Debian and Ubuntu systems,
 "apt-get mingw32" should be all that's needed.
@@ -17,3 +25,6 @@ That is assuming you have MinGW installed. On Debian and Ubuntu systems,
 The windows binary will still need the FTDI driver DLL installed on the
 system to work.
 
+
+FIXME: you will probably have to manually switch on the WINDOWS macros. 
+        ./configure --host=i586-mingw32msvc --build=i686-linux CXXFLAGS="-DWINDOWS -Wall" && make
