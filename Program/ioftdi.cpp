@@ -408,7 +408,7 @@ void IOFtdi::mpsse_send() {
   int written = ftdi_write_data(&ftdi, usbuf, bptr);
   if(written != bptr) 
     {
-      fprintf(stderr,"mpsse_send: Short write %ld vs %ld at run %d, Err: %s\n", 
+      fprintf(stderr,"mpsse_send: Short write %d vs %d at run %d, Err: %s\n", 
 	      written, bptr, calls_wr, ftdi_get_error_string(&ftdi));
       deinit();
       throw  io_exception();
