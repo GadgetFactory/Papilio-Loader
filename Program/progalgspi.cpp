@@ -20,6 +20,8 @@ Changes:
 1   Added support for all AT45DB devices..
 */
 
+#include "config.h"
+
 #ifdef WINDOWS
 	#include <windows.h>
 #else
@@ -68,6 +70,8 @@ void ProgAlgSpi::Spi_Command(const byte *tdi, byte *tdo, int length)
         spi_out=(byte*)malloc(sizeof(byte)*bytes_s);
         memset(spi_out,0,bytes_s);
     }
+    else
+    	spi_out = NULL;
     spi_in=(byte*)malloc(sizeof(byte)*bytes_s);
     memset(spi_in,0,bytes_s);
 

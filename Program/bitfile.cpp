@@ -58,13 +58,12 @@ void BitFile::readFile(char const * fname, bool flip)
     if(!fp)
         throw  io_exception(std::string("Cannot open file ") );
     filename = fname;
+    int ret;
 
     try
     {
-        { // Skip the header
-            char hdr[13];
-            fread(hdr, 1, 13, fp); // 13 byte header
-        }
+        // Skip the header
+        fseek(fp, 13, 0);
 
         char         key;
         std::string *field;
@@ -72,7 +71,7 @@ void BitFile::readFile(char const * fname, bool flip)
 
         while(!feof(fp))
         {
-            fread(&key, 1, 1, fp);
+            ret = fread(&key, 1, 1, fp);
             switch(key)
             {
                 case 'a': field = &ncdFilename; break;
@@ -100,8 +99,10 @@ void BitFile::readFile(char const * fname, bool flip)
 
 void BitFile::processData(FILE *fp, bool flip)
 {
+	int ret;
+
     byte t[4];
-    fread(t,1,4,fp);
+    ret = fread(t,1,4,fp);
     length=(t[0]<<24)+(t[1]<<16)+(t[2]<<8)+t[3];
     if(buffer)
         delete [] buffer;
@@ -110,13 +111,14 @@ void BitFile::processData(FILE *fp, bool flip)
     for(unsigned int i=0; i<length&&!feof(fp); i++)
     {
         byte b;
-        fread(&b,1,1,fp);
+        int ret;
+        ret = fread(&b,1,1,fp);
         buffer[i]=(flip?bitRevTable[b]:b); // Reverse the bit order.
     }
     if(feof(fp))
         throw  io_exception("Unexpected end of file");
 
-    fread(t,1,1,fp);
+    ret = fread(t,1,1,fp);
     if(!feof(fp))
         error("Ignoring extra data at end of file");
 }
@@ -147,6 +149,7 @@ void BitFile::append(unsigned long val, unsigned cnt)
 
 void BitFile::append(char const *fname)
 {
+    int ret;
     FILE *const  fp=fopen(fname,"rb");
     if(!fp)
         throw  io_exception(std::string("Cannot open file ") + fname);
@@ -172,7 +175,7 @@ void BitFile::append(char const *fname)
             if(feof(fp))
                 throw  io_exception("Unexpected end of file");
             byte  b;
-            fread(&b, 1, 1, fp);
+            ret = fread(&b, 1, 1, fp);
             buffer[i] = bitRevTable[b]; // Reverse the bit order.
         }
         length = nlen;
@@ -231,13 +234,14 @@ void BitFile::error(const string &str)
 
 void BitFile::readField(string &field, FILE *fp)
 {
+    int ret;
     byte t[2];
-    fread(t,1,2,fp);
+    ret = fread(t,1,2,fp);
     unsigned short len=(t[0]<<8)+t[1];
     for(int i=0; i<len; i++)
     {
         byte b;
-        fread(&b,1,1,fp);
+        ret = fread(&b,1,1,fp);
         field+=(char)b;
     }
 }

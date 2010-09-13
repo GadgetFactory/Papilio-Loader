@@ -40,7 +40,7 @@ Dmitry Teytelman [dimtey@gmail.com] 19 May 2006 [applied 13 Aug 2006]:
 DeviceDB::DeviceDB(const char *fname)
 {
     device_t id;
-    char text[256];
+    char text[256], *ret;
     int irlen;
     uint32_t idr;
     // Fall back to environment or default if no file specified
@@ -57,7 +57,7 @@ DeviceDB::DeviceDB(const char *fname)
         while(!feof(fp))
         {
             char buffer[256];
-            fgets(buffer,256,fp);  // Get next line from file
+            ret = fgets(buffer,256,fp);  // Get next line from file
             if (sscanf(buffer,"%08x %d %s", &idr, &irlen, text) == 3)
             {
                 id.text = text;

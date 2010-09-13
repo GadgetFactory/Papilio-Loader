@@ -1,8 +1,9 @@
 AC_INIT([butterflyprog], [1.4])
 AC_CONFIG_HEADER([config.h])
 
-AM_INIT_AUTOMAKE([-Wall])
+AM_INIT_AUTOMAKE
 
+CPPFLAGS="-g -Wall"
 AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_CPP
