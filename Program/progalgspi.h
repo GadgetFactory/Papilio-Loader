@@ -30,6 +30,8 @@ Changes:
 #include "iobase.h"
 #include "tools.h"
 
+#define SSTFLASH 1
+
 class ProgAlgSpi
 {
     private:
@@ -41,8 +43,11 @@ class ProgAlgSpi
         unsigned int Pages;//Total number of pages
         int SpiAddressShift;//how many times is the address shifted
         unsigned int Max_Retries;
+		int FlashType;
         int tP;// Page Programming Time (256/264 bytes) 2 4 ms
         int tPE;// Page Erase Time (256/264 bytes) 13 32 ms
+		int tCE;// Chip Erase Time 50 ms
+		int tBP;// Time to program a byte on SST. 10 us
 
         Jtag *jtag;
         IOBase *io;
@@ -52,6 +57,7 @@ class ProgAlgSpi
         void flow_program_legacy(BitFile &file);
         void Spi_Command(const byte *tdi, byte *tdo, int length);
         bool Spi_Check(bool verbose=false);
+		bool Spi_Write_Check(bool verbose=false);
         bool Spi_Identify(bool verbose=false);
         bool Spi_Erase(bool verbose=false);
         bool Spi_Write(const byte *write_data, int length, bool verbose=false);
