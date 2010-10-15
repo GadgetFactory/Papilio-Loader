@@ -110,9 +110,6 @@ void ProgAlgSpi::Spi_SetCommand(const byte *command, byte *data, const int bytes
 }
 void ProgAlgSpi::Spi_SetCommandRW(const byte command, byte *data, const int address)
 {
-    // if (FlashType==SSTFLASH)
-		// SpiAddressShift=0;
-	
 	// command length is 4 bytes...
     // 10 address bits
     // cccc cccc xxxx xppp pppp pppb bbbb bbbb
@@ -283,7 +280,10 @@ bool ProgAlgSpi::Spi_Erase(bool verbose)
 	byte WRSR_Cmd[2]={0x01,0x00};
 
     if(verbose)
-        printf("Erasing    :");
+	{	
+		printf("Erasing    :\n");
+		fflush(stdout);
+	}
 	if (FlashType==SSTFLASH)
 	{
 		fail=!Spi_Write_Check();
@@ -338,8 +338,11 @@ bool ProgAlgSpi::Spi_Erase(bool verbose)
 					break;
 				Sleep(tPE);
 			}
-			if((i%64)==0&&verbose)
-				printf(".");
+			if((i%1024)==0&&verbose)
+			{
+				printf("Erasing    :\n");
+				fflush(stdout);
+			}
 		}
 		if(verbose)
 		{
@@ -362,14 +365,13 @@ bool ProgAlgSpi::Spi_Write(const byte *write_data, int length, bool verbose)
     unsigned int wBytes=(length/8)+((length%8)?(8-(length%8)):0);
     unsigned int bufsize=sizeof(byte)*(PageSize+4);
     unsigned int DoPages=wBytes/PageSize;
-	byte Cmd[14]={0x06,0x80,0x50,0x01,0x00,0x06,0xad,0x00,0x00,0x00,0xAA,0x6,0xd7,0x00};
 	byte WRSR_Cmd[2]={0x01,0x00};
 	byte AAIP_Cmd[6]={0xad,0x00,0x00,0x00,0xaa,0xaa};
 	
 	if (FlashType==SSTFLASH)
 	{
 		if(verbose)
-			printf("Programming :");
+			printf("Programming :\n");
 		
 		Spi_Command((byte*)"\x06",0,8);	//WREN
 		Sleep(tCE);
@@ -410,8 +412,11 @@ bool ProgAlgSpi::Spi_Write(const byte *write_data, int length, bool verbose)
 					break;
 				usleep(tBP);
 			}
-			if((i%256)==0&&verbose)
-				printf(".");			
+			if((i%20000)==0&&verbose)
+			{
+				printf("Programming :\n");			
+				fflush(stdout);
+			}
 		}
 	
 		printf("Finished Programming\n");
@@ -431,7 +436,8 @@ bool ProgAlgSpi::Spi_Write(const byte *write_data, int length, bool verbose)
 
 		// full Pages
 		if(verbose)
-			printf("Programming :");
+			printf("Programming :\n");
+			fflush(stdout);
 		for(i=0;i<DoPages&&!fail;i++)
 		{
 			memset(data, 0, bufsize);
@@ -452,8 +458,11 @@ bool ProgAlgSpi::Spi_Write(const byte *write_data, int length, bool verbose)
 					break;
 				Sleep(tP);
 			}
-			if((i%64)==0&&verbose)
-				printf(".");
+			if((i%1024)==0&&verbose)
+			{
+				printf("Programming :\n");			
+				fflush(stdout);
+			}
 
 		}
 
@@ -508,7 +517,7 @@ bool ProgAlgSpi::Spi_Verify(const byte *verify_data, int length, bool verbose)
 
     // full Pages
     if(verbose)
-        printf("Verifying  :");
+        printf("Verifying  :\n");
     for(i=0;i<DoPages&&!fail;i++)
     {
         // Read from mem
@@ -525,8 +534,11 @@ bool ProgAlgSpi::Spi_Verify(const byte *verify_data, int length, bool verbose)
             fail=true;
 			//printf("Error in Verify: first byte of data [0x%02X] ..\n",tdo[4]);
 		}
-        if((i%64)==0&&verbose)
-            printf(".");
+        if((i%1024)==0&&verbose)
+			{
+				printf("Verifying  :\n");			
+				fflush(stdout);
+			}
     }
 
     // partial Page
