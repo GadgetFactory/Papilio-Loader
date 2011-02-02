@@ -18,7 +18,7 @@ echo $return_value
 
 if [ $return_value == 0 ]
 then	
-butterfly_prog.exe -v -f "$1" -v
+butterfly_prog -v -f "$1" -v
 fi
 	
 if [ $return_value == 1 ]
@@ -30,5 +30,5 @@ dialog --title "Papilio SPI Flash Programmer" \
         "bscan_spi_xc3s100e.bit" "100K Papilio" 2> $bitfile
 return_value=$?
 
-butterfly_prog.exe -v -f "$1" -b `cat $bitfile` -sa -r
+butterfly_prog -v -f "$1" -b `cat $bitfile` -sa -r
 fi
