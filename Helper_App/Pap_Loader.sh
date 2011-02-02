@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 # Written by Jack Gassett
 # 10/25/2010
 # www.gadgetfactory.net
 
-bitfile=bitfile
+bitfile=bin/bitfile
 
 #Determine if we are in Windows on cygwin
 if [ "$OSTYPE" == 'cygwin' ]; then
