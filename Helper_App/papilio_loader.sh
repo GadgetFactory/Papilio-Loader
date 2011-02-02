@@ -8,7 +8,7 @@ bitfile=bin/bitfile
 
 #Determine if we are in Windows on cygwin
 if [ "$OSTYPE" == 'cygwin' ]; then
-	export PATH=.:$PATH
+	export PATH=bin:$PATH
 fi
 
 dialog --title "Papilio Loader" \
@@ -30,5 +30,5 @@ dialog --title "Papilio SPI Flash Programmer" \
         "bscan_spi_xc3s100e.bit" "100K Papilio" 2> $bitfile
 return_value=$?
 
-butterfly_prog -v -f "$1" -b `cat $bitfile` -sa -r
+butterfly_prog -v -f "$1" -b bin/`cat $bitfile` -sa -r
 fi
