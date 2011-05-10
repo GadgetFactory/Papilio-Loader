@@ -1,4 +1,4 @@
-AC_INIT([butterflyprog], [1.4])
+AC_INIT([papilio-prog], [1.5])
 AC_CONFIG_HEADER([config.h])
 
 AM_INIT_AUTOMAKE

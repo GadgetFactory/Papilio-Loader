@@ -1,6 +1,6 @@
-bin_PROGRAMS = butterflyprog
+bin_PROGRAMS = papilio-prog
 
-butterflyprog_SOURCES = butterfly.cpp \
+papilio_prog_SOURCES = butterfly.cpp \
 	bitfile.cpp \
 	devicedb.cpp \
 	iobase.cpp \
