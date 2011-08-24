@@ -405,16 +405,10 @@ bool ProgAlgSpi::Spi_Write(const byte *write_data, int length, bool verbose)
 		{
 			memcpy(&AAIP_Cmd[1], &write_data[i],2);
 			Spi_Command(AAIP_Cmd,0,24);
-			for(x=0;x<=Max_Retries;x++)
-			{
-				fail=!Spi_Write_Check(verbose);
-				if(!fail)
-					break;
-				usleep(tBP);
-			}
+			usleep(tBP);
 			if((i%20000)==0&&verbose)
 			{
-				printf("Programming :\n");			
+				printf(".");			
 				fflush(stdout);
 			}
 		}
