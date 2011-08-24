@@ -340,7 +340,7 @@ bool ProgAlgSpi::Spi_Erase(bool verbose)
 			}
 			if((i%1024)==0&&verbose)
 			{
-				printf("Erasing    :\n");
+				printf(".");
 				fflush(stdout);
 			}
 		}
@@ -454,7 +454,7 @@ bool ProgAlgSpi::Spi_Write(const byte *write_data, int length, bool verbose)
 			}
 			if((i%1024)==0&&verbose)
 			{
-				printf("Programming :\n");			
+				printf(".");			
 				fflush(stdout);
 			}
 
@@ -530,7 +530,7 @@ bool ProgAlgSpi::Spi_Verify(const byte *verify_data, int length, bool verbose)
 		}
         if((i%1024)==0&&verbose)
 			{
-				printf("Verifying  :\n");			
+				printf(".");			
 				fflush(stdout);
 			}
     }
