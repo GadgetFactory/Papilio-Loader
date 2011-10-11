@@ -15,7 +15,7 @@ if test -n "$host_alias" ; then
 	LIBS="$LIBS -L. -lftd2xx"
 else
 	PKG_CHECK_MODULES([libftdi], [libftdi >= 0.16],
-		[CFLAGS="$CFLAGS $libftdi_CFLAGS";
+		[CPPFLAGS="$CPPFLAGS $libftdi_CFLAGS";
 		LIBS="$LIBS $libftdi_LIBS"])
 fi
 
