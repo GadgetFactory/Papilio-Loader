@@ -254,6 +254,11 @@ File ::9666A884-647D-4AF7-B8F1-32F1D389D6EB -name papilio.ico -parent 6398840D-1
 File ::84971982-5D84-4087-ABFB-6A9FCF9CEEAA -name sh.exe -parent 6398840D-15D2-4615-8FB5-F9DC8893DA23
 File ::402D7622-7C6A-4C13-91EB-F2BB7F695078 -name Shortcut.exe -parent 6398840D-15D2-4615-8FB5-F9DC8893DA23
 File ::85CE21C4-961B-4416-8250-AE49E979C57C -name sleep.exe -parent 6398840D-15D2-4615-8FB5-F9DC8893DA23
+File ::7D938A12-E607-409F-98C7-CAB2241CE4EE -name cp.exe -parent 6398840D-15D2-4615-8FB5-F9DC8893DA23
+File ::A52EFC6C-9801-4A3E-AB98-2262F8D9A100 -name cygattr-1.dll -parent 6398840D-15D2-4615-8FB5-F9DC8893DA23
+File ::5010C18A-30AC-406C-A12E-08F080C229E1 -name cygsigsegv-2.dll -parent 6398840D-15D2-4615-8FB5-F9DC8893DA23
+File ::D96DEF1A-CE72-41A9-925E-C468612E1D58 -name gawk.exe -parent 6398840D-15D2-4615-8FB5-F9DC8893DA23
+File ::53A4ABA4-3E12-4669-A330-05D80315FFA8 -name prog.out -parent 6398840D-15D2-4615-8FB5-F9DC8893DA23
 File ::2544CE4E-E404-4245-90AE-6BD3F2150F38 -type dir -name bitstream_archive -parent 041D369C-9A7E-4859-9FC7-E4A54FEB5554
 File ::48321ECF-6DD7-4794-A810-8B63C756F01E -name ASCIITable_Quickstart-Papilio_One_250K.bit -parent 2544CE4E-E404-4245-90AE-6BD3F2150F38
 File ::2E05C5AA-3728-466E-A9CE-6AFA1476511B -name ASCIITable_Quickstart-Papilio_One_500K.bit -parent 2544CE4E-E404-4245-90AE-6BD3F2150F38
@@ -373,6 +378,10 @@ File ::803FFBA9-AEE0-4190-8199-CA9D950EABFE -type dir -name tmp -parent 5702DF52
 File ::BE5A74A6-8F2C-43A1-987D-2307D0EC413B -type dir -name prop-base -parent 803FFBA9-AEE0-4190-8199-CA9D950EABFE
 File ::3F7AC93C-3584-40BA-B535-A7EC8A85424C -type dir -name props -parent 803FFBA9-AEE0-4190-8199-CA9D950EABFE
 File ::AF0EAEDD-94A5-4CF3-B3FE-FD16E8F926A2 -type dir -name text-base -parent 803FFBA9-AEE0-4190-8199-CA9D950EABFE
+File ::96AF1039-4F7E-4047-8953-36F40A674FBA -name Favorites -parent 62BB0C3A-9DCC-4656-829A-FAB6BE7D4E7D
+File ::096ED492-169E-4647-A77A-67722EB3D76E -type dir -name Favorites -parent 041D369C-9A7E-4859-9FC7-E4A54FEB5554
+File ::C2CB73A3-DFD3-44BB-AEDB-5B6396CC4656 -name Quickstart-Papilio_One_500K-v1.5.bit -active 0 -parent 096ED492-169E-4647-A77A-67722EB3D76E
+File ::68194D10-73EA-4C92-838D-F4530BDD4967 -type dir -name tmp -active 0 -parent 041D369C-9A7E-4859-9FC7-E4A54FEB5554
 Component ::926EBA3E-3B65-49A2-AA64-02BF94B7DE00 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 HPUX-hppa Linux-x86 Linux-x86_64 Solaris-sparc Solaris-x86 Windows} -name {Default Component} -parent Components
 SetupType ::C16B0E7D-0E68-49F9-84A2-3D4E982A79F0 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 HPUX-hppa Linux-x86 Linux-x86_64 Solaris-sparc Solaris-x86 Windows} -name Typical -parent SetupTypes
 SetupType ::EE470AE8-2B2F-4EF9-9224-AD84781C783F -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 HPUX-hppa Linux-x86 Linux-x86_64 Solaris-sparc Solaris-x86 Windows} -name Custom -parent SetupTypes
@@ -426,6 +435,7 @@ InstallComponent ADDE8DE3-F9FE-4CAB-AABA-1B6092433EA9 -setup Install -type actio
 InstallComponent 40462983-C441-43A7-9F80-4FF6363530C7 -setup Install -type action -title {Add Windows File Extension} -component AddWindowsFileExtension -active Yes -parent 9B8CA7B7-7EF4-4AB0-964A-F528F2A0D5C2
 InstallComponent 4F66F6D5-6B3D-490D-926B-6F4FC615510B -setup Install -type action -title {Add Windows File Command} -component AddWindowsFileCommand -active Yes -parent 9B8CA7B7-7EF4-4AB0-964A-F528F2A0D5C2
 InstallComponent 47E78EC7-11A1-4274-B62B-FD2B7C0A9EF8 -setup Install -type action -title {Add Windows File Command} -component AddWindowsFileCommand -active Yes -parent 9B8CA7B7-7EF4-4AB0-964A-F528F2A0D5C2
+InstallComponent 03CE05AF-EE86-42D9-8023-ADEE5CE163B9 -setup Install -type action -title {Add Windows File Command} -component AddWindowsFileCommand -active Yes -parent 9B8CA7B7-7EF4-4AB0-964A-F528F2A0D5C2
 InstallComponent E60273EC-A142-41FA-A49B-2C6534A62B7D -setup Install -type action -title {Install FTDI Drivers} -component ExecuteExternalProgram -alias {Install FTDI Drivers} -active Yes -parent 9B8CA7B7-7EF4-4AB0-964A-F528F2A0D5C2
 InstallComponent FD9020C4-ED13-41E1-8AD8-0B14BC60A740 -setup Install -type actiongroup -title {Finish Actions} -alias {Finish Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent FFA92858-5767-41B2-885E-B4EB514D796B -setup Install -type actiongroup -title {Cancel Actions} -alias {Cancel Actions} -active Yes -parent ActionGroupsInstall
@@ -456,6 +466,18 @@ InstallComponent E8BE962F-684B-467E-BC47-BB4F2580CB0A -setup Uninstall -type act
 InstallComponent 22B5D21C-1D8C-49B8-8764-FE24A53F7FA8 -setup Uninstall -type actiongroup -title {Cancel Actions} -alias {Cancel Actions} -active Yes -parent ActionGroupsUninstall
 
 array set Properties {
+03CE05AF-EE86-42D9-8023-ADEE5CE163B9,Command
+{explorer <%InstallDir%>\Favorites}
+
+03CE05AF-EE86-42D9-8023-ADEE5CE163B9,CommandName
+{Open Papilio Favorites}
+
+03CE05AF-EE86-42D9-8023-ADEE5CE163B9,Conditions
+{0 conditions}
+
+03CE05AF-EE86-42D9-8023-ADEE5CE163B9,FileType
+{Papilio Bit File}
+
 06282C45-3F2A-4AEC-9AD7-FD5C2D65C834,BackButton,subst
 {1}
 
@@ -952,7 +974,7 @@ B43B2C47-ABB6-4073-B2F0-345EF8183AC3,Destination
 {<%InstallDir%>}
 
 B43B2C47-ABB6-4073-B2F0-345EF8183AC3,FileSize
-{14579789}
+{15962519}
 
 B43B2C47-ABB6-4073-B2F0-345EF8183AC3,Name
 {Program Files}

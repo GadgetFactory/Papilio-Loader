@@ -27,6 +27,11 @@ C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/bin/papilio
 C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/bin/sh.exe 84971982-5D84-4087-ABFB-6A9FCF9CEEAA zlib
 C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/bin/Shortcut.exe 402D7622-7C6A-4C13-91EB-F2BB7F695078 zlib
 C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/bin/sleep.exe 85CE21C4-961B-4416-8250-AE49E979C57C zlib
+C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/bin/cp.exe 7D938A12-E607-409F-98C7-CAB2241CE4EE zlib
+C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/bin/cygattr-1.dll A52EFC6C-9801-4A3E-AB98-2262F8D9A100 zlib
+C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/bin/cygsigsegv-2.dll 5010C18A-30AC-406C-A12E-08F080C229E1 zlib
+C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/bin/gawk.exe D96DEF1A-CE72-41A9-925E-C468612E1D58 zlib
+C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/bin/prog.out 53A4ABA4-3E12-4669-A330-05D80315FFA8 zlib
 C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/bitstream_archive/ASCIITable_Quickstart-Papilio_One_250K.bit 48321ECF-6DD7-4794-A810-8B63C756F01E zlib
 C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/bitstream_archive/ASCIITable_Quickstart-Papilio_One_500K.bit 2E05C5AA-3728-466E-A9CE-6AFA1476511B zlib
 C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/bitstream_archive/ButterflyFlight_Logic_Analyzer.bit 4363FDB2-9B50-4FEC-9F89-107D599368A8 zlib
@@ -36,7 +41,7 @@ C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/bitstream_a
 C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/bitstream_archive/PapilioOne_Logic_Analyzer_2.03_500k.bit 10833BC2-0308-47B3-A7C4-662E83DF165F zlib
 {C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/FTDI USB Drivers/dpinstx64.exe} 675975AE-252B-468A-A333-60DA94ED2153 zlib
 {C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/FTDI USB Drivers/dpinstx86.exe} 738DF326-4EBF-4B48-AB4B-F1B63ED8D0EB zlib
-{C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/FTDI USB Drivers/ftd2xx.h} ED85DA3E-E09B-43CB-8C8D-8E7316BDEF8B zlib
+{C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/FTDI USB Drivers/FTD2XX.H} ED85DA3E-E09B-43CB-8C8D-8E7316BDEF8B zlib
 {C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/FTDI USB Drivers/ftdibus.cat} D83DCA4C-DC0A-44F3-8DD7-3274D2BEA7F8 zlib
 {C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/FTDI USB Drivers/ftdibus.inf} 3BA94AD5-C340-4CAB-B836-CEC5077478AC zlib
 {C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/FTDI USB Drivers/ftdiport.cat} BDF9A132-8BF4-4762-B2B5-6053E98757C6 zlib
@@ -94,3 +99,4 @@ C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/usr/share/t
 C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/usr/share/terminfo/c/.svn/text-base/cygwin-1p5.svn-base C4C916CA-7692-47C2-9D8C-EABA46E7F769 zlib
 C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/usr/share/terminfo/c/.svn/text-base/cygwin-old.svn-base CFBDBFE4-D650-445D-BF7A-405553627BAB zlib
 C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/usr/share/terminfo/c/.svn/text-base/cygwin.svn-base D76DF22F-F754-47FE-BABB-9FD98993920C zlib
+C:/Users/killian/Dropbox/GadgetFactory/Papilio-Programmer/Helper_App/usr/Favorites 96AF1039-4F7E-4047-8953-36F40A674FBA zlib

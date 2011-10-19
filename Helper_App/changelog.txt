@@ -1,3 +1,8 @@
+1.7 10/18/2011
+	-Fixed problem with loading bit files on different drives.
+	-Added support for LX4 and LX9 FPGA's
+	-Added SPI support for LX9. TODO: Add SPI support for LX4.
+
 1.6 8/24/2011
 	-Fixed slow programming of SST Flash chips.
 	-Improved the script to make more logical sense.

@@ -74,7 +74,7 @@ namespace eval ::InstallAPI {}
 namespace eval ::InstallJammer {}
 set conf(version)     1.2.15
 set info(Platform)    Windows
-set info(InstallerID) FAA8B15F-7ED3-467A-9B38-D28139C4194F
+set info(InstallerID) D69B7E2B-9505-4959-B9FC-A6FB3394F792
 array set ::InstallJammer::languagecodes {ca CatalÃ cs Czech de German en English es Spanish fr French hu Magyar it Italian lt Lithuanian nl Nederlands pl Polish pt_br {Brazilian Portuguese} ru Russian}
 array set info {
 AllowLanguageSelection
@@ -219,6 +219,39 @@ prefix
 
 }
 array set ::InstallJammer::Properties {
+03CE05AF-EE86-42D9-8023-ADEE5CE163B9,Active
+{Yes}
+
+03CE05AF-EE86-42D9-8023-ADEE5CE163B9,Command
+{explorer <%InstallDir%>\Favorites}
+
+03CE05AF-EE86-42D9-8023-ADEE5CE163B9,CommandName
+{Open Papilio Favorites}
+
+03CE05AF-EE86-42D9-8023-ADEE5CE163B9,Component
+{}
+
+03CE05AF-EE86-42D9-8023-ADEE5CE163B9,Conditions
+{0 conditions}
+
+03CE05AF-EE86-42D9-8023-ADEE5CE163B9,ExecuteAction
+{1}
+
+03CE05AF-EE86-42D9-8023-ADEE5CE163B9,FileType
+{Papilio Bit File}
+
+03CE05AF-EE86-42D9-8023-ADEE5CE163B9,ID
+{}
+
+03CE05AF-EE86-42D9-8023-ADEE5CE163B9,IgnoreErrors
+{No}
+
+03CE05AF-EE86-42D9-8023-ADEE5CE163B9,Include
+{0}
+
+03CE05AF-EE86-42D9-8023-ADEE5CE163B9,MenuName
+{}
+
 06282C45-3F2A-4AEC-9AD7-FD5C2D65C834,Active
 {Yes}
 
@@ -1399,7 +1432,7 @@ B43B2C47-ABB6-4073-B2F0-345EF8183AC3,DisplayName
 {}
 
 B43B2C47-ABB6-4073-B2F0-345EF8183AC3,FileSize
-{15143921}
+{15962519}
 
 B43B2C47-ABB6-4073-B2F0-345EF8183AC3,FileUpdateMethod
 {0}
@@ -2960,16 +2993,16 @@ proc CreateWindow.CustomBlankPane1 {wizard id} {
 
 array set ::InstallJammer::files {files.tcl {proc ::InstallJammer::InitFiles {} {
 File ::041D369C-9A7E-4859-9FC7-E4A54FEB5554 -name Helper_App -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%> -type dir -attributes 0000 -filemethod 0
-File ::9302AF16-D162-4FE1-A091-BF08172AAA08 -name changelog.txt -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%> -size 462 -mtime 1314204608 -attributes 1000 -filemethod 0
-File ::CB073E7B-06B3-4935-8A3E-65D948338673 -name Papilio_Programmer-FlashOnly.bat -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%> -size 159 -mtime 1314149782 -attributes 1000 -filemethod 0
-File ::4A39EEEC-534A-4683-B207-697A853C484E -name Papilio_Programmer-FlashOnly.sh -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%> -size 637 -mtime 1314204428 -attributes 1000 -filemethod 0
-File ::A5A128AC-1280-4009-8DA9-EC52F3BEBA46 -name Papilio_Programmer.bat -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%> -size 149 -mtime 1314149748 -attributes 1000 -filemethod 0
-File ::A406065D-AF99-4A1D-B708-C9097E0B12FD -name Papilio_Programmer.sh -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%> -size 1232 -mtime 1314204363 -attributes 1000 -filemethod 0
+File ::9302AF16-D162-4FE1-A091-BF08172AAA08 -name changelog.txt -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%> -size 462 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::CB073E7B-06B3-4935-8A3E-65D948338673 -name Papilio_Programmer-FlashOnly.bat -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%> -size 159 -mtime 1314220019 -attributes 1000 -filemethod 0
+File ::4A39EEEC-534A-4683-B207-697A853C484E -name Papilio_Programmer-FlashOnly.sh -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%> -size 987 -mtime 1314247933 -attributes 1000 -filemethod 0
+File ::A5A128AC-1280-4009-8DA9-EC52F3BEBA46 -name Papilio_Programmer.bat -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%> -size 155 -mtime 1314247496 -attributes 1000 -filemethod 0
+File ::A406065D-AF99-4A1D-B708-C9097E0B12FD -name Papilio_Programmer.sh -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%> -size 1676 -mtime 1314247910 -attributes 1000 -filemethod 0
 File ::9C3B587D-8693-4068-BBCE-10FB98719DBC -name Quickstart-Papilio_One_250K-v1.5.bit -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%> -size 169316 -mtime 1296955293 -attributes 1000 -filemethod 0
 File ::403E76A0-0D3B-4170-AC38-553C856F31E6 -name Quickstart-Papilio_One_500K-v1.5.bit -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%> -size 283876 -mtime 1296955183 -attributes 1000 -filemethod 0
 File ::6398840D-15D2-4615-8FB5-F9DC8893DA23 -name bin -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -type dir -attributes 0000 -filemethod 0
 File ::08504F91-EB17-4B8F-88C9-E3AD0F188E43 -name bash.exe -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 472064 -mtime 1279904768 -attributes 1000 -filemethod 0
-File ::34477679-9382-46B2-87D9-3070C4962930 -name bitfile -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 22 -mtime 1314171568 -attributes 1000 -filemethod 0
+File ::34477679-9382-46B2-87D9-3070C4962930 -name bitfile -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 1 -mtime 1314247509 -attributes 1000 -filemethod 0
 File ::13BBC624-B486-4E6F-9634-164F1AC11C94 -name bscan_spi_xc3s100e.bit -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 41094 -mtime 1274843092 -attributes 1000 -filemethod 0
 File ::0988D36C-FDDE-4C04-ABBE-61832AE0C0E4 -name bscan_spi_xc3s250e.bit -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 72262 -mtime 1274842853 -attributes 1000 -filemethod 0
 File ::AA8C67B6-A28D-40F7-8C86-A174A821E056 -name bscan_spi_xc3s500e.bit -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 115346 -mtime 1274843190 -attributes 1000 -filemethod 0
@@ -2980,14 +3013,19 @@ File ::AF89CF0C-27FE-4E75-BB19-5498732D70EE -name cygintl-8.dll -parent B43B2C47
 File ::9B7C1B41-AB9F-412D-8DF8-0184E05C28A5 -name cygncurses-9.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 202766 -mtime 1279904768 -attributes 1000 -filemethod 0
 File ::6C6F5BCA-5DB0-442F-AB02-8DF3164251E8 -name cygncurses-10.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 199694 -mtime 1279904769 -attributes 1000 -filemethod 0
 File ::E4C44CC6-229F-496E-995F-6101EF73E1DC -name cygreadline7.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 165390 -mtime 1279904768 -attributes 1000 -filemethod 0
-File ::AB0A8A91-8C27-42E2-941F-EAF98701035F -name cygwin1.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 2666500 -mtime 1301386260 -attributes 1000 -filemethod 0
+File ::AB0A8A91-8C27-42E2-941F-EAF98701035F -name cygwin1.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 2666500 -mtime 1314220019 -attributes 1000 -filemethod 0
 File ::AE5FB368-9996-4568-96C9-ADFDFB06BB12 -name devlist.txt -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 3478 -mtime 1277933125 -attributes 1000 -filemethod 0
 File ::02172456-D8BA-47AF-ACC6-A11334541E8B -name dialog.exe -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 412822 -mtime 1279904768 -attributes 1000 -filemethod 0
-File ::F920578B-4226-4FC4-B4FE-A7F057DE56B7 -name papilio-prog.exe -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 1433787 -mtime 1314171458 -attributes 1000 -filemethod 0
-File ::9666A884-647D-4AF7-B8F1-32F1D389D6EB -name papilio.ico -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 370070 -mtime 1314204810 -attributes 1000 -filemethod 0
+File ::F920578B-4226-4FC4-B4FE-A7F057DE56B7 -name papilio-prog.exe -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 1433787 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::9666A884-647D-4AF7-B8F1-32F1D389D6EB -name papilio.ico -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 370070 -mtime 1314220020 -attributes 1000 -filemethod 0
 File ::84971982-5D84-4087-ABFB-6A9FCF9CEEAA -name sh.exe -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 472064 -mtime 1279904768 -attributes 1000 -filemethod 0
 File ::402D7622-7C6A-4C13-91EB-F2BB7F695078 -name Shortcut.exe -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 57344 -mtime 1120461060 -attributes 1000 -filemethod 0
-File ::85CE21C4-961B-4416-8250-AE49E979C57C -name sleep.exe -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 46606 -mtime 1296864121 -attributes 1000 -filemethod 0
+File ::85CE21C4-961B-4416-8250-AE49E979C57C -name sleep.exe -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 46606 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::7D938A12-E607-409F-98C7-CAB2241CE4EE -name cp.exe -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 165390 -mtime 1296864091 -attributes 1000 -filemethod 0
+File ::A52EFC6C-9801-4A3E-AB98-2262F8D9A100 -name cygattr-1.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 15374 -mtime 1261930963 -attributes 1000 -filemethod 0
+File ::5010C18A-30AC-406C-A12E-08F080C229E1 -name cygsigsegv-2.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 8206 -mtime 1304583108 -attributes 1000 -filemethod 0
+File ::D96DEF1A-CE72-41A9-925E-C468612E1D58 -name gawk.exe -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 341006 -mtime 1311707314 -attributes 1000 -filemethod 0
+File ::53A4ABA4-3E12-4669-A330-05D80315FFA8 -name prog.out -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bin -size 260 -mtime 1314244929 -attributes 1000 -filemethod 0
 File ::2544CE4E-E404-4245-90AE-6BD3F2150F38 -name bitstream_archive -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bitstream_archive -type dir -attributes 0000 -filemethod 0
 File ::48321ECF-6DD7-4794-A810-8B63C756F01E -name ASCIITable_Quickstart-Papilio_One_250K.bit -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bitstream_archive -size 169316 -mtime 1280252585 -attributes 1000 -filemethod 0
 File ::2E05C5AA-3728-466E-A9CE-6AFA1476511B -name ASCIITable_Quickstart-Papilio_One_500K.bit -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bitstream_archive -size 283876 -mtime 1288504421 -attributes 1000 -filemethod 0
@@ -2997,41 +3035,41 @@ File ::56A7D55C-C463-4D7E-8DF2-4BBB50B7EC7E -name ButterflyOne_Logic_Analyzer_2.
 File ::04942234-8687-4901-A328-638CF0708E37 -name PapilioOne_Logic_Analyzer_2.03_250k.bit -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bitstream_archive -size 169303 -mtime 1276794744 -attributes 1000 -filemethod 0
 File ::10833BC2-0308-47B3-A7C4-662E83DF165F -name PapilioOne_Logic_Analyzer_2.03_500k.bit -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/bitstream_archive -size 283863 -mtime 1276876928 -attributes 1000 -filemethod 0
 File ::5252C1A9-D80E-42E6-A13F-0049378E55E1 -name {FTDI USB Drivers} -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -type dir -attributes 0000 -filemethod 0
-File ::675975AE-252B-468A-A333-60DA94ED2153 -name dpinstx64.exe -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 1050104 -mtime 1299089090 -attributes 1000 -filemethod 0
-File ::738DF326-4EBF-4B48-AB4B-F1B63ED8D0EB -name dpinstx86.exe -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 921992 -mtime 1299089090 -attributes 1000 -filemethod 0
-File ::ED85DA3E-E09B-43CB-8C8D-8E7316BDEF8B -name ftd2xx.h -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 27161 -mtime 1296080978 -attributes 1000 -filemethod 0
-File ::D83DCA4C-DC0A-44F3-8DD7-3274D2BEA7F8 -name ftdibus.cat -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 12114 -mtime 1302634588 -attributes 1000 -filemethod 0
-File ::3BA94AD5-C340-4CAB-B836-CEC5077478AC -name ftdibus.inf -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 5477 -mtime 1300475478 -attributes 1000 -filemethod 0
-File ::BDF9A132-8BF4-4762-B2B5-6053E98757C6 -name ftdiport.cat -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 11210 -mtime 1302634588 -attributes 1000 -filemethod 0
-File ::FEF7040C-E85C-4B78-8B82-299EB5354575 -name ftdiport.inf -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 5382 -mtime 1300475478 -attributes 1000 -filemethod 0
-File ::BA3CEC66-5045-4DF9-8C7B-850EFDE04D47 -name install.bat -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 438 -mtime 1299089090 -attributes 1000 -filemethod 0
+File ::675975AE-252B-468A-A333-60DA94ED2153 -name dpinstx64.exe -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 1050104 -mtime 1314220018 -attributes 1000 -filemethod 0
+File ::738DF326-4EBF-4B48-AB4B-F1B63ED8D0EB -name dpinstx86.exe -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 921992 -mtime 1314220018 -attributes 1000 -filemethod 0
+File ::ED85DA3E-E09B-43CB-8C8D-8E7316BDEF8B -name ftd2xx.h -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 27161 -mtime 1314220017 -attributes 1000 -filemethod 0
+File ::D83DCA4C-DC0A-44F3-8DD7-3274D2BEA7F8 -name ftdibus.cat -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 12114 -mtime 1314220018 -attributes 1000 -filemethod 0
+File ::3BA94AD5-C340-4CAB-B836-CEC5077478AC -name ftdibus.inf -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 5607 -mtime 1314232709 -attributes 1000 -filemethod 0
+File ::BDF9A132-8BF4-4762-B2B5-6053E98757C6 -name ftdiport.cat -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 11210 -mtime 1314220018 -attributes 1000 -filemethod 0
+File ::FEF7040C-E85C-4B78-8B82-299EB5354575 -name ftdiport.inf -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 4863 -mtime 1314230564 -attributes 1000 -filemethod 0
+File ::BA3CEC66-5045-4DF9-8C7B-850EFDE04D47 -name install.bat -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers} -size 438 -mtime 1314220019 -attributes 1000 -filemethod 0
 File ::F54FDD49-9C71-4263-A036-4EB0A9F48B2D -name amd64 -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -type dir -attributes 0000 -filemethod 0
-File ::4C16AF14-64DE-47AB-BF1F-B763A127AF8C -name ftbusui.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 108936 -mtime 1300481174 -attributes 1000 -filemethod 0
-File ::E32CE566-1D0E-4332-A598-18C2B2359667 -name ftcserco.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 65416 -mtime 1300481174 -attributes 1000 -filemethod 0
-File ::7F2B84D0-0B91-4445-9589-6CC4BD2A059B -name ftd2xx.lib -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 18248 -mtime 1300481178 -attributes 1000 -filemethod 0
-File ::6EE0425C-7BB6-43B1-900C-2DDC4255839C -name ftd2xx64.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 237960 -mtime 1300481180 -attributes 1000 -filemethod 0
-File ::7016401E-3404-4A9E-AC7E-0F5E8F890CE9 -name ftdibus.sys -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 74376 -mtime 1300481180 -attributes 1000 -filemethod 0
-File ::573AD65E-BC51-4660-9D81-B639B17557FC -name ftlang.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 214920 -mtime 1300481168 -attributes 1000 -filemethod 0
-File ::C8B04683-6FFC-42BB-B06C-D4B8FA9A2C60 -name ftser2k.sys -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 85384 -mtime 1300481166 -attributes 1000 -filemethod 0
-File ::B3DA1BE1-9598-423D-8AAD-EE1689AB3556 -name ftserui2.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 55176 -mtime 1300481160 -attributes 1000 -filemethod 0
+File ::4C16AF14-64DE-47AB-BF1F-B763A127AF8C -name ftbusui.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 108936 -mtime 1314220018 -attributes 1000 -filemethod 0
+File ::E32CE566-1D0E-4332-A598-18C2B2359667 -name ftcserco.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 65416 -mtime 1314220018 -attributes 1000 -filemethod 0
+File ::7F2B84D0-0B91-4445-9589-6CC4BD2A059B -name ftd2xx.lib -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 18248 -mtime 1314220018 -attributes 1000 -filemethod 0
+File ::6EE0425C-7BB6-43B1-900C-2DDC4255839C -name ftd2xx64.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 237960 -mtime 1314220018 -attributes 1000 -filemethod 0
+File ::7016401E-3404-4A9E-AC7E-0F5E8F890CE9 -name ftdibus.sys -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 74376 -mtime 1314220018 -attributes 1000 -filemethod 0
+File ::573AD65E-BC51-4660-9D81-B639B17557FC -name ftlang.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 214920 -mtime 1314220018 -attributes 1000 -filemethod 0
+File ::C8B04683-6FFC-42BB-B06C-D4B8FA9A2C60 -name ftser2k.sys -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 85384 -mtime 1314220018 -attributes 1000 -filemethod 0
+File ::B3DA1BE1-9598-423D-8AAD-EE1689AB3556 -name ftserui2.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/amd64} -size 55176 -mtime 1314220018 -attributes 1000 -filemethod 0
 File ::F3A9800C-D749-4C64-8D06-619C66C1506B -name i386 -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -type dir -attributes 0000 -filemethod 0
-File ::CB003DBD-78DD-4D5E-BC83-2132A347E6E0 -name ftbusui.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 105352 -mtime 1300481176 -attributes 1000 -filemethod 0
-File ::E6B529BE-3231-447D-A425-F402BCFC9F2D -name ftcserco.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 69000 -mtime 1300481176 -attributes 1000 -filemethod 0
-File ::EEACCDC5-6F11-414F-9E87-8584E6AD6C16 -name ftd2xx.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 203144 -mtime 1300481184 -attributes 1000 -filemethod 0
-File ::6849FD8D-8FA4-4417-AFBB-A23ED4F84C70 -name ftd2xx.lib -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 19966 -mtime 1300481182 -attributes 1000 -filemethod 0
-File ::DED28134-51A4-4006-A05D-721C793D81C3 -name ftdibus.sys -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 61704 -mtime 1300481186 -attributes 1000 -filemethod 0
-File ::9BADB421-6B3F-4AE9-A979-F60FBBEFC1D8 -name ftlang.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 201096 -mtime 1300481170 -attributes 1000 -filemethod 0
-File ::46B4CEC4-80CA-4F58-8F15-6B9F44E4E41A -name ftser2k.sys -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 73096 -mtime 1300481170 -attributes 1000 -filemethod 0
-File ::8EB8CFE1-AD3A-4EB4-B95A-F153B467BD91 -name ftserui2.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 52616 -mtime 1300481164 -attributes 1000 -filemethod 0
+File ::CB003DBD-78DD-4D5E-BC83-2132A347E6E0 -name ftbusui.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 105352 -mtime 1314220018 -attributes 1000 -filemethod 0
+File ::E6B529BE-3231-447D-A425-F402BCFC9F2D -name ftcserco.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 69000 -mtime 1314220018 -attributes 1000 -filemethod 0
+File ::EEACCDC5-6F11-414F-9E87-8584E6AD6C16 -name ftd2xx.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 203144 -mtime 1314220019 -attributes 1000 -filemethod 0
+File ::6849FD8D-8FA4-4417-AFBB-A23ED4F84C70 -name ftd2xx.lib -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 19966 -mtime 1314220019 -attributes 1000 -filemethod 0
+File ::DED28134-51A4-4006-A05D-721C793D81C3 -name ftdibus.sys -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 61704 -mtime 1314220019 -attributes 1000 -filemethod 0
+File ::9BADB421-6B3F-4AE9-A979-F60FBBEFC1D8 -name ftlang.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 201096 -mtime 1314220019 -attributes 1000 -filemethod 0
+File ::46B4CEC4-80CA-4F58-8F15-6B9F44E4E41A -name ftser2k.sys -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 73096 -mtime 1314220019 -attributes 1000 -filemethod 0
+File ::8EB8CFE1-AD3A-4EB4-B95A-F153B467BD91 -name ftserui2.dll -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/i386} -size 52616 -mtime 1314220019 -attributes 1000 -filemethod 0
 File ::5BEB3E94-E55E-406E-A1DB-67177344B2D6 -name Static -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/Static} -type dir -attributes 0000 -filemethod 0
 File ::E480A1E0-64C8-45D9-8EC8-D5916C88B07A -name amd64 -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/Static/amd64} -type dir -attributes 0000 -filemethod 0
-File ::C8D93C92-1C8A-4175-BD7C-3D2078886A52 -name ftd2xx.lib -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/Static/amd64} -size 850102 -mtime 1300481156 -attributes 1000 -filemethod 0
+File ::C8D93C92-1C8A-4175-BD7C-3D2078886A52 -name ftd2xx.lib -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/Static/amd64} -size 850102 -mtime 1314220017 -attributes 1000 -filemethod 0
 File ::7CA829A8-9F4D-4290-B5FC-5119AF8300FF -name i386 -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/Static/i386} -type dir -attributes 0000 -filemethod 0
-File ::363E009F-A14D-42B7-B3B0-EA790A2DE9DF -name ftd2xx.lib -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/Static/i386} -size 763418 -mtime 1300481160 -attributes 1000 -filemethod 0
+File ::363E009F-A14D-42B7-B3B0-EA790A2DE9DF -name ftd2xx.lib -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory {<%InstallDir%>/FTDI USB Drivers/Static/i386} -size 763418 -mtime 1314220018 -attributes 1000 -filemethod 0
 File ::62BB0C3A-9DCC-4656-829A-FAB6BE7D4E7D -name usr -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr -type dir -attributes 0000 -filemethod 0
 File ::E482DDF3-CAB8-4D35-B616-CF9682E1B66F -name .svn -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/.svn -type dir -attributes 0000 -filemethod 0
-File ::83927042-A390-4B2D-8D75-398C393ECF5A -name all-wcprops -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/.svn -size 100 -mtime 1279904775 -attributes 1000 -filemethod 0
-File ::F5DF06D4-7F10-45AE-A934-9B4F3A42A0BE -name entries -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/.svn -size 260 -mtime 1279904775 -attributes 1000 -filemethod 0
+File ::83927042-A390-4B2D-8D75-398C393ECF5A -name all-wcprops -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/.svn -size 100 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::F5DF06D4-7F10-45AE-A934-9B4F3A42A0BE -name entries -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/.svn -size 260 -mtime 1314220020 -attributes 1000 -filemethod 0
 File ::038AC3C7-802D-4711-BBFA-023E78624E21 -name prop-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/.svn/prop-base -type dir -attributes 0000 -filemethod 0
 File ::57402C04-24B9-4BA3-A1B7-A0CF7570F083 -name props -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/.svn/props -type dir -attributes 0000 -filemethod 0
 File ::2F717CEB-B75E-4AEA-8272-02A6A6B6484D -name text-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/.svn/text-base -type dir -attributes 0000 -filemethod 0
@@ -3041,8 +3079,8 @@ File ::3BFC61D0-D22C-488D-9495-9ECD88676D1C -name props -parent B43B2C47-ABB6-40
 File ::32B408FD-7A53-4074-A1DF-1D556809BE6F -name text-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/.svn/tmp/text-base -type dir -attributes 0000 -filemethod 0
 File ::303A38D4-71DD-4A9A-81D4-41AF1824BBA1 -name share -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share -type dir -attributes 0000 -filemethod 0
 File ::E4271F08-8AE7-4325-BB48-2B5CC80893AD -name .svn -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/.svn -type dir -attributes 0000 -filemethod 0
-File ::A4C2C859-837B-479B-9AAB-77F3EC2D54CB -name all-wcprops -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/.svn -size 106 -mtime 1279904775 -attributes 1000 -filemethod 0
-File ::E8A85B1F-2BDF-4C60-8931-C3537604F520 -name entries -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/.svn -size 269 -mtime 1279904775 -attributes 1000 -filemethod 0
+File ::A4C2C859-837B-479B-9AAB-77F3EC2D54CB -name all-wcprops -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/.svn -size 106 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::E8A85B1F-2BDF-4C60-8931-C3537604F520 -name entries -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/.svn -size 269 -mtime 1314220020 -attributes 1000 -filemethod 0
 File ::27076FD7-DFAB-4998-9255-AD6A9AE86885 -name prop-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/.svn/prop-base -type dir -attributes 0000 -filemethod 0
 File ::2BE4CA65-F13A-4D75-AD2C-CC7154EF44BD -name props -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/.svn/props -type dir -attributes 0000 -filemethod 0
 File ::920441ED-C006-43AA-9841-6E28318A99A9 -name text-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/.svn/text-base -type dir -attributes 0000 -filemethod 0
@@ -3052,8 +3090,8 @@ File ::0A83FD36-38C0-48D1-B447-3A7FBFBFBEF4 -name props -parent B43B2C47-ABB6-40
 File ::879CFFFB-6C4C-4708-B19C-0DDAE5E2A8DC -name text-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/.svn/tmp/text-base -type dir -attributes 0000 -filemethod 0
 File ::D0E30065-F12E-4B78-9C2C-68C7F80005E2 -name terminfo -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo -type dir -attributes 0000 -filemethod 0
 File ::06FABB1F-4FE4-4C4A-8961-51E7ED6E9792 -name .svn -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/.svn -type dir -attributes 0000 -filemethod 0
-File ::E587AB9D-2C9C-4D3B-B90D-18E9399FC7C6 -name all-wcprops -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/.svn -size 115 -mtime 1279904774 -attributes 1000 -filemethod 0
-File ::6FB5F496-A645-4FAA-A148-E62E630BB271 -name entries -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/.svn -size 280 -mtime 1279904774 -attributes 1000 -filemethod 0
+File ::E587AB9D-2C9C-4D3B-B90D-18E9399FC7C6 -name all-wcprops -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/.svn -size 115 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::6FB5F496-A645-4FAA-A148-E62E630BB271 -name entries -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/.svn -size 280 -mtime 1314220020 -attributes 1000 -filemethod 0
 File ::B49649B8-4029-4BEB-9886-4E5AB522DBE5 -name prop-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/.svn/prop-base -type dir -attributes 0000 -filemethod 0
 File ::04D4BB8B-22C5-450B-9DB8-33A9691E236A -name props -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/.svn/props -type dir -attributes 0000 -filemethod 0
 File ::92A27AE1-1E6B-4C0C-A0FD-4B4CAECF6243 -name text-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/.svn/text-base -type dir -attributes 0000 -filemethod 0
@@ -3067,19 +3105,19 @@ File ::6694A0FB-86CC-487C-8057-A8B2678ED361 -name cygwin -parent B43B2C47-ABB6-4
 File ::3443DBE4-34F6-46FD-A1AE-68132D2FD019 -name cygwin-1p5 -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63 -size 1537 -mtime 1279904773 -attributes 1000 -filemethod 0
 File ::4A164372-FB89-4F08-A8A8-D2ACB18819D1 -name cygwin-old -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63 -size 1537 -mtime 1279904773 -attributes 1000 -filemethod 0
 File ::C4C27FCC-A1CB-4E80-B209-CDB8B0F4FF08 -name .svn -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn -type dir -attributes 0000 -filemethod 0
-File ::11EED559-D03E-4635-BC02-CAE5ED54C395 -name all-wcprops -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn -size 662 -mtime 1279904774 -attributes 1000 -filemethod 0
-File ::8DC6FE71-C697-453F-96C7-E1EC050A944C -name entries -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn -size 894 -mtime 1279904774 -attributes 1000 -filemethod 0
+File ::11EED559-D03E-4635-BC02-CAE5ED54C395 -name all-wcprops -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn -size 662 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::8DC6FE71-C697-453F-96C7-E1EC050A944C -name entries -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn -size 894 -mtime 1314220020 -attributes 1000 -filemethod 0
 File ::37C54E41-E3F5-4A67-AAF6-4819E652B6AF -name prop-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/prop-base -type dir -attributes 0000 -filemethod 0
-File ::F9D9EED9-9483-4A1D-8635-272984FF6E67 -name cons25.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/prop-base -size 53 -mtime 1279904772 -attributes 1000 -filemethod 0
-File ::ADBC057F-F024-4348-8B94-D70BEA5E0803 -name cygwin-1p5.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/prop-base -size 53 -mtime 1279904772 -attributes 1000 -filemethod 0
-File ::1C2BEA58-70B9-4AF4-BE92-9562B1636B37 -name cygwin-old.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/prop-base -size 53 -mtime 1279904773 -attributes 1000 -filemethod 0
-File ::A26801D9-E048-45D1-823E-B8098477CEF6 -name cygwin.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/prop-base -size 53 -mtime 1279904772 -attributes 1000 -filemethod 0
+File ::F9D9EED9-9483-4A1D-8635-272984FF6E67 -name cons25.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/prop-base -size 53 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::ADBC057F-F024-4348-8B94-D70BEA5E0803 -name cygwin-1p5.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/prop-base -size 53 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::1C2BEA58-70B9-4AF4-BE92-9562B1636B37 -name cygwin-old.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/prop-base -size 53 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::A26801D9-E048-45D1-823E-B8098477CEF6 -name cygwin.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/prop-base -size 53 -mtime 1314220020 -attributes 1000 -filemethod 0
 File ::6F51631F-CE2E-40D9-B34F-981B103B2DE9 -name props -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/props -type dir -attributes 0000 -filemethod 0
 File ::F6EC5D95-E720-48B4-80DA-35E2D2114182 -name text-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/text-base -type dir -attributes 0000 -filemethod 0
-File ::C0B4CC74-513E-446C-96F0-CA3A6B0671C7 -name cons25.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/text-base -size 1502 -mtime 1279904772 -attributes 1000 -filemethod 0
-File ::A88A0947-3AF3-4AE4-88BF-FFC5CBC59F2F -name cygwin-1p5.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/text-base -size 1537 -mtime 1279904772 -attributes 1000 -filemethod 0
-File ::61794990-6868-4BBD-9E5C-D44F2FE2EFEC -name cygwin-old.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/text-base -size 1537 -mtime 1279904773 -attributes 1000 -filemethod 0
-File ::8ACBF565-303E-4BB3-A36D-90589B67B3D8 -name cygwin.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/text-base -size 1534 -mtime 1279904772 -attributes 1000 -filemethod 0
+File ::C0B4CC74-513E-446C-96F0-CA3A6B0671C7 -name cons25.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/text-base -size 1502 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::A88A0947-3AF3-4AE4-88BF-FFC5CBC59F2F -name cygwin-1p5.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/text-base -size 1537 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::61794990-6868-4BBD-9E5C-D44F2FE2EFEC -name cygwin-old.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/text-base -size 1537 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::8ACBF565-303E-4BB3-A36D-90589B67B3D8 -name cygwin.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/text-base -size 1534 -mtime 1314220020 -attributes 1000 -filemethod 0
 File ::EEE211DA-26E9-44E1-A139-52E3349BFFCE -name tmp -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/tmp -type dir -attributes 0000 -filemethod 0
 File ::5D5E05DF-0D53-4667-BB9B-4D1E042CF69C -name prop-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/tmp/prop-base -type dir -attributes 0000 -filemethod 0
 File ::6DFD7F74-8514-4869-8446-C612E97D7D7C -name props -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/63/.svn/tmp/props -type dir -attributes 0000 -filemethod 0
@@ -3090,23 +3128,25 @@ File ::2ED8D117-7513-4A22-ACFD-2DE3EBE8938C -name cygwin -parent B43B2C47-ABB6-4
 File ::244F5764-686C-4E19-A7F3-72D8639AB7AB -name cygwin-1p5 -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c -size 1537 -mtime 1279904770 -attributes 1000 -filemethod 0
 File ::56A7AD74-488F-4F5A-8002-F50E539D2A9C -name cygwin-old -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c -size 1537 -mtime 1279904770 -attributes 1000 -filemethod 0
 File ::5702DF52-FF4F-41C5-B0AE-17AAE5121371 -name .svn -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn -type dir -attributes 0000 -filemethod 0
-File ::E8EFEC44-941C-4600-96B2-4E627339E0C6 -name all-wcprops -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn -size 657 -mtime 1279904771 -attributes 1000 -filemethod 0
-File ::F3578080-52FA-40A6-9D5D-1F19CE7EA029 -name entries -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn -size 893 -mtime 1279904771 -attributes 1000 -filemethod 0
+File ::E8EFEC44-941C-4600-96B2-4E627339E0C6 -name all-wcprops -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn -size 657 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::F3578080-52FA-40A6-9D5D-1F19CE7EA029 -name entries -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn -size 893 -mtime 1314220020 -attributes 1000 -filemethod 0
 File ::4C53A3A5-1C69-487E-8EF1-348B6E2AC751 -name prop-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/prop-base -type dir -attributes 0000 -filemethod 0
-File ::FA525647-E551-4945-8A06-50E78DF17F84 -name cons25.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/prop-base -size 53 -mtime 1279904770 -attributes 1000 -filemethod 0
-File ::E23BDBB4-2721-43E4-B690-5B38B5A490FC -name cygwin-1p5.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/prop-base -size 53 -mtime 1279904769 -attributes 1000 -filemethod 0
-File ::04C3F09D-A4E8-45DC-A06B-72CBE2FB36DE -name cygwin-old.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/prop-base -size 53 -mtime 1279904770 -attributes 1000 -filemethod 0
-File ::0B8242E8-9171-46ED-A597-04917BB0D4A2 -name cygwin.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/prop-base -size 53 -mtime 1279904769 -attributes 1000 -filemethod 0
+File ::FA525647-E551-4945-8A06-50E78DF17F84 -name cons25.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/prop-base -size 53 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::E23BDBB4-2721-43E4-B690-5B38B5A490FC -name cygwin-1p5.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/prop-base -size 53 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::04C3F09D-A4E8-45DC-A06B-72CBE2FB36DE -name cygwin-old.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/prop-base -size 53 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::0B8242E8-9171-46ED-A597-04917BB0D4A2 -name cygwin.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/prop-base -size 53 -mtime 1314220020 -attributes 1000 -filemethod 0
 File ::29549B71-D76F-4593-92BF-3E0A3C665A4A -name props -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/props -type dir -attributes 0000 -filemethod 0
 File ::CF1F6E20-2398-4B29-89D2-0B29164C4BE4 -name text-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/text-base -type dir -attributes 0000 -filemethod 0
-File ::CC841413-1F16-4C61-8E95-948B5FABACD5 -name cons25.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/text-base -size 1502 -mtime 1279904770 -attributes 1000 -filemethod 0
-File ::C4C916CA-7692-47C2-9D8C-EABA46E7F769 -name cygwin-1p5.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/text-base -size 1537 -mtime 1279904769 -attributes 1000 -filemethod 0
-File ::CFBDBFE4-D650-445D-BF7A-405553627BAB -name cygwin-old.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/text-base -size 1537 -mtime 1279904770 -attributes 1000 -filemethod 0
-File ::D76DF22F-F754-47FE-BABB-9FD98993920C -name cygwin.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/text-base -size 1534 -mtime 1279904769 -attributes 1000 -filemethod 0
+File ::CC841413-1F16-4C61-8E95-948B5FABACD5 -name cons25.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/text-base -size 1502 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::C4C916CA-7692-47C2-9D8C-EABA46E7F769 -name cygwin-1p5.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/text-base -size 1537 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::CFBDBFE4-D650-445D-BF7A-405553627BAB -name cygwin-old.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/text-base -size 1537 -mtime 1314220020 -attributes 1000 -filemethod 0
+File ::D76DF22F-F754-47FE-BABB-9FD98993920C -name cygwin.svn-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/text-base -size 1534 -mtime 1314220020 -attributes 1000 -filemethod 0
 File ::803FFBA9-AEE0-4190-8199-CA9D950EABFE -name tmp -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/tmp -type dir -attributes 0000 -filemethod 0
 File ::BE5A74A6-8F2C-43A1-987D-2307D0EC413B -name prop-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/tmp/prop-base -type dir -attributes 0000 -filemethod 0
 File ::3F7AC93C-3584-40BA-B535-A7EC8A85424C -name props -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/tmp/props -type dir -attributes 0000 -filemethod 0
 File ::AF0EAEDD-94A5-4CF3-B3FE-FD16E8F926A2 -name text-base -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr/share/terminfo/c/.svn/tmp/text-base -type dir -attributes 0000 -filemethod 0
+File ::96AF1039-4F7E-4047-8953-36F40A674FBA -name Favorites -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/usr -size 283876 -mtime 1314245522 -attributes 1000 -filemethod 0
+File ::096ED492-169E-4647-A77A-67722EB3D76E -name Favorites -parent B43B2C47-ABB6-4073-B2F0-345EF8183AC3 -directory <%InstallDir%>/Favorites -type dir -attributes 0000 -filemethod 0
 
 }
 } gui.tcl {proc ::InitGui {} {
@@ -24938,6 +24978,7 @@ InstallComponent ADDE8DE3-F9FE-4CAB-AABA-1B6092433EA9 -setup Install -type actio
 InstallComponent 40462983-C441-43A7-9F80-4FF6363530C7 -setup Install -type action -title {Add Windows File Extension} -component AddWindowsFileExtension -active Yes -parent 9B8CA7B7-7EF4-4AB0-964A-F528F2A0D5C2
 InstallComponent 4F66F6D5-6B3D-490D-926B-6F4FC615510B -setup Install -type action -title {Add Windows File Command} -component AddWindowsFileCommand -active Yes -parent 9B8CA7B7-7EF4-4AB0-964A-F528F2A0D5C2
 InstallComponent 47E78EC7-11A1-4274-B62B-FD2B7C0A9EF8 -setup Install -type action -title {Add Windows File Command} -component AddWindowsFileCommand -active Yes -parent 9B8CA7B7-7EF4-4AB0-964A-F528F2A0D5C2
+InstallComponent 03CE05AF-EE86-42D9-8023-ADEE5CE163B9 -setup Install -type action -title {Add Windows File Command} -component AddWindowsFileCommand -active Yes -parent 9B8CA7B7-7EF4-4AB0-964A-F528F2A0D5C2
 InstallComponent E60273EC-A142-41FA-A49B-2C6534A62B7D -setup Install -type action -title {Install FTDI Drivers} -component ExecuteExternalProgram -alias {Install FTDI Drivers} -active Yes -parent 9B8CA7B7-7EF4-4AB0-964A-F528F2A0D5C2
 InstallComponent FD9020C4-ED13-41E1-8AD8-0B14BC60A740 -setup Install -type actiongroup -title {Finish Actions} -alias {Finish Actions} -active Yes -parent ActionGroups
 InstallComponent FFA92858-5767-41B2-885E-B4EB514D796B -setup Install -type actiongroup -title {Cancel Actions} -alias {Cancel Actions} -active Yes -parent ActionGroups
