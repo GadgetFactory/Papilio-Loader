@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  <!--<title>Papilio Loader Java - Papilio</title>-->
+  <title>Papilio Loader Java - Papilio</title>
+  <link rel="stylesheet" href="images/papilioRed.css" type="text/css">
+      <!--HeaderText--><style type="text/css"><!--
+  ul, ol, pre, dl, p { margin-top:0px; margin-bottom:0px; }
+  code.escaped { white-space: nowrap; }
+  .vspace { margin-top:1.33em; }
+  .indent { margin-left:40px; }
+  .outdent { margin-left:40px; text-indent:-40px; }
+  a.createlinktext { text-decoration:none; border-bottom:1px dotted gray; }
+  a.createlink { text-decoration:none; position:relative; top:-0.5em;
+    font-weight:bold; font-size:smaller; border-bottom:none; }
+  img { border:0px; }
+  .apprlink { font-size:smaller; }
+div.tabledit {text-align:right;font-size:smaller;}
+.editconflict { color:green; 
+  font-style:italic; margin-top:1.33em; margin-bottom:1.33em; }
+
+  table.markup { border:2px dotted #ccf; width:90%; }
+  td.markup1, td.markup2 { padding-left:10px; padding-right:10px; }
+  table.vert td.markup1 { border-bottom:1px solid #ccf; }
+  table.horiz td.markup1 { width:23em; border-right:1px solid #ccf; }
+  table.markup caption { text-align:left; }
+  div.faq p, div.faq pre { margin-left:2em; }
+  div.faq p.question { margin:1em 0 0.75em 0; font-weight:bold; }
+  div.faqtoc div.faq * { display:none; }
+  div.faqtoc div.faq p.question 
+    { display:block; font-weight:normal; margin:0.5em 0 0.5em 20px; line-height:normal; }
+  div.faqtoc div.faq p.question * { display:inline; }
+   
+    .frame 
+      { border:1px solid #cccccc; padding:4px; background-color:#f9f9f9; }
+    .lfloat { float:left; margin-right:0.5em; }
+    .rfloat { float:right; margin-left:0.5em; }
+a.varlink { text-decoration:none; }
+
+--></style>
+<meta name="keywords" content="Papilio platform, Papilio Loader, FPGA, Xilinx, open source">
+<meta name="description" content="Papilio platform is easy to use USB microcontroller development platform for beginners and a powerful modular design environment for professional developers. The Papilio Loader simplifies the task of programming FPGAs with user IP">
+
+<body>
+<div id="page">
+<div id="pagetext">
+<!--PageText-->
+<div id="wikitext">
+<div class="vspace"></div><h2>The Papilio Loader Help</h2>
+<p>The Papilio Loader is a new multi-platform application that will make
+ using Papilio FPGA boards a whole lot easier. Technically, it is merely
+ a GUI frontend over the regular tools but is also a big improvement 
+over scripts and batch files. It runs on both Windows and Linux and uses
+ command line tools from various sources.
+</p>
+<div class="vspace"></div><h3>Installation</h3>
+<p>Install JRE 1.6 and FTDI D2XX drivers (both available freely) before 
+running the Papilio Loader installater. Papilio Loader installation is 
+simple and quick. You can select some key operating parameters for the 
+Papilio Loader on the following screen:
+</p>
+<div class="vspace"></div><div><img src="images/installer-preferences-screen.png" alt="Papilio Loader Installer Preferences screen"></div>
+<p class="vspace">First option is whether you wish to run the 
+application in simple or expert mode, and the other option is how does 
+the application respond to double clicking an associated file. These 
+options can be changed anytime with the File-&gt;Preferences dialog box.
+</p>
+<div class="vspace"></div><h3>Getting Started</h3>
+<p>The FPGA on the Papilio boards needs to be programmed with  bitstream
+ in order to work. A bitstream is basically a series of bits that 
+configures internal programmable fabric of the FPGA creating the 
+hardware components you designed. This apparently simple task involves a
+ number of steps under the hood, especially if you are using a 
+microcontroller core in the bitstream.
+</p>
+<div class="vspace"></div><h3>Interface</h3>
+<p>The interface used to send this bitstream to the FPGA is JTAG, which 
+is implemented using channel A of dual channel USB to serial converter 
+device FT2232D mounted on each Papilio FPGA board. A standard 5-pin mini 
+USB female to B-type male cable will work.
+</p>
+<div class="vspace"></div><h3>Input Files</h3>
+<p>Most of the times you will have a bitstream with a embedded 
+controller with empty program memory, exactly like a factory fresh 
+unprogrammed microcontroller you buy from the store. You need to program
+ it with your application firmware before you can actually make use of 
+it, which is usually done by special programming tools. For a soft 
+processor which exists inside a computer file, you "merge" your 
+application firmware into the bitstream before sending it over to the 
+FPGA so that you get a microcontroller inside the FPGA running your 
+application. You need three files for this:
+</p>
+<p class="vspace"><ul><li>The main .bit file: This is the bitstream containing 
+the unprogrammed soft-processor.</li><li>
+The .bmm file: This is "Block Memory Map" file that describes the 
+layout of the processor's memory in the .bit file mentioned above. This 
+file is automatically generated by the FPGA synthesis tools, in our 
+case the Xilinx ISE.</li><li>
+The .hex (or .elf) file: This is your application firmware generated by 
+your favorite IDE and compiler toolchain.</li></ul>
+</p>
+<p class="vspace">The .hex file is converted to a format compatible with the .bit file and then merged into it with the help of the .bmm file.
+</p>
+<p class="vspace">If you have a pre-programmed bitstream or your design 
+does not need a program, you can skip the conversion and merger step and
+ just write it to the FPGA.
+</p>
+<div class="vspace"></div><h3>Target</h3>
+<p>When you have a bitstream to write, you can either write to the FPGA, to its SPI Flash configuration memory or to a disk file.
+</p>
+<p class="vspace">To FPGA: The bitstream goes into the FPGA's on-chip 
+configuration RAM and implements your design. This transfer is fast but 
+is lost on power off. This is useful when you are developing a module 
+and need to frequently reprogram the FPGA for testing or debugging.
+</p>
+<p class="vspace">To: SPI Flash: Since FPGA cannot permanently store its
+ configuration, it needs some external storage for it which it can load 
+automatically on bootup. We use a serial SPI flash EEPROM to store the 
+FPGA configuration. This SPI flash memory is not directly accessible to 
+the programmer, so we first load a small core that links JTAG pins to 
+I/O pins connected to the memory. Then the programmer can write the 
+bitstream to it. It takes some time as serial memories are slower. You 
+can write your finished module into SPI flash so that it can start by 
+itself without tethered to the PC.
+</p>
+<p class="vspace">To disk file: Sometimes you have a soft procesor code 
+and some program for that processor you need to distribute. Instead of 
+having users compile that program, merge it into the soft processor 
+bitstream and write to the FPGA, you can simply provide them 
+preprogrammed bitstream that they can directly write into the FPGA or 
+its SPI flash configuration memory. With this option you can create such 
+bitstreams ready for distribution.
+</p>
+<div class="vspace"></div><h3>The Java GUI frontend</h3>
+The Papilio Loader is a simple graphical shell that uses different command line utilities to perform the task of programming a FPGA board. It makes working with FPGA boards, like Papilio boards a whole lot easier. The user can simply specify the input files and this application automatically composes command lines for each application and runs them in appropriate order. It works in one of the two modes:
+<p class="vspace">Simple mode: It shows minimum information needed to merge application firmware or write bitstreams to the selected target.
+</p>
+<p class="vspace">Expert mode: It displays the steps taken by the 
+appliction to perform the specified task. The user has control over 
+which steps to enable or disable to speed up the operation.
+</p>
+<div class="vspace"></div><div><img src="images/simple-mode-screen.png" alt="Simple Mode" title="Simple Mode"><br>Simple mode screen: No operation panel</div>
+</p><br>
+<div class="vspace"></div><div><img src="images/expert-mode-screen.png" alt="Expert Mode" title="Expert Mode"><br>Expert mode screen: Operation panel to customize the process</div>
+<div class="vspace"></div><h4>The Work Flow</h4>
+<p>The Papilio Loader tries to automate the operation as much as 
+possible by automatically selecting the operations to do as per the 
+available information and attempting to find any support files required. 
+Thus when a .bit file is selected, it automatically looks for its 
+companion .bmm file and populates the target .bmm file text box if it finds one. 
+Existence of a .bmm file is a reminder that the .bit file it belongs 
+with, could be a empty soft-processor and may need some application code to work.
+</p>
+<div class="vspace"></div><h4>File associations and default action on double click</h4>
+<p>The application supports a number of command line switches and their 
+combinations, out of which one can be selected to be the default action 
+on double clicking a file associated with Papilio Loader. Three options 
+are offered:
+</p>
+<p class="vspace"><ol><li>Set the bitfile and its associated .bmm file into appropriate text boxes and wait for further input</li><li>Load the specified bitfile into the FPGA and quit
+</li><li>Write the specified bitfile into the FPGA's SPI flash configuration memory and quit</li></ol>
+<p class="vspace">You can select one of these options at install time or anytime later through the File-&gt;Preferences (Ctrl+K) dialog box.</p>
+</p>
+<div class="vspace"></div><h3>Command line format</h3>
+<p>The Papilio Loader application supports following command line format
+ which can be used to create handy batch files or scripts for frequent 
+use:
+</p>
+<p class="vspace"><code>papilio-loader.exe [bitfile|-e] [hexfile] -[d|s|f] -[q] -[x]</code>
+</p>
+<p class="vspace">Without any parameters the application is loaded and it waits for inputs from the user.
+</p>
+<p class="vspace">The bitfile is the bitstream that is to be written to the target.
+</p>
+<p class="vspace">The first parameter can be 'e' switch to erase the onboard configuration memory (SPI flash in this case). If this switch is used, not file name must be specified. Only 'q' and 'x' switches can be used along with this switch. SPI flash is implied target.
+</p>
+<p class="vspace">The hexfile is the user application hex file that 
+should be merged with the bitstream before writing it to the target. If 
+this file is specified, the bitfile must have a companion BMM file else 
+the application will issue an error.
+</p>
+<p class="vspace">The target can be specified as either 'd' (disk file),
+ 's' (SPI flash) or 'f' (FPGA) or none to have the application load 
+other files and wait for user input.
+</p>
+<p class="vspace">The 'q' switch instructs the application to do the 
+specified task immediately without waiting for any further inputs from 
+the user.
+</p>
+<p class="vspace">The application can be instructed to exit once the 
+specified operations are done with the 'x' switch. This switch is valid 
+only if the 'q' switch is specified.</p>
+<p class="vspace">If any error occurs when 'q' and 'x' 
+both are specified, the application does not exit and reports the error.
+</p>
+<div class="vspace"></div><h4>Examples</h4>
+<p><code>papilio-loader.exe</p><p>
+papilio-loader.exe [bitfile]</p><p>
+papilio-loader.exe [bitfile] -e -q</p><p>
+papilio-loader.exe [bitfile] -e -q -x</p><p>
+papilio-loader.exe [bitfile] -f</p><p>
+papilio-loader.exe [bitfile] -f -q -x</p><p>
+papilio-loader.exe [bitfile] [hexfile]</p><p>
+papilio-loader.exe [bitfile] [hexfile] -s</p><p>
+papilio-loader.exe [bitfile] [hexfile] -s -q -x
+</code></p>
+</div>
+<div class="vspace"></div><h4>Support</h4>
+<p>Help is always available with the option Help->Papilio Loader Help (or pressing F1) in the application</p>
+<p>For any queries, bug reports or feature requests please make a post on <a href="http://www.gadgetfactory.net/gadgetforum/index.php?board=21.0">Papilio Loader forum</a></p>
+<p>Facebook page: <a href="http://www.facebook.com/PapilioPlatform">facebook.com/PapilioPlatform</a></p>
+<p>Twitter: <a href="http://www.twitter.com/gadgetfactory">twitter.com/gadgetfactory</a></p>
+<p class="vspace">
+<br>
+<br>
+<br>
+<p>
+
+
+<div id="pagefooter">
+&copy;<a href='http://www.GadgetFactory.net'>Gadget Factory 2011</a>| <a href='http://www.gadgetfactory.net/index.php?main_page=page&id=42&chapter=40'>Papilio IRC Chat</a>
+</div>
+</div>
+</div>
+</body></html>

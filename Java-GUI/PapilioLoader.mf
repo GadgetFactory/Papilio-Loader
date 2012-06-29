@@ -1,0 +1,2 @@
+Main-Class: net.gadgetfactory.papilio.loader.PapilioLoader
+Sealed: true

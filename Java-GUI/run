@@ -1,0 +1,2 @@
+#!/bin/sh
+sudo java -classpath bin net.gadgetfactory.papilio.loader.PapilioLoader
