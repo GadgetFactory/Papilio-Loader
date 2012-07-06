@@ -116,7 +116,7 @@ int main(int argc, char **argv)
     char const *serial  = 0;
     int subtype = FTDI_NO_EN;
     char *devicedb = NULL;
-    char c;
+    int c;
     char *cFpga_fn=0;
     char *cBscan_fn=0;
     ProgAlgSpi::Spi_Options_t spi_options=ProgAlgSpi::FULL;
@@ -125,7 +125,7 @@ int main(int argc, char **argv)
 	std::auto_ptr<IOBase>  io;
 
 
-    while ((c = getopt (argc, argv, "hb:f:s:jvcCr")) != -1)
+    while ((c = getopt (argc, argv, "hb:f:s:jvcCr")) != EOF)
         switch (c)
         {
         case 'r':
