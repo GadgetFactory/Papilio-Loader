@@ -31,6 +31,7 @@ Changes:
 #include "tools.h"
 
 #define SSTFLASH 1
+#define MacronixFLASH 2
 
 class ProgAlgSpi
 {
@@ -47,6 +48,7 @@ class ProgAlgSpi
         int tP;// Page Programming Time (256/264 bytes) 2 4 ms
         int tPE;// Page Erase Time (256/264 bytes) 13 32 ms
 		int tCE;// Chip Erase Time 50 ms
+		int MacronixtCE;// Macronix Chip Erase Time 50 s
 		int tBP;// Time to program a byte on SST. 10 us
 
         Jtag *jtag;
