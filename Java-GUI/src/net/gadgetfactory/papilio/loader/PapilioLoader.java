@@ -60,7 +60,7 @@ import net.gadgetfactory.papilio.loader.LoaderProject.PPJProject;
 
 public class PapilioLoader extends JFrame implements ActionListener
 {
-	private static final String LOADER_NAME = "Papilio Loader 2.1";
+	private static final String LOADER_NAME = "Papilio Loader 2.3";
 	public static final String AUTO_DETECT_FPGA = "Auto-detect onboard FPGA device";
 	public static final boolean DEBUG = false;
 	public static final boolean ECHO_COMMAND = false;
@@ -1431,7 +1431,10 @@ public class PapilioLoader extends JFrame implements ActionListener
 					BurnToFPGA();
 					break;
 				case SPI_FLASH:
-					BurnToSPIFlash();
+					if (!verifySelected && !eraseSelected)
+						BurnToSPIFlashOnly();
+					else
+						BurnToSPIFlash();
 					break;
 				case DISK_FILE:
 					// Do nothing.
@@ -1598,6 +1601,22 @@ public class PapilioLoader extends JFrame implements ActionListener
 			}
 		}
 
+		private void BurnToSPIFlashOnly()
+		{
+	    	bscanSPIBitFile = DetectJTAGchain();
+			
+			if (bscanSPIBitFile != null)
+			{
+				String[] commandLine = {q_papilio_prog_exe, "-v", 
+										"-f", HelperFunctions.CanonicalPath(finalBitFile), 
+										"-b", HelperFunctions.CanonicalPath(bscanSPIBitFile), 
+										"-sp", "-r"};
+				execSynchronously(commandLine, programmerPath, false);
+
+				execSynchronously(new String[] {q_papilio_prog_exe, "-c"}, programmerPath, false);
+			}
+		}		
+		
 		private void VerifySPIFlash()
 		{
 			String[] commandLine = {q_papilio_prog_exe, "-v", 

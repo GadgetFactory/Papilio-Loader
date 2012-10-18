@@ -16,6 +16,7 @@ Directories:
 CHANGELOG
 8/31/2012 Version 2.2
 	Added support for Macronix 64Mb SPI Flash chips.
+	Added ability to Erase Flash chip from Explorer context menu.
 
 6/29/2012 Version 2.1
 	Java Gui added.
