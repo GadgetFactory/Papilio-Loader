@@ -97,8 +97,9 @@ public:
     ~BitFile();
 
 public:
+    void appendZeros(unsigned cnt);
     void append(unsigned long  val, unsigned cnt);
-    void append(char const *file);
+    void append(char const *file, bool flip=true);
     void readFile(char const *fname, bool flip=true);
 
 public:

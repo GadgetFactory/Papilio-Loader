@@ -19,6 +19,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 Changes:
 
+Mike Field [hamster@snap.net.nz] 15 Oct 2012
+    Add commandline arg to Allow binary data to be appended after
+    the FPGA bitstream.  Can be used to put data into flash.
+
 */
 
 
@@ -85,20 +89,54 @@ unsigned int get_id(Jtag &jtag, DeviceDB &db, int chainpos, bool verbose)
 void usage(char *name)
 {
     fprintf(stderr,
-      "\nUsage:\%s [-v] [-j] [-f <bitfile>] [-b <bitfile>] [-s e|v|p|a] [-c] [-C] [-r]\n"
-      "   -h\t\tprint this help\n"
-      "   -v\t\tverbose output\n"
-      "   -j\t\tDetect JTAG chain, nothing else\n"
-      "   -f <bitfile>\tMain bit file\n"
-      "   -b <bitfile>\tbscan_spi bit file (enables spi access via JTAG)\n"
-      "   -s [e|v|p|a]\tSPI Flash options: e=Erase Only, v=Verify Only,\n"
-      "               \tp=Program Only or a=ALL (Default)\n"
-      "   -c\t\tDisplay current status of FPGA\n"
-      "   -C\t\tDisplay STAT Register of FPGA\n"
-      "   -r\t\tTrigger a reconfiguration of FPGA\n",name);
+      "\nUsage:\%s [-v] [-j] [-f <bitfile>] [-b <bitfile>] [-s e|v|p|a] [-c] [-C] [-r] [-A <addr>:<binfile>]\n"
+      "   -h\t\t\tprint this help\n"
+      "   -v\t\t\tverbose output\n"
+      "   -j\t\t\tDetect JTAG chain, nothing else\n"
+      "   -f <bitfile>\t\tMain bit file\n"
+      "   -b <bitfile>\t\tbscan_spi bit file (enables spi access via JTAG)\n"
+      "   -s [e|v|p|a]\t\tSPI Flash options: e=Erase Only, v=Verify Only,\n"
+      "               \t\tp=Program Only or a=ALL (Default)\n"
+      "   -c\t\t\tDisplay current status of FPGA\n"
+      "   -C\t\t\tDisplay STAT Register of FPGA\n"
+      "   -r\t\t\tTrigger a reconfiguration of FPGA\n"
+      "   -a <addr>:<binfile>\tAppend binary file at addr (in hex)\n"
+      "   -A <addr>:<binfile>\tAppend binary file at addr, bit reversed\n",name);
     exit(-1);
 }
 
+int append_data(BitFile &fpga_bit, char *append_str, bool flip, int verbose)
+{
+  int addr = 0, padding;
+  while(1)
+  {
+    char c = *append_str;
+    append_str++;
+
+    if(c == ':') break;
+    else if(c >= '0' && c <= '9') addr = addr * 16 + c - '0';
+    else if(c >= 'A' && c <= 'F') addr = addr * 16 + c - 'A'+10;
+    else if(c >= 'a' && c <= 'f') addr = addr * 16 + c - 'a'+10;
+    else {
+      printf("Invalid address for appending data\n");
+      return 0;
+    }
+  }
+  padding = addr - fpga_bit.getLength()/8;
+  if(padding < 0) { 
+    printf("Aborting - Appended data would overwrite FPGA bitstream\n");
+    return 0;
+  } 
+  if(verbose)
+    printf("Appending file %s at address %X\n",append_str,addr);
+
+  if(padding > 0) 
+    fpga_bit.appendZeros(padding);
+  fpga_bit.append(append_str,flip);
+  if(verbose)
+    printf("Final Length is %lx\n",fpga_bit.getLength()/8);
+  return 1;
+}
 
 int main(int argc, char **argv)
 {
@@ -119,13 +157,15 @@ int main(int argc, char **argv)
     int c;
     char *cFpga_fn=0;
     char *cBscan_fn=0;
+    char *append_str = 0;
+    bool append_flip = true;
     ProgAlgSpi::Spi_Options_t spi_options=ProgAlgSpi::FULL;
     DeviceDB db(devicedb);
 
 	std::auto_ptr<IOBase>  io;
 
 
-    while ((c = getopt (argc, argv, "hb:f:s:jvcCr")) != EOF)
+    while ((c = getopt (argc, argv, "hb:f:s:A:a:jvcCr")) != EOF)
         switch (c)
         {
         case 'r':
@@ -146,6 +186,16 @@ int main(int argc, char **argv)
         case 'f':
             cFpga_fn=(char*)malloc(strlen(optarg)+1);
             strcpy(cFpga_fn,optarg);
+            break;
+        case 'A':
+            append_str=(char*)malloc(strlen(optarg)+1);
+            strcpy(append_str,optarg);
+	    append_flip = true;
+            break;
+        case 'a':
+            append_str=(char*)malloc(strlen(optarg)+1);
+            strcpy(append_str,optarg);
+	    append_flip = false;
             break;
         case 'b':
             cBscan_fn=(char*)malloc(strlen(optarg)+1);
@@ -251,12 +301,12 @@ int main(int argc, char **argv)
     }
 	try
 	{
-		if(spiflash)
-		{
+  	  if(spiflash)
+	  {
             BitFile fpga_bit;
-			fpga_bit.readFile(cBscan_fn);
-			//fpga_bit.print();
-
+            fpga_bit.readFile(cBscan_fn);
+	    //fpga_bit.print();
+	    
             printf("\nUploading \"%s\". ", cBscan_fn);
             alg.array_program(fpga_bit);
 
@@ -268,6 +318,10 @@ int main(int argc, char **argv)
             {
 
                 flash_bit.readFile(cFpga_fn, false);
+
+       	        if(append_str && !append_data(flash_bit, append_str,append_flip, verbose)) /* Try to append data */
+                   return 1;
+                
                 //flash_file.print();
                 printf("\nProgramming External Flash Memory with \"%s\".\n", cFpga_fn);
                 result=alg1.ProgramSpi(flash_bit, spi_options);
@@ -279,31 +333,32 @@ int main(int argc, char **argv)
             }
 
             if(!result)
-                printf("Error occured.\n");
-		}
-		else
-		{
-		    if(reconfigure)
-		    {
-		        printf("Triggering a reconfiguration of the FPGA.\n");
+              printf("Error occured.\n");
+          }
+          else
+          {
+            if(reconfigure)
+	    {
+	        printf("Triggering a reconfiguration of the FPGA.\n");
                 alg.Reconfigure();
                 return 0;
-		    }
+            }
             BitFile fpga_bit;
-			fpga_bit.readFile(cFpga_fn);
+	    fpga_bit.readFile(cFpga_fn);
 
-		    //fpga_file.print();
+       	    if(append_str && !append_data(fpga_bit, append_str, append_flip, verbose)) /* Try to append data */
+              return 1;
+
+            fpga_bit.print();
 
             printf("\nUploading \"%s\". ", cFpga_fn);
             alg.array_program(fpga_bit);
             return 0;
-		}
+	  }
 	}
 	catch(io_exception& e)
 	{
 		fprintf(stderr, "IOException: %s\n", e.getMessage().c_str());
 	    return  1;
 	}
-
 }
-

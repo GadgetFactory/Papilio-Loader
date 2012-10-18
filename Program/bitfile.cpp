@@ -19,6 +19,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 Changes:
 Dmitry Teytelman [dimtey@gmail.com] 14 Jun 2006 [applied 13 Aug 2006]:
     Code cleanup for clean -Wall compile.
+Mike FIeld [hamster@snap.net.nz] 15 Oct 2012
+    Add appendZeros() method
 */
 
 
@@ -99,7 +101,7 @@ void BitFile::readFile(char const * fname, bool flip)
 
 void BitFile::processData(FILE *fp, bool flip)
 {
-	int ret;
+    int ret;
 
     byte t[4];
     ret = fread(t,1,4,fp);
@@ -123,6 +125,26 @@ void BitFile::processData(FILE *fp, bool flip)
         error("Ignoring extra data at end of file");
 }
 
+void BitFile::appendZeros(unsigned cnt)
+{
+    size_t i;
+    size_t const  nlen = length + cnt;
+    byte  *const  nbuf = new byte[nlen];
+
+    // copy old part
+    for(i = 0; i < length; i++)
+        nbuf[i] = buffer[i];
+    delete [] buffer;
+    buffer = nbuf;
+
+    // append new contents
+    for(i = length; i < nlen; i += 4)
+    {
+        buffer[i] = 0;
+    }
+    length = nlen;
+}
+
 void BitFile::append(unsigned long val, unsigned cnt)
 {
     size_t i;
@@ -144,10 +166,9 @@ void BitFile::append(unsigned long val, unsigned cnt)
         buffer[i+3] = bitRevTable[0xFF & (val >>  0)];
     }
     length = nlen;
-
 }
 
-void BitFile::append(char const *fname)
+void BitFile::append(char const *fname, bool flip)
 {
     int ret;
     FILE *const  fp=fopen(fname,"rb");
@@ -176,7 +197,7 @@ void BitFile::append(char const *fname)
                 throw  io_exception("Unexpected end of file");
             byte  b;
             ret = fread(&b, 1, 1, fp);
-            buffer[i] = bitRevTable[b]; // Reverse the bit order.
+            buffer[i]=(flip?bitRevTable[b]:b); // Reverse the bit order.
         }
         length = nlen;
 
