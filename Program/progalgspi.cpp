@@ -196,7 +196,7 @@ bool ProgAlgSpi::Spi_Identify(bool verbose)
             switch(tdo[3])
             {
                 case 0x17: /* MX25L6445E */
-                    Pages=2048;
+                    Pages=250000;
                     PageSize=256;
                     FlashType=MacronixFLASH;
                     break;
@@ -653,6 +653,8 @@ bool ProgAlgSpi::EraseSpi()
         return false;
     byte *empty;
     int emptylen=PageSize*Pages;
+    if (FlashType==MacronixFLASH)
+	emptylen=PageSize*10000;		//Only verify the first 10000 pages, which is the size of a bit file. It takes too long to verify the whole chip.
     empty=(byte*)malloc(emptylen);
     memset(empty, 0xff, emptylen);
     res=Spi_Verify(empty, 8*emptylen, verbose);
@@ -698,6 +700,8 @@ bool ProgAlgSpi::ProgramSpi(BitFile &file, Spi_Options_t options)
             return false;
         byte *empty;
         int emptylen=PageSize*Pages;
+	if (FlashType==MacronixFLASH)
+		emptylen=PageSize*10000;		//Only verify the first 10000 pages, which is the size of a bit file. It takes too long to verify the whole chip.
         empty=(byte*)malloc(emptylen);
         memset(empty, 0xff, emptylen);
         res=Spi_Verify(empty, 8*emptylen, verbose);
