@@ -1,4 +1,4 @@
-Papilio Loader - Current Version 2.2
+Papilio Loader - Current Version 2.3
 
 The Papilio Loader is a branch of xc3sprog (http://sourceforge.net/projects/xc3sprog/) that is used to load bit files to the Open Source Papilio FPGA boards (http://papilio.cc) made by Gadget Factory (http://www.gadgetfactory.net).
 
@@ -14,6 +14,9 @@ Directories:
 	
 
 CHANGELOG
+12/3/2012 Version 2.3
+	Added support for larger bit files with Macronix chips.
+
 8/31/2012 Version 2.2
 	Added support for Macronix 64Mb SPI Flash chips.
 	Added ability to Erase Flash chip from Explorer context menu.

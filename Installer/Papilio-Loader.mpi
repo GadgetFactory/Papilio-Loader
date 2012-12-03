@@ -75,7 +75,7 @@ InstallPassword
 {}
 
 InstallVersion
-{2.2.0.0}
+{2.3.0.0}
 
 Language,ca
 {Yes}
@@ -183,7 +183,7 @@ UpgradeApplicationID
 {}
 
 Version
-{2.2}
+{2.3}
 
 WizardHeight
 {365}
@@ -996,6 +996,7 @@ File ::A3059741-EE11-42FD-9CA0-39067FFB6F3E -name PapilioLoader.java -parent AA1
 File ::2CEECD77-F45F-4022-A06E-36DD18A0D6B8 -name PreferencesDialog.java -parent AA176772-1562-4F10-B6DE-837D8D3363CD
 File ::515EC725-6032-4F31-843D-8BE61F2C07C8 -name TargetPanel.java -parent AA176772-1562-4F10-B6DE-837D8D3363CD
 File ::CF4D4823-D2A9-4946-8583-210175663C35 -name WriteTargets.java -parent AA176772-1562-4F10-B6DE-837D8D3363CD
+File ::E8EC31F0-2C8C-4A19-8674-BD9AF52856EF -name papilio-loader-wrapper.exe -parent 3EBC81F6-1988-4668-BA2C-C0D4AE48BD55
 FileGroup ::D14F20BD-593E-4286-B63B-B60266A64F57 -setup Install -active Yes -platforms Windows -name {Papilio Loader Scripts} -parent FileGroups
 File ::71AF9413-C490-4309-88B2-19AAF59F0BE3 -type dir -directory <%InstallDir%>/scripts -name C:/Users/killian/Dropbox/GadgetFactory/GadgetFactory_Engineering/Papilio-Loader/Helper_App -location ../Helper_App -parent D14F20BD-593E-4286-B63B-B60266A64F57
 File ::3131575A-AA6E-41EE-A14E-1167671427DA -name changelog.txt -parent 71AF9413-C490-4309-88B2-19AAF59F0BE3
@@ -3150,7 +3151,7 @@ B43B2C47-ABB6-4073-B2F0-345EF8183AC3,Destination
 {<%InstallDir%>}
 
 B43B2C47-ABB6-4073-B2F0-345EF8183AC3,FileSize
-{6859643}
+{6880872}
 
 B43B2C47-ABB6-4073-B2F0-345EF8183AC3,Name
 {Program Files}
@@ -3387,7 +3388,7 @@ D14F20BD-593E-4286-B63B-B60266A64F57,Destination
 {<%InstallDir%>}
 
 D14F20BD-593E-4286-B63B-B60266A64F57,FileSize
-{16633864}
+{11347057}
 
 D14F20BD-593E-4286-B63B-B60266A64F57,Name
 {Papilio Loader Scripts}
@@ -3633,7 +3634,7 @@ F670D37D-90C2-40BE-B774-966979C96B66,Destination
 {<%InstallDir%>/java}
 
 F670D37D-90C2-40BE-B774-966979C96B66,FileSize
-{112869053}
+{112852669}
 
 F670D37D-90C2-40BE-B774-966979C96B66,Name
 {Java}
