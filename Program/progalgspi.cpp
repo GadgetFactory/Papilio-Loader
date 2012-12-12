@@ -124,7 +124,6 @@ void ProgAlgSpi::Spi_SetCommandRW(const byte command, byte *data, const int addr
 	if ((FlashType==SSTFLASH) || (FlashType==MacronixFLASH))
 	{
 		na=address;
-		i;
 		tmp[0]=command;
 		tmp[1]=(na&0xff0000)>>16;
 		tmp[2]=(na&0xff00)>>8;
@@ -133,7 +132,6 @@ void ProgAlgSpi::Spi_SetCommandRW(const byte command, byte *data, const int addr
 	else
 	{
 		na=(address << SpiAddressShift);
-		i;
 		tmp[0]=command;
 		tmp[1]=(na&0x70000)>>16;
 		tmp[2]=(na&0xfe00)>>8;
