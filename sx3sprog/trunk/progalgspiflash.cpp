@@ -357,6 +357,10 @@ int ProgAlgSPIFlash::spi_flashinfo_m25p(unsigned char *buf)
           pages = 32768;
           sector_size = 131072; /* Bytes = 1 Mi Bit*/
           break;
+//        case 0x17:
+//          pages = 32768;
+//          sector_size = 65536; 
+//          break;
         case 0x18:
           pages = 65536;
           sector_size = 262144; /* Bytes = 2 Mi Bit*/
@@ -384,6 +388,60 @@ int ProgAlgSPIFlash::spi_flashinfo_m25p(unsigned char *buf)
 
     default:
       fprintf(stderr,"M25P: Unexpected RDID upper Device ID 0x%02x\n", fbuf[1]);
+      return -1;
+    }
+
+  pgsize = 256;
+
+  if (fbuf[3] == 0x10)
+    {
+      for (i= 4; i<20 ; i++)
+       j+=fbuf[i];
+      if (j != 0)
+       {
+         fprintf(stderr,"CFI: ");
+         for (i= 5; i<21 ; i++)
+           fprintf(stderr,"%02x", fbuf[i]);
+         
+         fprintf(stderr, " \n");
+       }
+    }
+  return 1;
+}
+
+int ProgAlgSPIFlash::spi_flashinfo_mx25l(unsigned char *buf) 
+ 
+{
+  byte fbuf[21]= {READ_IDENTIFICATION};
+  int i, j = 0;
+
+  spi_xfer_user1(NULL,0,0,fbuf,20,1);
+  spi_xfer_user1(fbuf, 20, 1, NULL,0, 0);
+
+  fbuf[0] = bitRevTable[fbuf[0]];
+  fbuf[1] = bitRevTable[fbuf[1]];
+  fbuf[2] = bitRevTable[fbuf[2]];
+  fbuf[3] = bitRevTable[fbuf[3]];
+
+  switch (fbuf[1])
+    {
+    case 0x20:
+      fprintf(stderr, "Found Macronix MX25L Device, Device ID 0x%02x%02x\n",
+              fbuf[1], fbuf[2]);
+      switch (fbuf[2])
+        {
+        case 0x17:
+          pages = 262144;
+          sector_size = 65536; 
+          break;
+        default:
+          fprintf(stderr,"Unexpected MX25L size ID 0x%02x\n", buf[2]);
+          return -1;
+        }
+      break;
+
+    default:
+      fprintf(stderr,"MX25L: Unexpected RDID upper Device ID 0x%02x\n", fbuf[1]);
       return -1;
     }
 
@@ -443,6 +501,9 @@ int ProgAlgSPIFlash::spi_flashinfo(void)
       break;
     case 0x20:
       res = spi_flashinfo_m25p(fbuf);
+      break;
+    case 0xc2:
+      res = spi_flashinfo_mx25l(fbuf);
       break;
     case 0x89:
       res = spi_flashinfo_s33(fbuf); 
@@ -903,6 +964,7 @@ int ProgAlgSPIFlash::program(BitFile &pfile)
   case 0x1f: /* Atmel */
     return program_at45(pfile);
   case 0x20: /* Numonyx */
+  case 0xc2: /* Macronix */
   case 0x30: /* AMIC */
   case 0x40: /* AMIC Quad */
   case 0xef: /* Winbond */
