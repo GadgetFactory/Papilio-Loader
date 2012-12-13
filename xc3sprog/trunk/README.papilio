@@ -1,0 +1,10 @@
+To build for the Papilio board on linux:
+git clone https://github.com/GadgetFactory/Papilio-Loader.git
+apt-get install cmake
+mkdir build; cd build; cmake ..; make
+
+To load a bit file to FPGA on the Papilio board
+./xc3sprog -c papilio Quickstart-Papilio_One_LX9-v1.5.bit -v
+
+To load a bit file to SPI Flash on the Papilio board
+./xc3sprog -c ftdi -Ibscan_spi_lx9_newest.bit Quickstart-Papilio_One_LX9-v1.5.bit -v -R
