@@ -845,10 +845,44 @@ v_cleanup:
  * retval = 0 : All fine
  * else Error
  */
-int ProgAlgSPIFlash::wait(byte command, int report, int limit, double *delta)
+ int ProgAlgSPIFlash::wait(byte command, int report, int limit, double *delta)
 {
-    return wait(command, WRITE_BUSY, 0, report, limit, delta);
+    int j = 0;
+    int done = 0;
+    byte fbuf[4];
+    byte rbuf[1];
+    struct timeval tv[2];
+
+    fbuf[0] = command;
+    spi_xfer_user1(NULL,0,0,fbuf, 1, 1);
+    gettimeofday(tv, NULL);
+    /* wait for command complete */
+    do
+    {
+        jtag->Usleep(1000);       
+        spi_xfer_user1(rbuf,1,1,fbuf, 1, 1);
+        j++;
+        if ((jtag->getVerbose()) &&((j%report) == (report -1)))
+        {
+            /* one tick every report mS wait time */
+            fprintf(stderr,".");
+            fflush(stderr);
+        }
+        if (command == AT45_READ_STATUS)
+            done = (rbuf[0] & AT45_READY)?1:0;
+        else
+            done = (rbuf[0] & WRITE_BUSY)?0:1;
+    }
+    while (!done && (j < limit));
+    gettimeofday(tv+1, NULL);
+    *delta = deltaT(tv, tv + 1);
+    return (j<limit)?0:1;
 }
+ 
+// int ProgAlgSPIFlash::wait(byte command, int report, int limit, double *delta)
+// {
+    // return wait(command, WRITE_BUSY, 0, report, limit, delta);
+// }
 
 int ProgAlgSPIFlash::wait(byte command, byte mask, byte value, int report, int limit, double *delta)
 {

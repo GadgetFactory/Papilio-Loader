@@ -4,7 +4,10 @@ apt-get install cmake
 mkdir build; cd build; cmake ..; make
 
 To load a bit file to FPGA on the Papilio board
-./xc3sprog -c papilio Quickstart-Papilio_One_LX9-v1.5.bit -v
+./xc3sprog -c papilio ../../../Helper_App/Quickstart-Papilio_One_500K-v1.5.bit -v
 
-To load a bit file to SPI Flash on the Papilio board
-./xc3sprog -c ftdi -Ibscan_spi_lx9_newest.bit Quickstart-Papilio_One_LX9-v1.5.bit -v -R
+To load a bit file to SPI Flash on the Papilio board:
+	Papilio One 500K
+		./xc3sprog -c papilio -I../bscan_spi/bscan_spi_xc3s500e_papilio.bit ../../../Helper_App/Quickstart-Papilio_One_500K-v1.5.bit -v -R
+	Papilio Pro
+		./xc3sprog -c papilio -I../bscan_spi/bscan_spi_lx9_papilio.bit ../../../Helper_App/Quickstart-Papilio_One_LX9-v1.5.bit -v -R
