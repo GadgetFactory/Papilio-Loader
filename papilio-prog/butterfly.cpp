@@ -307,7 +307,7 @@ int main(int argc, char **argv)
             fpga_bit.readFile(cBscan_fn);
 	    //fpga_bit.print();
 	    
-            printf("\nUploading \"%s\". ", cBscan_fn);
+            printf("\nUploading \"%s\".\n", cBscan_fn);
             alg.array_program(fpga_bit);
 
             BitFile flash_bit;
@@ -351,7 +351,7 @@ int main(int argc, char **argv)
 
             fpga_bit.print();
 
-            printf("\nUploading \"%s\". ", cFpga_fn);
+            printf("\nUploading \"%s\".\n", cFpga_fn);
             alg.array_program(fpga_bit);
             return 0;
 	  }
