@@ -93,6 +93,7 @@ void usage(char *name)
       "   -h\t\t\tprint this help\n"
       "   -v\t\t\tverbose output\n"
       "   -j\t\t\tDetect JTAG chain, nothing else\n"
+      "   -d\t\t\tFTDI device name\n"
       "   -f <bitfile>\t\tMain bit file\n"
       "   -b <bitfile>\t\tbscan_spi bit file (enables spi access via JTAG)\n"
       "   -s [e|v|p|a]\t\tSPI Flash options: e=Erase Only, v=Verify Only,\n"
@@ -107,54 +108,54 @@ void usage(char *name)
 
 int append_data(BitFile &fpga_bit, char *append_str, bool flip, int verbose)
 {
-  int addr = 0, padding;
-  while(1)
-  {
-    char c = *append_str;
-    append_str++;
+    int addr = 0, padding;
+    while(1)
+    {
+        char c = *append_str;
+        append_str++;
 
-    if(c == ':') break;
-    else if(c >= '0' && c <= '9') addr = addr * 16 + c - '0';
-    else if(c >= 'A' && c <= 'F') addr = addr * 16 + c - 'A'+10;
-    else if(c >= 'a' && c <= 'f') addr = addr * 16 + c - 'a'+10;
-    else {
-      printf("Invalid address for appending data\n");
-      return 0;
+        if(c == ':') break;
+        else if(c >= '0' && c <= '9') addr = addr * 16 + c - '0';
+        else if(c >= 'A' && c <= 'F') addr = addr * 16 + c - 'A'+10;
+        else if(c >= 'a' && c <= 'f') addr = addr * 16 + c - 'a'+10;
+        else {
+            printf("Invalid address for appending data\n");
+            return 0;
+        }
     }
-  }
-  padding = addr - fpga_bit.getLength()/8;
-  if(padding < 0) { 
-    printf("Aborting - Appended data would overwrite FPGA bitstream\n");
-    return 0;
-  } 
-  if(verbose)
-    printf("Appending file %s at address %X\n",append_str,addr);
+    padding = addr - fpga_bit.getLength()/8;
+    if(padding < 0) { 
+        printf("Aborting - Appended data would overwrite FPGA bitstream\n");
+        return 0;
+    } 
+    if(verbose)
+        printf("Appending file %s at address %X\n",append_str,addr);
 
-  if(padding > 0) 
-    fpga_bit.appendZeros(padding);
-  fpga_bit.append(append_str,flip);
-  if(verbose)
-    printf("Final Length is %lx\n",fpga_bit.getLength()/8);
-  return 1;
+    if(padding > 0) 
+        fpga_bit.appendZeros(padding);
+    fpga_bit.append(append_str,flip);
+    if(verbose)
+        printf("Final Length is %lx\n",fpga_bit.getLength()/8);
+    return 1;
 }
 
 int main(int argc, char **argv)
 {
-    int         chainpos  = 0;
-    int vendor    = 0;
-    int product   = 0;
+    int chainpos = 0;
+    int vendor = 0;
+    int product = 0;
     unsigned int id;
-    bool       verbose    = false;
-    bool     spiflash     = false;
-    bool     reconfigure = false;
-    bool     detectchain  = false;
-    int     displaystatus = 0; // 0=no status, 1=JTAG IR data, 2=STAT Register readback
+    bool verbose = false;
+    bool spiflash = false;
+    bool reconfigure = false;
+    bool detectchain = false;
+    int displaystatus = 0; // 0=no status, 1=JTAG IR data, 2=STAT Register readback
     bool result;
-    char const *desc    = 0;
-    char const *serial  = 0;
+    char *desc = 0;
+    char const *serial = 0;
     int subtype = FTDI_NO_EN;
     char *devicedb = NULL;
-    int c;
+    char c;
     char *cFpga_fn=0;
     char *cBscan_fn=0;
     char *append_str = 0;
@@ -162,10 +163,10 @@ int main(int argc, char **argv)
     ProgAlgSpi::Spi_Options_t spi_options=ProgAlgSpi::FULL;
     DeviceDB db(devicedb);
 
-	std::auto_ptr<IOBase>  io;
+    std::auto_ptr<IOBase>  io;
 
 
-    while ((c = getopt (argc, argv, "hb:f:s:A:a:jvcCr")) != EOF)
+    while ((c = getopt (argc, argv, "hd:b:f:s:A:a:jvcCr")) != EOF)
         switch (c)
         {
         case 'r':
@@ -183,6 +184,10 @@ int main(int argc, char **argv)
         case 'j':
             detectchain=true;
             break;
+        case 'd':
+            desc=(char*)malloc(strlen(optarg)+1);
+            strcpy(desc,optarg);
+            break;
         case 'f':
             cFpga_fn=(char*)malloc(strlen(optarg)+1);
             strcpy(cFpga_fn,optarg);
@@ -190,12 +195,12 @@ int main(int argc, char **argv)
         case 'A':
             append_str=(char*)malloc(strlen(optarg)+1);
             strcpy(append_str,optarg);
-	    append_flip = true;
+            append_flip = true;
             break;
         case 'a':
             append_str=(char*)malloc(strlen(optarg)+1);
             strcpy(append_str,optarg);
-	    append_flip = false;
+            append_flip = false;
             break;
         case 'b':
             cBscan_fn=(char*)malloc(strlen(optarg)+1);
@@ -262,29 +267,29 @@ int main(int argc, char **argv)
         //nothing todo here..
     }
 
-	try
-	{
-		if (vendor == 0)
-            vendor = VENDOR;
-		if(product == 0)
-            product = DEVICE;
-		io.reset(new IOFtdi(vendor, product, desc, serial, subtype));
-		io->setVerbose(verbose);
-	}
-	catch(io_exception& e)
+    try
     {
-		fprintf(stderr, "Could not access USB device %04x:%04x.\n",vendor, product);
-		return 1;
+        if (vendor == 0)
+            vendor = VENDOR;
+        if(product == 0)
+            product = DEVICE;
+        io.reset(new IOFtdi(vendor, product, desc, serial, subtype));
+        io->setVerbose(verbose);
+    }
+    catch(io_exception& e)
+    {
+        fprintf(stderr, "Could not access USB device %04x:%04x.\n",vendor, product);
+        return 1;
     }
 
-	Jtag jtag = Jtag(io.operator->());
-	unsigned int family, manufacturer;
+    Jtag jtag = Jtag(io.operator->());
+    unsigned int family, manufacturer;
     fprintf(stderr, "Using %s\n", db.getFile().c_str());
 
-	id = get_id (jtag, db, chainpos, true);
-	family = (id>>21) & 0x7f;
-	manufacturer = (id>>1) & 0x3ff;
-	if(detectchain)
+    id = get_id (jtag, db, chainpos, true);
+    family = (id>>21) & 0x7f;
+    manufacturer = (id>>1) & 0x3ff;
+    if(detectchain)
         return 0;
 
 
@@ -299,14 +304,14 @@ int main(int argc, char **argv)
             alg.getStatusRegister();
         return 0;
     }
-	try
-	{
-  	  if(spiflash)
-	  {
+    try
+    {
+        if(spiflash)
+        {
             BitFile fpga_bit;
             fpga_bit.readFile(cBscan_fn);
-	    //fpga_bit.print();
-	    
+            //fpga_bit.print();
+        
             printf("\nUploading \"%s\". ", cBscan_fn);
             alg.array_program(fpga_bit);
 
@@ -319,8 +324,8 @@ int main(int argc, char **argv)
 
                 flash_bit.readFile(cFpga_fn, false);
 
-       	        if(append_str && !append_data(flash_bit, append_str,append_flip, verbose)) /* Try to append data */
-                   return 1;
+                if(append_str && !append_data(flash_bit, append_str,append_flip, verbose)) /* Try to append data */
+                    return 1;
                 
                 //flash_file.print();
                 printf("\nProgramming External Flash Memory with \"%s\".\n", cFpga_fn);
@@ -333,32 +338,32 @@ int main(int argc, char **argv)
             }
 
             if(!result)
-              printf("Error occured.\n");
-          }
-          else
-          {
+                printf("Error occured.\n");
+        }
+        else
+        {
             if(reconfigure)
-	    {
-	        printf("Triggering a reconfiguration of the FPGA.\n");
+            {
+                printf("Triggering a reconfiguration of the FPGA.\n");
                 alg.Reconfigure();
                 return 0;
             }
             BitFile fpga_bit;
-	    fpga_bit.readFile(cFpga_fn);
+            fpga_bit.readFile(cFpga_fn);
 
-       	    if(append_str && !append_data(fpga_bit, append_str, append_flip, verbose)) /* Try to append data */
-              return 1;
+            if(append_str && !append_data(fpga_bit, append_str, append_flip, verbose)) /* Try to append data */
+                return 1;
 
             fpga_bit.print();
 
             printf("\nUploading \"%s\". ", cFpga_fn);
             alg.array_program(fpga_bit);
             return 0;
-	  }
-	}
-	catch(io_exception& e)
-	{
-		fprintf(stderr, "IOException: %s\n", e.getMessage().c_str());
-	    return  1;
-	}
+        }
+    }
+    catch(io_exception& e)
+    {
+        fprintf(stderr, "IOException: %s\n", e.getMessage().c_str());
+        return  1;
+    }
 }

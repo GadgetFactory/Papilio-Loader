@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 Changes:
 1   Added support for all AT45DB devices..
 10/15/2010 Added support for SST25VF040B Jack Gassett
+10/17/2012 Added support for Micron and Winbond devices Magnus Karlsson
 */
 
 #include "config.h"
@@ -44,13 +45,16 @@ ProgAlgSpi::ProgAlgSpi(Jtag &j, IOBase &i, int fam)
     io=&i;
     family = fam;
 
+    SectorSize=65536;
     PageSize=264;
     Pages=1024;
     tPE=10;
     tP=4;
-	tCE=50;
-	MacronixtCE=1000;
-	tBP=10;
+    tCE=50;
+    MacronixtCE=1000;
+    tBP=10;
+    BulkErase=100;
+    SectorErase=4;
     Max_Retries=4;
     SpiAddressShift=9;
 
@@ -121,7 +125,7 @@ void ProgAlgSpi::Spi_SetCommandRW(const byte command, byte *data, const int addr
     byte tmp[4];
 	int na, i;
     memset(tmp, 0, sizeof(tmp));
-	if ((FlashType==SSTFLASH) || (FlashType==MacronixFLASH))
+	if ((FlashType==SSTFLASH) || (FlashType==MacronixFLASH) || (FlashType==GENERIC))
 	{
 		na=address;
 		tmp[0]=command;
@@ -194,7 +198,7 @@ bool ProgAlgSpi::Spi_Identify(bool verbose)
             switch(tdo[3])
             {
                 case 0x17: /* MX25L6445E */
-                    Pages=250000;
+                    Pages=32768;
                     PageSize=256;
                     FlashType=MacronixFLASH;
                     break;
@@ -205,15 +209,124 @@ bool ProgAlgSpi::Spi_Identify(bool verbose)
             if(verbose)
                 printf("Found Macronix Flash (Pages=%d, Page Size=%d bytes, %d bits).\n",Pages,PageSize,Pages*PageSize*8);
             break; 
-        case 0x20: /* Numonyx */
+        case 0x20: /* Numonyx/Micron */
+            if (tdo[2] == 0xBA) { //N25QXXX
+                switch(tdo[3])
+                {
+                    case 0x16: /* N25Q32 */
+                        Pages=16384;
+                        PageSize=256;
+                        BulkErase=60;
+                        SectorErase=3;
+                        FlashType=GENERIC;
+                        break;
+                    case 0x17: /* N25Q64 */
+                        Pages=32768;
+                        PageSize=256;
+                        BulkErase=250;
+                        SectorErase=3;
+                        FlashType=GENERIC;
+                        break;
+                    case 0x18: /* N25Q128 */
+                        Pages=65536;
+                        PageSize=256;
+                        BulkErase=250;
+                        SectorErase=3;
+                        FlashType=GENERIC;
+                        break;
+                    case 0x19: /* N25Q256 */
+                        Pages=131072;
+                        PageSize=256;
+                        BulkErase=480;
+                        SectorErase=3;
+                        FlashType=GENERIC;
+                        break;
+                    default:
+                        printf("Unknown Numonyx/Micron N25Q Flash Size (0x%.2x)\n", tdo[3]);
+                        return false;
+                }
+                if(verbose)
+                    printf("Found Numonyx/Micron Flash (Pages=%d, Page Size=%d bytes, %d bits).\n",Pages,PageSize,Pages*PageSize*8);
+                break;
+            } else {
+                printf("Unknown Numonyx/Micron Flash Type (0x%.2x)\n", tdo[2]);
+                return false;
+            }
+            break;
         case 0xef: /* Winbond */
-		case 0xbf: /* SST */
+            if (tdo[2] == 0x30) { //W25X
+                switch(tdo[3])
+                {
+                    case 0x13: /* W25X40 */
+                        Pages=2048;
+                        PageSize=256;
+                        BulkErase=4;
+                        SectorErase=1;
+                        FlashType=GENERIC;
+                        break;
+                    default:
+                        printf("Unknown Winbond W25X Flash Size (0x%.2x)\n", tdo[3]);
+                        return false;
+                }
+                if(verbose)
+                    printf("Found Winbond Flash (Pages=%d, Page Size=%d bytes, %d bits).\n",Pages,PageSize,Pages*PageSize*8);
+                break;
+            } else if (tdo[2] == 0x40) { //W25Q
+                switch(tdo[3])
+                {
+                    case 0x14: /* W25Q80 */
+                        Pages=4096;
+                        PageSize=256;
+                        BulkErase=6;
+                        SectorErase=1;
+                        FlashType=GENERIC;
+                        break;
+                    case 0x15: /* W25Q16 */
+                        Pages=8192;
+                        PageSize=256;
+                        BulkErase=10;
+                        SectorErase=1;
+                        FlashType=GENERIC;
+                        break;
+                    default:
+                        printf("Unknown Winbond W25Q Flash Size (0x%.2x)\n", tdo[3]);
+                        return false;
+                }
+                if(verbose)
+                    printf("Found Winbond Flash (Pages=%d, Page Size=%d bytes, %d bits).\n",Pages,PageSize,Pages*PageSize*8);
+                break;
+            } else {
+                printf("Unknown Winbond Flash Type (0x%.2x)\n", tdo[2]);
+                return false;
+            }
+            break;
+        case 0xbf: /* SST */
             switch(tdo[3])
             {
                 case 0x8d: /* SST25VF040B */
                     Pages=2048;
                     PageSize=264;
-					FlashType=SSTFLASH;
+                    FlashType=SSTFLASH;
+                    break;
+                case 0x8e: /* SST25VF080B */
+                    Pages=4096;
+                    PageSize=264;
+                    FlashType=SSTFLASH;
+                    break;
+                case 0x41: /* SST25VF016B */
+                    Pages=8192;
+                    PageSize=264;
+                    FlashType=SSTFLASH;
+                    break;
+                case 0x4a: /* SST25VF032B */
+                    Pages=16384;
+                    PageSize=264;
+                    FlashType=SSTFLASH;
+                    break;
+                case 0x4b: /* SST25VF064C */
+                    Pages=32768;
+                    PageSize=264;
+                    FlashType=SSTFLASH;
                     break;
                 default:
                     printf("Unknown SST Flash Size (0x%.2x)\n", tdo[3]);
@@ -223,7 +336,7 @@ bool ProgAlgSpi::Spi_Identify(bool verbose)
                 printf("Found SST Flash (Pages=%d, Page Size=%d bytes, %d bits).\n",Pages,PageSize,Pages*PageSize*8);
             break;			
         default:
-            printf("Uknown Flash Manufacturer\n");
+            printf("Uknown Flash Manufacturer (0x%.2x)\n", tdo[1]);
             return false;
     }
 
@@ -242,7 +355,7 @@ bool ProgAlgSpi::Spi_Check(bool verbose)
     byte StatusReg_Val=0x80;
     byte StatusReg_Cmd[2]={0xd7,0x0};
 
-	if ((FlashType==SSTFLASH) || (FlashType==MacronixFLASH))
+	if ((FlashType==SSTFLASH) || (FlashType==MacronixFLASH) || (FlashType==GENERIC))
 	{
 		StatusReg_Mask=0x01;
 		StatusReg_Val=0x00;
@@ -267,7 +380,7 @@ bool ProgAlgSpi::Spi_Write_Check(bool verbose)
     byte StatusReg_Val=0x80;
     byte StatusReg_Cmd[2]={0xd7,0x0};
 
-	if ((FlashType==SSTFLASH) || (FlashType==MacronixFLASH))
+	if ((FlashType==SSTFLASH) || (FlashType==MacronixFLASH) || (FlashType==GENERIC))
 	{
 		StatusReg_Mask=0x1f;
 		StatusReg_Val=0x02;
@@ -287,12 +400,12 @@ bool ProgAlgSpi::Spi_Write_Check(bool verbose)
 
 bool ProgAlgSpi::Spi_Erase(bool verbose)
 {
-    unsigned int i,x;
-    bool fail=false;
-    byte data[4];
+	unsigned int i,x;
+	bool fail=false;
+	byte data[4];
 	byte WRSR_Cmd[2]={0x01,0x00};
 
-    if(verbose)
+	if(verbose)
 	{	
 		printf("Erasing    :\n");
 		fflush(stdout);
@@ -365,6 +478,35 @@ bool ProgAlgSpi::Spi_Erase(bool verbose)
 				printf("Failed Erasing Macronix Flash.\n");
 		}			
 	}
+	else if (FlashType==GENERIC){
+		Spi_Command((byte*)"\x06",0,7);	//Write Enable
+		for(x=0;x<=Max_Retries;x++)
+		{
+			fail=!Spi_Write_Check(verbose);
+			if(fail==false)
+				break;
+			Sleep(tCE);
+		}
+
+		Spi_Command((byte*)"\xc7",0,7);	//Bulk Erase
+		for(x=0;x<=BulkErase;x++)
+		{
+			fail=!Spi_Check();
+			if(fail==false)
+				break;
+			Sleep(1000);
+			printf(".");
+			fflush(stdout);
+		}	
+
+		if(verbose)
+		{
+			if(fail==false)
+				printf("Ok\n");
+			else
+				printf("Failed Erasing Generic Flash.\n");
+		}			
+	}
 	else
 	{
 		for(i=0;i<Pages&&!fail;i++)
@@ -381,7 +523,166 @@ bool ProgAlgSpi::Spi_Erase(bool verbose)
 					break;
 				Sleep(tPE);
 			}
-			if((i%1024)==0&&verbose)
+			if((i%256)==0&&verbose)
+			{
+				printf(".");
+				fflush(stdout);
+			}
+		}
+		if(verbose)
+		{
+			if(!fail)
+				printf("Ok\n");
+			else
+				printf("Failed (@ Page: %d)\n", i);
+		}
+	}
+
+    return !fail;
+}
+
+bool ProgAlgSpi::Spi_PartialErase(int length, bool verbose)
+{
+	unsigned int i,x;
+	bool fail=false;
+	byte data[4];
+	byte WRSR_Cmd[2]={0x01,0x00};
+
+	if(verbose)
+	{	
+		printf("Erasing    :\n");
+		fflush(stdout);
+	}
+	if (FlashType==SSTFLASH)
+	{
+    // use full chip erase
+		fail=!Spi_Write_Check();
+		
+		Spi_Command((byte*)"\x06",0,8);	//WREN
+		Sleep(tCE);
+		Spi_Command((byte*)"\x80",0,8);	//DBSY
+		Sleep(tCE);
+		Spi_Command((byte*)"\x50",0,8);	//EWSR
+		Sleep(tCE);
+		Spi_Command(WRSR_Cmd,0,16);		//WRSR
+		Sleep(tCE);
+		Spi_Command((byte*)"\x06",0,8);	//WREN
+		Sleep(tCE);		
+		for(x=0;x<=Max_Retries;x++)
+		{
+			fail=!Spi_Write_Check();
+			if(fail==false)
+				break;
+			Sleep(tCE);
+		}			
+		
+		Spi_Command((byte*)"\x60",0,8);	//Chip Erase
+		for(x=0;x<=Max_Retries;x++)
+		{
+			fail=!Spi_Check();
+			if(fail==false)
+				break;
+			Sleep(tCE);
+		}	
+
+		if(verbose)
+		{
+			if(fail==false)
+				printf("Ok\n");
+			else
+				printf("Failed Erasing SST Flash.\n");
+		}			
+	}
+	else if (FlashType==MacronixFLASH)
+  {
+    // use full chip erase
+		Spi_Command((byte*)"\x06",0,7);	//Write Enable
+		for(x=0;x<=Max_Retries;x++)
+		{
+			fail=!Spi_Write_Check(verbose);
+			if(fail==false)
+				break;
+			Sleep(tCE);
+		}	
+		Spi_Command((byte*)"\x60",0,7);	//Chip Erase
+		for(x=0;x<=100;x++)
+		{
+			fail=!Spi_Check();
+			if(fail==false)
+				break;
+			Sleep(MacronixtCE);
+			printf(".");
+			fflush(stdout);
+		}	
+
+		if(verbose)
+		{
+			if(fail==false)
+				printf("Ok\n");
+			else
+				printf("Failed Erasing Macronix Flash.\n");
+		}			
+	}
+	else if (FlashType==GENERIC)
+  {
+    // use partial erase
+    unsigned int wBytes=(length+7)/8;
+    unsigned int DoPages=(wBytes+PageSize-1)/PageSize;    
+    for(i=0;i<DoPages&&!fail;i++)
+    {
+        if ((i*PageSize)%SectorSize == 0)
+        {
+            Spi_Command((byte*)"\x06",0,7);	//Write Enable
+            for(x=0;x<=Max_Retries;x++)
+            {
+                fail=!Spi_Write_Check(verbose);
+                if(fail==false)
+                    break;
+                Sleep(tCE);
+            }
+            Spi_SetCommandRW('\xd8',data,i*PageSize);	//Sector Erase
+            Spi_Command(data,0,31);
+            Sleep(tCE);		
+            for(x=0;x<=SectorErase;x++)
+            {
+                fail=!Spi_Check();
+                if(!fail)
+                    break;
+                Sleep(1000);
+            }
+        }
+        if((i%256)==0&&verbose)
+        {
+            printf(".");
+            fflush(stdout);
+        }
+    }        
+
+		if(verbose)
+		{
+			if(fail==false)
+				printf("Ok\n");
+			else
+				printf("Failed Erasing Generic Flash.\n");
+		}			
+	}
+	else
+	{
+		for(i=0;i<Pages&&!fail;i++)
+		{
+			memset(data,0, sizeof(data));
+			Spi_SetCommandRW('\x81',data,i);
+
+			Spi_Command(data,0,32);
+			Sleep(tCE);		
+			for(x=0;x<=Max_Retries;x++)
+			{
+				fail=!Spi_Write_Check(verbose);
+				if(!fail)
+					break;
+				Sleep(tPE);
+			}
+			if((i%256)==0&&verbose)
 			{
 				printf(".");
 				fflush(stdout);
@@ -404,8 +705,7 @@ bool ProgAlgSpi::Spi_Write(const byte *write_data, int length, bool verbose)
     unsigned int i,x;
     bool fail=false;
     byte *data;
-	byte tdo[9];
-    unsigned int wBytes=(length/8)+((length%8)?(8-(length%8)):0);
+    unsigned int wBytes=(length+7)/8;
     unsigned int bufsize=sizeof(byte)*(PageSize+4);
     unsigned int DoPages=wBytes/PageSize;
 	byte WRSR_Cmd[2]={0x01,0x00};
@@ -448,7 +748,9 @@ bool ProgAlgSpi::Spi_Write(const byte *write_data, int length, bool verbose)
 		{
 			memcpy(&AAIP_Cmd[1], &write_data[i],2);
 			Spi_Command(AAIP_Cmd,0,24);
+
 			usleep(tBP);
+
 			if((i%20000)==0&&verbose)
 			{
 				printf(".");			
@@ -478,7 +780,7 @@ bool ProgAlgSpi::Spi_Write(const byte *write_data, int length, bool verbose)
 		for(i=0;i<DoPages&&!fail;i++)
 		{
 			memset(data, 0, bufsize);
-			if (FlashType==MacronixFLASH){
+			if ((FlashType==MacronixFLASH) || (FlashType==GENERIC)){
 				Spi_Command((byte*)"\x06",0,7);	//Write Enable
 				for(x=0;x<=Max_Retries;x++)
 				{
@@ -508,7 +810,7 @@ bool ProgAlgSpi::Spi_Write(const byte *write_data, int length, bool verbose)
 					break;
 				Sleep(tP);
 			}
-			if((i%1024)==0&&verbose)
+			if((i%256)==0&&verbose)
 			{
 				printf(".");			
 				fflush(stdout);
@@ -522,7 +824,7 @@ bool ProgAlgSpi::Spi_Write(const byte *write_data, int length, bool verbose)
 			int remBytes=(wBytes-DoPages*PageSize);
 			memset(data, 0, bufsize);
 			Spi_SetCommand((byte*)"\x84",data,1);
-			if (FlashType==MacronixFLASH){
+			if ((FlashType==MacronixFLASH) || (FlashType==GENERIC)){
 				Spi_Command((byte*)"\x06",0,7);	//Write Enable
 				for(x=0;x<=Max_Retries;x++)
 				{
@@ -572,7 +874,7 @@ bool ProgAlgSpi::Spi_Verify(const byte *verify_data, int length, bool verbose)
     bool fail=false;
     byte *data;
     byte *tdo;
-    unsigned int wBytes=(length/8)+((length%8)?(8-(length%8)):0);
+    unsigned int wBytes=(length+7)/8;
     unsigned int bufsize=sizeof(byte)*(PageSize+4);
     unsigned int DoPages=wBytes/PageSize;
 	//unsigned int address;
@@ -588,7 +890,7 @@ bool ProgAlgSpi::Spi_Verify(const byte *verify_data, int length, bool verbose)
         // Read from mem
         memset(data, 0, bufsize);
         memset(tdo, 0, bufsize);
-		if ((FlashType==SSTFLASH) || (FlashType==MacronixFLASH))
+		if ((FlashType==SSTFLASH) || (FlashType==MacronixFLASH) || (FlashType==GENERIC))
 			Spi_SetCommandRW('\x03',data,i*PageSize);
 		else
 			Spi_SetCommandRW('\x03',data,i);
@@ -599,7 +901,7 @@ bool ProgAlgSpi::Spi_Verify(const byte *verify_data, int length, bool verbose)
             fail=true;
 			printf("Error in Verify: first byte of data [0x%02X] ..\n",tdo[4]);
 		}
-        if((i%1024)==0&&verbose)
+        if((i%256)==0&&verbose)
 			{
 				printf(".");			
 				fflush(stdout);
@@ -613,7 +915,7 @@ bool ProgAlgSpi::Spi_Verify(const byte *verify_data, int length, bool verbose)
         // Read from mem
         memset(data, 0, bufsize);
         memset(tdo, 0, bufsize);
-		if ((FlashType==SSTFLASH) || (FlashType==MacronixFLASH))
+		if ((FlashType==SSTFLASH) || (FlashType==MacronixFLASH) || (FlashType==GENERIC))
 			Spi_SetCommandRW('\x03',data,DoPages*PageSize);
 		else
 			Spi_SetCommandRW('\x03',data,DoPages);
@@ -651,8 +953,6 @@ bool ProgAlgSpi::EraseSpi()
         return false;
     byte *empty;
     int emptylen=PageSize*Pages;
-    if (FlashType==MacronixFLASH)
-	emptylen=PageSize*10000;		//Only verify the first 10000 pages, which is the size of a bit file. It takes too long to verify the whole chip.
     empty=(byte*)malloc(emptylen);
     memset(empty, 0xff, emptylen);
     res=Spi_Verify(empty, 8*emptylen, verbose);
@@ -692,23 +992,19 @@ bool ProgAlgSpi::ProgramSpi(BitFile &file, Spi_Options_t options)
         return false;
     }
 
-    if(options==FULL||options==ERASE_ONLY)
+    if(options==FULL)
     {
-        if(!Spi_Erase(verbose))
+        if(!Spi_PartialErase(file.getLength(), verbose))
             return false;
         byte *empty;
-        int emptylen=PageSize*Pages;
-	if (FlashType==MacronixFLASH)
-		emptylen=PageSize*10000;		//Only verify the first 10000 pages, which is the size of a bit file. It takes too long to verify the whole chip.
+        int emptylen=file.getLength()/8 + 1;
         empty=(byte*)malloc(emptylen);
         memset(empty, 0xff, emptylen);
-        res=Spi_Verify(empty, 8*emptylen, verbose);
+        res=Spi_Verify(empty, file.getLength(), verbose);
         free(empty);
         if(!res)
             return false;
-
     }
-
 
     if(options==FULL||options==WRITE_ONLY)
         if(!Spi_Write(file.getData(), file.getLength(), verbose))

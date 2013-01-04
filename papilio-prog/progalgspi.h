@@ -32,6 +32,7 @@ Changes:
 
 #define SSTFLASH 1
 #define MacronixFLASH 2
+#define GENERIC 3
 
 class ProgAlgSpi
 {
@@ -40,6 +41,7 @@ class ProgAlgSpi
         byte BYPASS;
         byte USER1;
         byte IDCODE;
+        unsigned int SectorSize;//in bytes
         unsigned int PageSize;//in bytes
         unsigned int Pages;//Total number of pages
         int SpiAddressShift;//how many times is the address shifted
@@ -50,6 +52,8 @@ class ProgAlgSpi
 		int tCE;// Chip Erase Time 50 ms
 		int MacronixtCE;// Macronix Chip Erase Time 50 s
 		int tBP;// Time to program a byte on SST. 10 us
+        unsigned int BulkErase; // Max time in seconds to do a chip erase
+        unsigned int SectorErase; // Max time in seconds to do a sector erase
 
         Jtag *jtag;
         IOBase *io;
@@ -62,6 +66,7 @@ class ProgAlgSpi
 		bool Spi_Write_Check(bool verbose=false);
         bool Spi_Identify(bool verbose=false);
         bool Spi_Erase(bool verbose=false);
+        bool Spi_PartialErase(int length, bool verbose=false);
         bool Spi_Write(const byte *write_data, int length, bool verbose=false);
         bool Spi_Verify(const byte *verify_data, int length, bool verbose);
         void Spi_SetCommand(const byte *command, byte *data, const int bytes);

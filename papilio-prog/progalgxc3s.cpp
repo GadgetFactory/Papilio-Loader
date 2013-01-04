@@ -48,6 +48,7 @@ ProgAlgXC3S::ProgAlgXC3S(Jtag &j, IOBase &i, int fam)
     case 0x11: /* XC3SA*/
     case 0x13: /* XC3SAN*/
     case 0x1c: /* SC3SADSP*/
+    case 0x20: /* XC6S*/
       tck_len = 16;
       array_transfer_len = 16;
       break;
@@ -131,18 +132,26 @@ void ProgAlgXC3S::flow_program_legacy(BitFile &file)
 }
 void ProgAlgXC3S::array_program(BitFile &file)
 {
+  unsigned char buf[1] = {0};
+  int i = 0;
+  
   flow_enable();
   /* JPROGAM: Trigerr reconfiguration, not explained in ug332, but
      DS099 Figure 28:  Boundary-Scan Configuration Flow Diagram (p.49) */
   jtag->shiftIR(&JPROGRAM);
 
+  do
+    jtag->shiftIR(&CFG_IN, buf);
+  while (! (buf[0] & 0x10)); /* wait until configuration cleared */
   switch(family)
     {
     case 0x11: /* XC3SA*/
     case 0x13: /* XC3SAN*/
     case 0x1c: /* SC3SADSP*/
+    case 0x20: /* XC6S*/
       {
 	byte data[8];
+	jtag->shiftIR(&ISC_ENABLE);
 	jtag->shiftIR(&ISC_DNA);
 	jtag->shiftDR(0, data, 64);
 	io->cycleTCK(1);
@@ -159,6 +168,18 @@ void ProgAlgXC3S::array_program(BitFile &file)
   flow_program_legacy(file);
   /*flow_array_program(file);*/
   flow_disable();
+
+  /* Wait until device comes up */
+  while ((( buf[0] & 0x23) != 0x21) && (i <50))
+    {
+      jtag->shiftIR(&BYPASS, buf);
+      jtag->Usleep(1000);
+      i++;
+    }
+  if (i == 50)
+    fprintf(stderr, 
+	    "Device failed to configure, INSTRUCTION_CAPTURE is 0x%02x\n",
+	    buf[0]);
 }
 void ProgAlgXC3S::Reconfigure()
 {
