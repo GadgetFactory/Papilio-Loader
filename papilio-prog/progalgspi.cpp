@@ -593,7 +593,7 @@ bool ProgAlgSpi::Spi_PartialErase(int length, bool verbose)
 				printf("Failed Erasing SST Flash.\n");
 		}			
 	}
-	else if (FlashType==MacronixFLASH)
+	/*else if (FlashType==MacronixFLASH)
   {
     // use full chip erase
 		Spi_Command((byte*)"\x06",0,7);	//Write Enable
@@ -622,9 +622,11 @@ bool ProgAlgSpi::Spi_PartialErase(int length, bool verbose)
 			else
 				printf("Failed Erasing Macronix Flash.\n");
 		}			
-	}
-	else if (FlashType==GENERIC)
+	} */
+	else if ((FlashType==MacronixFLASH) || (FlashType==GENERIC))
   {
+    printf("Doing Partial Erase\n");
+    fflush(stdout);  
     // use partial erase
     unsigned int wBytes=(length+7)/8;
     unsigned int DoPages=(wBytes+PageSize-1)/PageSize;    
