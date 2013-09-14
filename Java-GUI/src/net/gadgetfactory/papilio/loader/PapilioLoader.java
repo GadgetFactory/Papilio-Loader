@@ -60,7 +60,7 @@ import net.gadgetfactory.papilio.loader.LoaderProject.PPJProject;
 
 public class PapilioLoader extends JFrame implements ActionListener
 {
-	private static final String LOADER_NAME = "Papilio Loader 2.3";
+	private static final String LOADER_NAME = "Papilio Loader 2.5";
 	public static final String AUTO_DETECT_FPGA = "Auto-detect onboard FPGA device";
 	public static final boolean DEBUG = false;
 	public static final boolean ECHO_COMMAND = false;
@@ -1552,14 +1552,17 @@ public class PapilioLoader extends JFrame implements ActionListener
 
 			execSynchronously(scanJTAG, programmerPath, true);
 			
+			//txtOutput.append("In DetectJTAG: " + deviceID);
+			
 			if (!deviceID.isEmpty()) {
+				//txtOutput.append("In isEmpty: " + deviceID);
 				if (deviceID.equals("XC3S250E"))
 					bscanBitFile = new File(rootProgrammerPath, "bscan_spi_xc3s250e.bit");
 				else if (deviceID.equals("XC3S500E"))
 					bscanBitFile = new File(rootProgrammerPath, "bscan_spi_xc3s500e.bit");
 				else if (deviceID.equals("XC3S100E"))
 					bscanBitFile = new File(rootProgrammerPath, "bscan_spi_xc3s100e.bit");
-				else if (deviceID.equals("XC6SLX9"))
+				else if (deviceID.equals("XC6SLX9")) 
 					bscanBitFile = new File(rootProgrammerPath, "bscan_spi_xc6slx9.bit");
 				else if (deviceID.equals("XC6SLX4"))
 					bscanBitFile = new File(rootProgrammerPath, "bscan_spi_xc6slx4.bit");
@@ -1588,7 +1591,7 @@ public class PapilioLoader extends JFrame implements ActionListener
 		private void BurnToSPIFlash()
 		{
 	    	bscanSPIBitFile = DetectJTAGchain();
-			
+						
 			if (bscanSPIBitFile != null)
 			{
 				String[] commandLine = {q_papilio_prog_exe, "-v", 
@@ -1604,6 +1607,7 @@ public class PapilioLoader extends JFrame implements ActionListener
 		private void BurnToSPIFlashOnly()
 		{
 	    	bscanSPIBitFile = DetectJTAGchain();
+			//txtOutput.append("In SPI Flash Burn: " + bscanSPIBitFile);
 			
 			if (bscanSPIBitFile != null)
 			{
@@ -1728,7 +1732,8 @@ public class PapilioLoader extends JFrame implements ActionListener
 			if ((lookforDesc) && (deviceID.isEmpty())) {
 				int pos = stdline.lastIndexOf("Desc: ");
 				if (pos != -1) {
-					deviceID = stdline.substring(pos + "Desc: ".length(), stdline.length() - 1);
+					deviceID = stdline.substring(pos + "Desc: ".length(), stdline.length() - 2);
+					//txtOutput.setText(deviceID + "\n");
 				}
 			}
 		}

@@ -1,8 +1,8 @@
 <launch4jConfig>
-  <dontWrapJar>false</dontWrapJar>
+  <dontWrapJar>true</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>D:\Projects\GadgetFactory\Java\Papilio Loader\papilio-loader\papilio-loader.jar</jar>
-  <outfile>D:\Projects\GadgetFactory\Java\Papilio Loader\papilio-loader\papilio-loader.exe</outfile>
+  <jar>papilio-loader.jar</jar>
+  <outfile>papilio-loader.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>
@@ -12,13 +12,13 @@
   <customProcName>false</customProcName>
   <stayAlive>false</stayAlive>
   <manifest></manifest>
-  <icon>D:\Projects\GadgetFactory\Java\Papilio Loader\papilio-loader\applo1.ico</icon>
+  <icon>applo1.ico</icon>
   <singleInstance>
     <mutexName>PapilioLoader</mutexName>
     <windowTitle></windowTitle>
   </singleInstance>
   <jre>
-    <path></path>
+    <path>java</path>
     <minVersion>1.6.0</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>

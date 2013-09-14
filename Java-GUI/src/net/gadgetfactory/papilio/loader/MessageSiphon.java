@@ -60,9 +60,10 @@ public class MessageSiphon implements Runnable
 			// when the program is finally done, null will come through.
 			//
 			String currentLine;
+			String eol = System.getProperty("line.separator");
 			while ((currentLine = buffReader.readLine()) != null) {
 				if (consumer != null)
-					consumer.DeliverMessage(currentLine);
+					consumer.DeliverMessage(currentLine + eol);
 			}
 			// EditorConsole.systemOut.println("messaging thread done");
 		}
