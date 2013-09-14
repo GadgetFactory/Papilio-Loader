@@ -16,14 +16,15 @@ case "$return_value" in
 	"1")
 	
 		echo "Programming the FPGA"
-		./papilio-prog -v -f "$1" -v
+		echo $1
+		linbin/papilio-prog -v -f $1 -v
 		return_value=$?
 		;;	
 	"2")
 		echo "Programming to SPI Flash"
 		# Find device id and choose appropriate bscan bit file
 	
-		device_id=`./papilio-prog -j | awk '{print $9}'`
+		device_id=`linbin/papilio-prog -j | awk '{print $9}'`
 		return_value=$?
 		
 		case $device_id in
@@ -44,9 +45,9 @@ case "$return_value" in
 				;;
 		esac
 
-		./papilio-prog -v -f "$1" -b $bscan_bitfile -sa -r
+		linbin/papilio-prog -v -f "$1" -b $bscan_bitfile -sa -r
 		#Cause the Papilio to restart
-		./papilio-prog -c
+		linbin/papilio-prog -c
 		return_value=$?
 		;;
 	"3")
@@ -58,7 +59,8 @@ case "$return_value" in
 		;;
 	*)
 		echo "Programming the FPGA - Default"
-		./papilio-prog -v -f "$1" -v
+		echo $1
+		linbin/papilio-prog -v -f $1 -v
 		return_value=$?
 		;;
 		#exit 1
@@ -66,6 +68,6 @@ esac
 		
 if [ $return_value == 1 ] #If programming failed then show error.
 then
-	./dialog --timeout 5 --msgbox "The bit file failed to program to the Papilio, please check that the Papilio is plugged into a USB port." 15 55
+	linbin/dialog --timeout 5 --msgbox "The bit file failed to program to the Papilio, please check that the Papilio is plugged into a USB port." 15 55
 	read -n1 -r -p "Press any key to continue..." key
 fi

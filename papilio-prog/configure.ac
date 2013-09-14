@@ -14,9 +14,9 @@ if test -n "$host_alias" ; then
 	AC_DEFINE([WINDOWS], 1, [Cross-compiling for windows])
 	LIBS="$LIBS -L. -lftd2xx"
 else
-	PKG_CHECK_MODULES([libftdi], [libftdi >= 0.16],
-		[CPPFLAGS="$CPPFLAGS $libftdi_CFLAGS";
-		LIBS="$LIBS $libftdi_LIBS"])
+	PKG_CHECK_MODULES([libftdi1], [libftdi1 >= 1],
+		[CPPFLAGS="$CPPFLAGS $libftdi1_CFLAGS";
+		LIBS="$LIBS $libftdi1_LIBS"])
 fi
 
 AC_CONFIG_FILES([Makefile])
