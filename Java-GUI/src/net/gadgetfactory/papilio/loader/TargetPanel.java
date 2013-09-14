@@ -164,7 +164,7 @@ public class TargetPanel extends JPanel implements ActionListener, FocusListener
  *		takes to start up and the more memory it will take. As an application developer 
  *		you have to balance this with other design constraints you may have. 
  *		We are not suggesting you turn your application into a single monolithic class in 
- *		hopes of cutting down startup time and memory footprint — this would lead to 
+ *		hopes of cutting down startup time and memory footprint this would lead to 
  *		unnecessary headaches and maintenance burdens. 
  *	------------------------------------------------------------------------------------ */
 
