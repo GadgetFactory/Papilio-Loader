@@ -1552,7 +1552,7 @@ public class PapilioLoader extends JFrame implements ActionListener
 
 			execSynchronously(scanJTAG, programmerPath, true);
 			
-			//txtOutput.append("In DetectJTAG: " + deviceID);
+			txtOutput.append("In DetectJTAG: " + deviceID);
 			
 			if (!deviceID.isEmpty()) {
 				//txtOutput.append("In isEmpty: " + deviceID);
@@ -1732,8 +1732,10 @@ public class PapilioLoader extends JFrame implements ActionListener
 			if ((lookforDesc) && (deviceID.isEmpty())) {
 				int pos = stdline.lastIndexOf("Desc: ");
 				if (pos != -1) {
-					deviceID = stdline.substring(pos + "Desc: ".length(), stdline.length() - 2);
-					//txtOutput.setText(deviceID + "\n");
+					if (runningonWindows)
+						deviceID = stdline.substring(pos + "Desc: ".length(), stdline.length() - 2);
+					else
+						deviceID = stdline.substring(pos + "Desc: ".length(), stdline.length() - 1);
 				}
 			}
 		}
