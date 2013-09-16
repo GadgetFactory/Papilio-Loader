@@ -1,5 +1,5 @@
 To prepare an ubuntu system to compile the application:
-sudo apt-get install git autogen automake g++ libftdi-dev
+	sudo apt-get install git autogen automake g++ libftdi-dev
 
 To bootstrap the build system:
 
