@@ -1552,7 +1552,7 @@ public class PapilioLoader extends JFrame implements ActionListener
 
 			execSynchronously(scanJTAG, programmerPath, true);
 			
-			txtOutput.append("In DetectJTAG: " + deviceID);
+			//txtOutput.append("In DetectJTAG: " + deviceID);
 			
 			if (!deviceID.isEmpty()) {
 				//txtOutput.append("In isEmpty: " + deviceID);
