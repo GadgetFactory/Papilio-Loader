@@ -1,4 +1,5 @@
 #!/bin/sh
+# Be sure there is a Java installed. For ubuntu do a "sudo apt-get install default-jdk"
 cd Java-GUI
 sudo ./build.sh
 sudo mkdir -p /opt/GadgetFactory/papilio-loader/
