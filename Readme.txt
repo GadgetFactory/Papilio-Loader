@@ -16,6 +16,7 @@ Directories:
 CHANGELOG
 9/13/2013 Version 2.5
 	Fixed error with Java-GUI not detecting line endings in JTextBox. Everything compiles and works on Windows and Linux now.
+	Added Linux installer script.
 
 1/4/2012  Version 2.4
 	Fixes from MagnusK
