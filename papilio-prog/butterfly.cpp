@@ -278,7 +278,7 @@ int main(int argc, char **argv)
     }
     catch(io_exception& e)
     {
-        fprintf(stderr, "Could not access USB device %04x:%04x.\n",vendor, product);
+        fprintf(stderr, "Could not access USB device %04x:%04x. If this is linux then use sudo.\n",vendor, product);
         return 1;
     }
 
