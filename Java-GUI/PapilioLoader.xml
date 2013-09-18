@@ -12,7 +12,7 @@
   <customProcName>false</customProcName>
   <stayAlive>false</stayAlive>
   <manifest></manifest>
-  <icon>applo1.ico</icon>
+  <icon>logo.ico</icon>
   <singleInstance>
     <mutexName>PapilioLoader</mutexName>
     <windowTitle></windowTitle>
@@ -21,6 +21,6 @@
     <path>java</path>
     <minVersion>1.6.0</minVersion>
     <maxVersion></maxVersion>
-    <jdkPreference>preferJre</jdkPreference>
+    <jdkPreference>jreOnly</jdkPreference>
   </jre>
 </launch4jConfig>
