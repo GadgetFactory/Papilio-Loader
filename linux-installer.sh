@@ -1,5 +1,6 @@
 #!/bin/sh
-# Be sure there is a Java installed. For ubuntu do a "sudo apt-get install default-jdk"
+echo Be sure there is a Java installed. For ubuntu do a "sudo apt-get install default-jdk"
+echo Be sure libftdi is installed. For ubuntu do a "sudo apt-get install libftdi-dev"
 cd Java-GUI
 sudo ./build.sh
 sudo mkdir -p /opt/GadgetFactory/papilio-loader/
