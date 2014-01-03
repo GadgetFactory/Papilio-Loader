@@ -75,7 +75,7 @@ InstallPassword
 {}
 
 InstallVersion
-{2.5.1.0}
+{2.6.0.0}
 
 Language,ca
 {Yes}
@@ -183,7 +183,7 @@ UpgradeApplicationID
 {}
 
 Version
-{2.5.1}
+{2.6}
 
 WizardHeight
 {365}
@@ -997,6 +997,9 @@ File ::FA467BF2-E223-4225-86CB-5EC7FF0FB2FF -name PST8 -parent 9E5E3AE1-2740-4CD
 File ::03989706-FDB5-42A6-8840-A817466C0127 -name PST8PDT -parent 9E5E3AE1-2740-4CD7-A843-D24D6939EBD0
 File ::C4A86C0E-5DBF-4689-863C-FCF254B2A132 -name YST9 -parent 9E5E3AE1-2740-4CD7-A843-D24D6939EBD0
 File ::537D93DC-1D0E-4826-9C23-070A7BA2A27C -name YST9YDT -parent 9E5E3AE1-2740-4CD7-A843-D24D6939EBD0
+File ::957C27D9-C3CC-4DD1-9C7E-2827F3B54146 -name Butterfly-3.ico -parent 3EBC81F6-1988-4668-BA2C-C0D4AE48BD55
+File ::E2AA7F01-6FA1-409B-B572-C9985FCA6456 -name favicon-black2.ico -parent 3EBC81F6-1988-4668-BA2C-C0D4AE48BD55
+File ::B87F8CE0-D8A9-4051-911A-628597A9A129 -name logo-old.ico -parent 3EBC81F6-1988-4668-BA2C-C0D4AE48BD55
 FileGroup ::D14F20BD-593E-4286-B63B-B60266A64F57 -setup Install -active Yes -platforms Windows -name {Papilio Loader Scripts} -parent FileGroups
 File ::71AF9413-C490-4309-88B2-19AAF59F0BE3 -type dir -directory <%InstallDir%>/scripts -name C:/Users/killian/Dropbox/GadgetFactory/GadgetFactory_Engineering/Papilio-Loader/Helper_App -location ../Helper_App -parent D14F20BD-593E-4286-B63B-B60266A64F57
 File ::3131575A-AA6E-41EE-A14E-1167671427DA -name changelog.txt -parent 71AF9413-C490-4309-88B2-19AAF59F0BE3
@@ -2148,7 +2151,7 @@ array set Properties {
 {110}
 
 1B5DE802-1026-41BE-9A37-D61105F8AB1D,Command
-{"<%InstallDir%>\papilio-loader.exe" "%1"}
+{"<%InstallDir%>\papilio-loader.exe" "%1" -s}
 
 1B5DE802-1026-41BE-9A37-D61105F8AB1D,CommandName
 {Open}
@@ -2592,7 +2595,7 @@ array set Properties {
 {#ffffffffffff}
 
 5C29FF3E-8BED-4ECE-B61F-ED38DB23B51B,Checked
-{No}
+{Yes}
 
 5C29FF3E-8BED-4ECE-B61F-ED38DB23B51B,Conditions
 {0 conditions}
@@ -3021,7 +3024,7 @@ ADDE8DE3-F9FE-4CAB-AABA-1B6092433EA9,FileType
 {Papilio Bit File}
 
 ADDE8DE3-F9FE-4CAB-AABA-1B6092433EA9,IconPath
-{<%InstallDir%>/../Papilio Loader\bin\papilio.ico}
+{<%InstallDir%>/Butterfly-3.ico}
 
 ADDE8DE3-F9FE-4CAB-AABA-1B6092433EA9,Title
 {Papilio Bit File}
@@ -3135,7 +3138,7 @@ B43B2C47-ABB6-4073-B2F0-345EF8183AC3,Destination
 {<%InstallDir%>}
 
 B43B2C47-ABB6-4073-B2F0-345EF8183AC3,FileSize
-{119793834}
+{120540007}
 
 B43B2C47-ABB6-4073-B2F0-345EF8183AC3,Name
 {Program Files}
@@ -3150,7 +3153,7 @@ B9F4B804-379A-4468-9B6D-EF0F35CCDBA4,FileType
 {Papilio Loader bitstream}
 
 B9F4B804-379A-4468-9B6D-EF0F35CCDBA4,IconPath
-{<%InstallDir%>\papilio-loader.exe}
+{<%InstallDir%>/Butterfly-3.ico}
 
 B9F4B804-379A-4468-9B6D-EF0F35CCDBA4,Title
 {Papilio Loader bitstream}
@@ -3390,7 +3393,7 @@ D6773869-697B-44E0-8C9E-EE39FE506B50,Background
 {#ffffffffffff}
 
 D6773869-697B-44E0-8C9E-EE39FE506B50,Checked
-{Yes}
+{No}
 
 D6773869-697B-44E0-8C9E-EE39FE506B50,Conditions
 {0 conditions}

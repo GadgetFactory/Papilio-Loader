@@ -1,4 +1,4 @@
-Papilio Loader - Current Version 2.5
+Papilio Loader - Current Version 2.6
 
 The Papilio Loader is a branch of xc3sprog (http://sourceforge.net/projects/xc3sprog/) that is used to load bit files to the Open Source Papilio FPGA boards (http://papilio.cc) made by Gadget Factory (http://www.gadgetfactory.net).
 
@@ -14,6 +14,12 @@ Directories:
 	
 
 CHANGELOG
+1/2/2014 Version 2.6
+	Papilio GUI
+		-Changed the default behavior to write to SPI flash.
+		-Fixed problem with not doing an erase, verify, program, verify cycle.
+		-Removed old board types.
+
 9/13/2013 Version 2.5
 	Fixed error with Java-GUI not detecting line endings in JTextBox. Everything compiles and works on Windows and Linux now.
 	Added Linux installer script.

@@ -60,7 +60,7 @@ import net.gadgetfactory.papilio.loader.LoaderProject.PPJProject;
 
 public class PapilioLoader extends JFrame implements ActionListener
 {
-	private static final String LOADER_NAME = "Papilio Loader 2.5";
+	private static final String LOADER_NAME = "Papilio Loader 2.6";
 	public static final String AUTO_DETECT_FPGA = "Auto-detect onboard FPGA device";
 	public static final boolean DEBUG = false;
 	public static final boolean ECHO_COMMAND = false;
@@ -75,7 +75,7 @@ public class PapilioLoader extends JFrame implements ActionListener
 	public static final boolean runningonWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
 	private static final File AppPath = new File(System.getProperty("java.class.path")).getParentFile();
 	// GIRISH: What should default operation(s) be for each mode?
-	private static final LastOperations DEFAULT_SIMPLE_OPERATION = LastOperations.WRITE_TO_FPGA;
+	private static final LastOperations DEFAULT_SIMPLE_OPERATION = LastOperations.WRITE_TO_SPI_FLASH;
 	private static final LastOperations DEFAULT_EXPERT_OPERATION = LastOperations.SCAN;
 	
 	public enum UserModes {Simple, Expert};
@@ -1432,7 +1432,7 @@ public class PapilioLoader extends JFrame implements ActionListener
 					break;
 				case SPI_FLASH:
 					if (!verifySelected && !eraseSelected)
-						BurnToSPIFlashOnly();
+						BurnToSPIFlash();
 					else
 						BurnToSPIFlash();
 					break;
@@ -1614,7 +1614,7 @@ public class PapilioLoader extends JFrame implements ActionListener
 				String[] commandLine = {q_papilio_prog_exe, "-v", 
 										"-f", HelperFunctions.CanonicalPath(finalBitFile), 
 										"-b", HelperFunctions.CanonicalPath(bscanSPIBitFile), 
-										"-sp", "-r"};
+										"-sa", "-r"};
 				execSynchronously(commandLine, programmerPath, false);
 
 				execSynchronously(new String[] {q_papilio_prog_exe, "-c"}, programmerPath, false);

@@ -64,9 +64,7 @@ public class TargetPanel extends JPanel implements ActionListener, FocusListener
 			new FileNameExtensionFilter("Hex files", "hex")};
 
 	private String[] targetBoards = 
-			{AUTO_DETECT_FPGA, 
-			 "ButterflyOne v2.02", "PapilioOne v2.03", "PapilioOne v2.04-250k", 
-			 "PapilioOne v2.04-500k", "PapilioOne v2.50-250k", "PapilioOne v2.50-500k"};
+			{AUTO_DETECT_FPGA};
 	private final String[] labelCaptions = {"Target board:", 
 	  				"Target .bit file:", "Target .bmm file:", "Program .hex file:"};
 	private final String[] buttonTexts = {"Info", "Select...", "Select...", "Select..."};

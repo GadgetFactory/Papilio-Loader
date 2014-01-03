@@ -12,11 +12,7 @@
   <customProcName>false</customProcName>
   <stayAlive>false</stayAlive>
   <manifest></manifest>
-  <icon>logo.ico</icon>
-  <singleInstance>
-    <mutexName>PapilioLoader</mutexName>
-    <windowTitle></windowTitle>
-  </singleInstance>
+  <icon>Butterfly-3.ico</icon>
   <jre>
     <path>java</path>
     <minVersion>1.6.0</minVersion>
