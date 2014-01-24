@@ -38,6 +38,13 @@ Changes:
 #include "progalgspi.h"
 
 
+// Sockets
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <errno.h>
+
 
 ProgAlgSpi::ProgAlgSpi(Jtag &j, IOBase &i, int fam)
 {
@@ -937,6 +944,203 @@ bool ProgAlgSpi::Spi_Verify(const byte *verify_data, int length, bool verbose)
 
     return !fail;
 }
+
+bool ProgAlgSpi::passthrough()
+{
+	//sockets variables
+	int sock, connected, bytes_recieved, count;
+	int sampleLow, sampleHigh, sampleSize;
+	int strue = 1;  
+	byte send_data [1024] , recv_data[1024];
+
+	struct sockaddr_in server_addr,client_addr;    
+	int sin_size;	
+
+	// Switch to USER1 register, to access SPI FLash..
+	jtag->shiftIR(&USER1,0);			
+	
+	
+	printf("Passthrough Mode.\n");
+	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+		perror("Socket");
+		exit(1);
+	}
+
+	if (setsockopt(sock,SOL_SOCKET,SO_REUSEADDR,&strue,sizeof(int)) == -1) {
+		perror("Setsockopt");
+		exit(1);
+	}
+	
+	server_addr.sin_family = AF_INET;         
+	server_addr.sin_port = htons(5000);     
+	server_addr.sin_addr.s_addr = INADDR_ANY; 
+	bzero(&(server_addr.sin_zero),8); 
+
+	if (bind(sock, (struct sockaddr *)&server_addr, sizeof(struct sockaddr))
+																   == -1) {
+		perror("Unable to bind");
+		exit(1);
+	}
+
+	if (listen(sock, 5) == -1) {
+		perror("Listen");
+		exit(1);
+	}
+	
+printf("TCPServer Waiting for client on port 5000");
+	fflush(stdout);
+
+		sin_size = sizeof(struct sockaddr_in);
+
+		connected = accept(sock, (struct sockaddr *)&client_addr,&sin_size);
+
+		printf("\n I got a connection from (%s , %d)",
+			   inet_ntoa(client_addr.sin_addr),ntohs(client_addr.sin_port));
+		fflush(stdout);
+		
+		byte tdo[1024];
+		int result, i, longCommand=0, commandCount=0, txReady=0;
+		const char cmd_id[4]={49,65,76,83};
+		const byte cmd_start[4]={1,1,1,1};
+		
+		const byte configCommands[43]={0x0,0x0,0x0,0x0,0x0,0x02,0x06,0x06,0x06,0x06,0x80,0x0,0x0,0x0,0x0,0xc0,0x0,0x0,0x0,0x0,0xc1,0x0,0x0,0x0,0x0,0xc2,0x0,0x0,0x0,0x8,0x81,0xff,0x0,0x0,0x1,0x82,0x38,0x0,0x0,0x0,0x1,0x1,0x1};
+		
+		byte *empty;
+		int emptylen=1;
+		empty=(byte*)malloc(emptylen);
+		memset(empty, 0x06, emptylen);	
+
+		byte *resets;
+		int resetLen=10;
+		resets=(byte*)malloc(resetLen);
+		memset(resets, 0x00, resetLen);	
+
+		byte *starts;
+		int startLen=10;
+		starts=(byte*)malloc(startLen);
+		memset(starts, 0x01, startLen);	
+		
+		while (1)
+		{
+			//Capture a byte from the socket
+			bytes_recieved = recv(connected,recv_data,1,0);
+			//Send the byte from the socket out the JTAG-SPI port
+			Spi_Command((byte*)recv_data,tdo,8);
+			//Print the byte from the socket on the console
+			printf("\nByte received from OLS Client: ");
+			printf(" %x " , recv_data[0]);
+			fflush(stdout);
+
+			//Check to see if we have a long command
+			if ((recv_data[0] >= 0x80) && (!longCommand)) {
+				longCommand = 1;
+				commandCount = 0;
+			}
+		
+			if (recv_data[0] == 0x81)
+			{
+				printf("\nRead Count");
+				fflush(stdout);
+				bytes_recieved = recv(connected,recv_data,1,0);
+				Spi_Command((byte*)recv_data,tdo,8);
+				commandCount++;
+				sampleLow = recv_data[0];
+				printf("\n Sample Low is: %x", sampleLow);
+				bytes_recieved = recv(connected,recv_data,1,0);
+				Spi_Command((byte*)recv_data,tdo,8);
+				commandCount++;
+				sampleHigh = recv_data[0];
+				printf("\n Sample High is: %x", sampleHigh);
+				sampleSize = ((sampleHigh*0x100+sampleLow)+1)*4;
+				printf("\n Sample Size is: %i", sampleSize);
+			}		
+		
+			if ((recv_data[0] == 0x82) && (!longCommand))
+					usleep(50);
+		
+			//If OLS client sends an ID command then read 4 bytes from JTAG-SPI and return on the socket
+			if ((recv_data[0] == 0x02) && (!longCommand))  {
+				printf("\nID Command");
+				fflush(stdout);
+
+				//send(connected, cmd_id,4, 0);
+				//Read back id
+				for (int i=0; i<5; i++) 
+				{
+					Spi_Command(empty,tdo,8);
+					printf(" %x " , tdo[0]);
+					fflush(stdout);
+					if (i>0)
+						result = send(connected, tdo,1, 0);
+				}	
+				usleep(50);
+			}
+				
+			if ((recv_data[0] == 0x01) && (!longCommand)) {
+				printf("\nStart Capture");
+				fflush(stdout);
+				
+				//Sleep while the LA captures data
+				sleep(1);
+				
+				//Read back data
+				int maxReads = (sampleSize/emptylen)*5;
+				int spiReads = 0;
+				int goodBytes = 0;
+				while(1)
+				{
+					if (spiReads >= maxReads) {
+						printf("Taking too long, aborting.");
+						//send out 0's to the client before exiting
+						byte *zeroes;
+						zeroes=(byte*)malloc((sampleSize-goodBytes));
+						memset(zeroes, 0x00, (sampleSize-goodBytes));						
+						send(connected, zeroes,(sampleSize-goodBytes), 0);
+						free(zeroes);
+						break;
+					}
+					if (goodBytes >= sampleSize)
+						break;
+					Spi_Command(empty,tdo,8*emptylen);
+					spiReads++;
+					//process the buffer read from SPI
+					for (int i = 0; i<emptylen; i++) {
+						 // printf(" %x " , tdo[i]);
+						 // fflush(stdout);						
+						if (txReady == 1) {
+							send(connected, &tdo[i],1, 0);
+							txReady = 0;
+							goodBytes++;
+						}
+						if (tdo[i] == 0xaa)
+							txReady = 1;
+					}
+				}					
+				printf("\nEnd Capture");
+				fflush(stdout);					
+				break;
+			}
+
+			if (longCommand) {
+				if (commandCount < 4) {
+					commandCount++;
+				}
+				else{
+					commandCount = 0;
+					longCommand = 0;
+					printf("Done with long command");
+				}
+			}			
+			
+		}
+	printf("\nClosing socket\n\n");
+	close(sock);
+	free(empty);
+	free(resets);
+	free(starts);  
+	return true;
+}
+  
 
 bool ProgAlgSpi::EraseSpi()
 {

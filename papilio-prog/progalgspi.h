@@ -82,6 +82,7 @@ class ProgAlgSpi
         ProgAlgSpi(Jtag &j, IOBase &i, int family);
         bool ProgramSpi(BitFile &file, Spi_Options_t options);
         bool EraseSpi();
+		bool passthrough();
 };
 
 

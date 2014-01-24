@@ -101,6 +101,7 @@ void usage(char *name)
       "   -c\t\t\tDisplay current status of FPGA\n"
       "   -C\t\t\tDisplay STAT Register of FPGA\n"
       "   -r\t\t\tTrigger a reconfiguration of FPGA\n"
+	  "   -p\t\t\tJTAG passthrough mode\n"
       "   -a <addr>:<binfile>\tAppend binary file at addr (in hex)\n"
       "   -A <addr>:<binfile>\tAppend binary file at addr, bit reversed\n",name);
     exit(-1);
@@ -148,6 +149,7 @@ int main(int argc, char **argv)
     bool verbose = false;
     bool spiflash = false;
     bool reconfigure = false;
+	bool passthrough = false;
     bool detectchain = false;
     int displaystatus = 0; // 0=no status, 1=JTAG IR data, 2=STAT Register readback
     bool result;
@@ -166,12 +168,15 @@ int main(int argc, char **argv)
     std::auto_ptr<IOBase>  io;
 
 
-    while ((c = getopt (argc, argv, "hd:b:f:s:A:a:jvcCr")) != EOF)
+    while ((c = getopt (argc, argv, "hd:b:f:s:A:a:jvcCrp")) != EOF)
         switch (c)
         {
         case 'r':
             reconfigure=true;
             break;
+        case 'p':
+            passthrough=true;
+            break;			
         case 'C':
             displaystatus=2;
             break;
@@ -256,7 +261,7 @@ int main(int argc, char **argv)
         }
 
     }
-    else if( !cFpga_fn && !displaystatus && !detectchain && !reconfigure)
+    else if( !cFpga_fn && !displaystatus && !detectchain && !reconfigure && !passthrough)
     {
         //no option specified
         printf("No or ambiguous options specified.\n");
@@ -348,6 +353,13 @@ int main(int argc, char **argv)
                 alg.Reconfigure();
                 return 0;
             }
+            if(passthrough)
+            {
+				ProgAlgSpi alg1(jtag,io.operator*(), 0);
+				while (1)
+					result=alg1.passthrough();
+				return 0;
+            }			
             BitFile fpga_bit;
             fpga_bit.readFile(cFpga_fn);
 
