@@ -1006,7 +1006,7 @@ printf("TCPServer Waiting for client on port 5000");
 		const byte configCommands[43]={0x0,0x0,0x0,0x0,0x0,0x02,0x06,0x06,0x06,0x06,0x80,0x0,0x0,0x0,0x0,0xc0,0x0,0x0,0x0,0x0,0xc1,0x0,0x0,0x0,0x0,0xc2,0x0,0x0,0x0,0x8,0x81,0xff,0x0,0x0,0x1,0x82,0x38,0x0,0x0,0x0,0x1,0x1,0x1};
 		
 		byte *empty;
-		int emptylen=1;
+		int emptylen=1024;
 		empty=(byte*)malloc(emptylen);
 		memset(empty, 0x06, emptylen);	
 
@@ -1081,7 +1081,7 @@ printf("TCPServer Waiting for client on port 5000");
 				fflush(stdout);
 				
 				//Sleep while the LA captures data
-				sleep(1);
+				//sleep(1);
 				
 				//Read back data
 				int maxReads = (sampleSize/emptylen)*5;
@@ -1090,7 +1090,7 @@ printf("TCPServer Waiting for client on port 5000");
 				while(1)
 				{
 					if (spiReads >= maxReads) {
-						printf("Taking too long, aborting.");
+						printf("\nTaking too long, aborting and just sending zeroes.");
 						//send out 0's to the client before exiting
 						byte *zeroes;
 						zeroes=(byte*)malloc((sampleSize-goodBytes));
@@ -1103,7 +1103,7 @@ printf("TCPServer Waiting for client on port 5000");
 						break;
 					Spi_Command(empty,tdo,8*emptylen);
 					spiReads++;
-					//process the buffer read from SPI
+					//process the buffer read from SPI an 0xaa signals that the SPI slave is ready with a good data byte.
 					for (int i = 0; i<emptylen; i++) {
 						 // printf(" %x " , tdo[i]);
 						 // fflush(stdout);						
@@ -1112,7 +1112,7 @@ printf("TCPServer Waiting for client on port 5000");
 							txReady = 0;
 							goodBytes++;
 						}
-						if (tdo[i] == 0xaa)
+						else if (tdo[i] == 0xaa)
 							txReady = 1;
 					}
 				}					
