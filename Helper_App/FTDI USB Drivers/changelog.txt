@@ -1,0 +1,8 @@
+9/15/2014 Jack Gassett
+	-Added support for Papilio DUO
+	-Upgraded to FTDI CDM v2.10.00 driver
+	-Added a modified Arduino Leonardo inf file for Papilio DUO.
+
+2/7/2012 Jack Gassett
+	Commented the following line from ftdiport.inf in order to prevent Serial Enumeration from happening. This was causing the Papilio to show up as a mouse occasionally.
+	;HKR,,"UpperFilters",0x00010000,"serenum"
