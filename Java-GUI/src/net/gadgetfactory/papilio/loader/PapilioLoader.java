@@ -393,8 +393,8 @@ public class PapilioLoader extends JFrame implements ActionListener
 			}
 			this.setTitle(LOADER_NAME + currProject.getProjectTitle() );
 		}
-	    
 	    pnlTarget.setTargetBoard(targetBoard);
+	    this.setTitle(LOADER_NAME);
 	}
 
 	private void CleanupAndExit()
