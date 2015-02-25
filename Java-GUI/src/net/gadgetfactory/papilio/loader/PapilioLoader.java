@@ -106,7 +106,8 @@ public class PapilioLoader extends JFrame implements ActionListener
 	private boolean unloadAfterBurn = false;
 	
 	private Properties settings;
-	private boolean bSimpleMode;
+	private boolean bSimpleMode = true;
+	private int targetBoard;
 
 
 	
@@ -230,8 +231,10 @@ public class PapilioLoader extends JFrame implements ActionListener
 
 		ReadSettings();
 		
-		//this.setIconImage(Toolkit.getDefaultToolkit().createImage(ICON_IMAGE));
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("papilio_48.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().createImage(ICON_IMAGE));
+		File icon = new File(AppPath, "papilio_48.png");
+		if (icon.exists())
+			this.setIconImage(Toolkit.getDefaultToolkit().getImage(icon.toString()));
 		this.setJMenuBar(CreateMenuBar());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter() {
@@ -390,6 +393,8 @@ public class PapilioLoader extends JFrame implements ActionListener
 			}
 			this.setTitle(LOADER_NAME + currProject.getProjectTitle() );
 		}
+	    
+	    pnlTarget.setTargetBoard(targetBoard);
 	}
 
 	private void CleanupAndExit()
@@ -1116,6 +1121,7 @@ public class PapilioLoader extends JFrame implements ActionListener
 		defaultSettings.setProperty("WindowY", "80");
 		defaultSettings.setProperty("WindowWidth", "450");
 		defaultSettings.setProperty("WindowHeight", "400");
+		defaultSettings.setProperty("TargetBoard", "0");
 
 		settings = new Properties(defaultSettings);
 
@@ -1149,6 +1155,9 @@ public class PapilioLoader extends JFrame implements ActionListener
 		}
 
 		bSimpleMode = settings.getProperty("UserMode").equalsIgnoreCase(UserModes.Simple.toString());
+		targetBoard = Integer.parseInt(settings.getProperty("TargetBoard"));
+		//pnlTarget.setTargetBoard(targetBoard);
+		
 
 	}
 	
@@ -1221,6 +1230,8 @@ public class PapilioLoader extends JFrame implements ActionListener
 		settings.setProperty("WindowY", "" + this.getY());
 		settings.setProperty("WindowWidth", "" + this.getWidth());
 		settings.setProperty("WindowHeight", "" + this.getHeight());
+		
+		settings.setProperty("TargetBoard", pnlTarget.getTargetBoard());
 
 		pnlTarget.StoreLastFiles(settings);
 		if (bSimpleMode)

@@ -94,6 +94,14 @@ public class TargetPanel extends JPanel implements ActionListener, FocusListener
 		}
 	}
 
+	public String getTargetBoard() {
+		return Integer.toString(cboBoards.getSelectedIndex());
+	}
+	
+	public void setTargetBoard(int board) {
+		cboBoards.setSelectedIndex(board);
+	}	
+	
 	public void setBitFile(String bit_file) {
 		txtQBitFile.setText(bit_file);
 	}
