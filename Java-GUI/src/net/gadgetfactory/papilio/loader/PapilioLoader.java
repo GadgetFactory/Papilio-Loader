@@ -1467,7 +1467,7 @@ public class PapilioLoader extends JFrame implements ActionListener
 					BurnToFPGA();
 					break;
 				case SPI_FLASH:
-					if (!verifySelected && !eraseSelected)
+					if (!verifySelected && !eraseSelected && !bSimpleMode)
 						BurnToSPIFlashOnly();
 					else
 						BurnToSPIFlash();
