@@ -1440,14 +1440,14 @@ public class PapilioLoader extends JFrame implements ActionListener
 		    // => [Scan] is always implied.
 		    // => [Erase] and [Verify], if selected, are applicable in the context of [Write to].
 		    {
-		    	if (eraseSelected){
-		    		bscanSPIBitFile = DetectJTAGchain();
-		    		if (bscanSPIBitFile != null) {
-		    			EraseSPIFlash();	// Erase also does verification
-		    		}
-		    		btnProceed.setEnabled(true);
-		    		return;
-		    	}
+//		    	if (eraseSelected){
+//		    		bscanSPIBitFile = DetectJTAGchain();
+//		    		if (bscanSPIBitFile != null) {
+//		    			EraseSPIFlash();	// Erase also does verification
+//		    		}
+//		    		btnProceed.setEnabled(true);
+//		    		return;
+//		    	}
 			    if (!mergeSelected)
 		    	// => The file specified in "Target .bit file:" text box is the final .bit
 			    //	  file to be burned, i.e. the result of .bit + .bmm + .hex merging. 
