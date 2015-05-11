@@ -155,7 +155,7 @@ int main(int argc, char **argv)
     char const *serial = 0;
     int subtype = FTDI_NO_EN;
     char *devicedb = NULL;
-    char c;
+    int c;
     char *cFpga_fn=0;
     char *cBscan_fn=0;
     char *append_str = 0;
