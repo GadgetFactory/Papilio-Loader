@@ -1,7 +1,7 @@
-GCC           = g++ -I.
+GCC           = g++
 DEFINES       = -DWINDOWS=1
 CPPFLAGS      = -g -Wall -O2
-INCPATH       = 
+INCPATH       = -I.
 LINK          = g++ -static
 LFLAGS        = -g -O2
 LIBS          = -L. -lftd2xx

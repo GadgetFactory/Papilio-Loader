@@ -304,7 +304,7 @@ int main(int argc, char **argv)
 
     id = get_id (jtag, db, chainpos, true);
     if (id == 0)
-      return 0;
+      return 1;
     family = (id>>21) & 0x7f;
     manufacturer = (id>>1) & 0x3ff;
     if(detectchain)
