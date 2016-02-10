@@ -303,6 +303,8 @@ int main(int argc, char **argv)
     fprintf(stderr, "Using %s\n", db.getFile().c_str());
 
     id = get_id (jtag, db, chainpos, true);
+    if (id == 0)
+      return 0;
     family = (id>>21) & 0x7f;
     manufacturer = (id>>1) & 0x3ff;
     if(detectchain)
