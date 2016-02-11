@@ -56,6 +56,13 @@ unsigned int get_id(Jtag &jtag, DeviceDB &db, int chainpos, bool verbose)
     int num=jtag.getChain();
     unsigned int id;
 
+    // Make sure we found at least one JTAG device in the chain
+    if (num == 0)
+    {
+      fprintf(stderr, "No JTAG device found.\n");
+      return 0;
+    }
+    
     // Synchronise database with chain of devices.
     for(int i=0; i<num; i++)
     {
@@ -296,6 +303,8 @@ int main(int argc, char **argv)
     fprintf(stderr, "Using %s\n", db.getFile().c_str());
 
     id = get_id (jtag, db, chainpos, true);
+    if (id == 0)
+      return 1;
     family = (id>>21) & 0x7f;
     manufacturer = (id>>1) & 0x3ff;
     if(detectchain)
@@ -339,6 +348,10 @@ int main(int argc, char **argv)
                 //flash_file.print();
                 printf("\nProgramming External Flash Memory with \"%s\".\n", cFpga_fn);
                 result=alg1.ProgramSpi(flash_bit, spi_options);
+                if (reconfigure)
+                {
+                  alg.Reconfigure();
+                }
             }
             else
             {

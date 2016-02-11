@@ -157,9 +157,10 @@ void ProgAlgXC3S::array_program(BitFile &file)
 	io->cycleTCK(1);
 	if (*(long*)data != -1L)
 	  /* ISC_DNA only works on a unconfigured device, see AR #29977*/
-	  printf("DNA is 0x%02x%02x%02x%02x%02x%02x%02x%02x\n",
-		 data[0], data[1], data[2], data[3],
-		 data[4], data[5], data[6], data[7]);
+    if (io->getVerbose())
+	    printf("DNA is 0x%02x%02x%02x%02x%02x%02x%02x%02x\n",
+		   data[0], data[1], data[2], data[3],
+		   data[4], data[5], data[6], data[7]);
 	break;
       }
     }
@@ -183,8 +184,52 @@ void ProgAlgXC3S::array_program(BitFile &file)
 }
 void ProgAlgXC3S::Reconfigure()
 {
-    jtag->shiftIR(&JPROGRAM);
-    jtag->shiftIR(&BYPASS);
+  switch(family)
+  {
+    case 0x0e: /* XC3SE*/
+    case 0x11: /* XC3SA*/
+    case 0x13: /* XC3SAN*/
+    case 0x20: /* XC6S*/
+      break;
+    default:
+      fprintf(stderr, "Device does not support reconfiguration.\n");
+      return;
+  }
+
+  /* Sequence is from AR #31913
+     FFFF Dummy Word
+     9955 SYNC
+     850c Type 1 Write to CMD
+     7000 REBOOT command
+     0004 NOOP
+     0004 NOOP
+  */
+  byte xc3sbuf[12]= {0xff, 0xff, 0x55, 0x99, 0x0c,
+                     0x85, 0x00, 0x70, 0x04, 0x00, 0x04, 0x00};
+  /* xtp038.pdf
+     FFFF Dummy Word
+     AA99 Sync Word
+     5566 Sync Word
+     30A1 Type 1 Write 1 Word to CMD
+     000E IPROG Command
+     2000 Type 1 NO OP
+  */
+  byte xc6sbuf[12]= {0xff, 0xff, 0x55, 0x99, 0xaa, 0x66, 0x0c,
+                     0x85, 0x00, 0x70, 0x04, 0x00};
+
+  jtag->shiftIR(&JSHUTDOWN);
+  io->cycleTCK(16);
+  jtag->shiftIR(&CFG_IN);
+  if(io->getVerbose())
+      fprintf(stderr, "Trying reconfigure\n");
+  if(family == 0x20) /*XC6S*/
+    jtag->shiftDR(xc6sbuf, NULL, 12*8 );
+  else
+    jtag->shiftDR(xc3sbuf, NULL, 12*8 );
+  jtag->shiftIR(&JSTART);
+  io->cycleTCK(32);
+  jtag->shiftIR(&BYPASS);
+  io->cycleTCK(1);
 }
 
 void ProgAlgXC3S::DisplayStatus()
