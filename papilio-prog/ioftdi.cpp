@@ -110,7 +110,7 @@ IOFtdi::IOFtdi(int const vendor, int const product, char const *desc, char const
   // Prepare for JTAG operation
   static unsigned char const  buf[] = { SET_BITS_LOW, 0x08, 0x0b,
 					TCK_DIVISOR,  0x00, 0x00 ,
-                                        SET_BITS_HIGH, ~0x04, 0x04};
+                                        SET_BITS_HIGH, (unsigned char)~0x04, 0x04};
   if (subtype == FTDI_NO_EN)
     mpsse_add_cmd(buf, 6);
   else if (subtype == FTDI_IKDA)
@@ -241,7 +241,7 @@ void IOFtdi::txrx_block(const unsigned char *tdi, unsigned char *tdo, int length
 
 void IOFtdi::tx_tms(unsigned char *pat, int length)
 {
-    unsigned char buf[3] = {MPSSE_WRITE_TMS|MPSSE_LSB|MPSSE_BITMODE|MPSSE_WRITE_NEG, length-1, pat[0]};
+    unsigned char buf[3] = {MPSSE_WRITE_TMS|MPSSE_LSB|MPSSE_BITMODE|MPSSE_WRITE_NEG, (unsigned char)(length-1), pat[0]};
     int len = length, i, j=0;
     if (!len)
       return;
