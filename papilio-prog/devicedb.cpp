@@ -58,6 +58,8 @@ DeviceDB::DeviceDB(const char *fname)
         {
             char buffer[256];
             ret = fgets(buffer,256,fp);  // Get next line from file
+	    if (ret == NULL)
+                break;
             if (sscanf(buffer,"%08x %d %s", &idr, &irlen, text) == 3)
             {
                 id.text = text;

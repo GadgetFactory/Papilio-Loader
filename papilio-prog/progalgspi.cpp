@@ -776,9 +776,10 @@ bool ProgAlgSpi::Spi_Write(const byte *write_data, int length, bool verbose)
 		data=(byte*)malloc(bufsize);
 
 		// full Pages
-		if(verbose)
+		if(verbose){
 			printf("Programming :\n");
 			fflush(stdout);
+		}
 		for(i=0;i<DoPages&&!fail;i++)
 		{
 			memset(data, 0, bufsize);
