@@ -1,0 +1,30 @@
+#
+# This file is 54-papilio-board udev rule file
+# for the papilio-board 
+# 
+# Copy this file to the udev rules directory::
+#
+#  sudo cp 54-papilio-board.rules /etc/udev/rules.d/
+#
+# Reload the rules to make them apply::
+#
+#  sudo udevadm control -R
+#
+# If now a papilio device gets plugged in now the device file
+# will be owned by the plugdev group.
+#
+# Next make the user "$USER" part of the plugdev::
+#
+#  sudo gpasswd -a $USER plugdev
+#
+# logout / login to make the group change effective.
+# Next plug in the board. you should be able to flash the device now.
+#
+# Bus 003 Device 003: ID 0403:6010 Future Technology Devices International, Ltd FT2232C Dual USB-UART/FIFO IC
+ATTR{idVendor}=="0403", ATTR{idProduct}=="6010", MODE="660", GROUP="dialout"
+
+#
+# This is a different device configuration copied from the designlab ubuntu-setup.sh script
+#
+ATTR{idVendor}=="0403", ATTR{idProduct}=="7bc0", MODE="0660", GROUP="dialout"
+ACTION=="add", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="7bc0", RUN+="/sbin/modprobe ftdi_sio" RUN+="/bin/sh -c 'echo 0403 7bc0 > /sys/bus/usb-serial/drivers/ftdi_sio/new_id'"
