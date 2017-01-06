@@ -248,6 +248,23 @@ bool ProgAlgSpi::Spi_Identify(bool verbose)
                 if(verbose)
                     printf("Found Numonyx/Micron Flash (Pages=%d, Page Size=%d bytes, %d bits).\n",Pages,PageSize,Pages*PageSize*8);
                 break;
+            } if (tdo[2] == 0x20) { //N25PXXX
+                switch(tdo[3])
+                {
+                    case 0x14: /* N25P80 */
+                        Pages=4096;
+                        PageSize=256;
+                        BulkErase=20;
+                        SectorErase=3;
+                        FlashType=GENERIC;
+                        break;
+                    default:
+                        printf("Unknown Numonyx/Micron N25P Flash Size (0x%.2x)\n", tdo[3]);
+                        return false;
+                }
+                if(verbose)
+                  printf("Found Numonyx/Micron Flash (Pages=%d, Page Size=%d bytes, %d bits).\n",Pages,PageSize,Pages*PageSize*8);
+                break;
             } else {
                 printf("Unknown Numonyx/Micron Flash Type (0x%.2x)\n", tdo[2]);
                 return false;
