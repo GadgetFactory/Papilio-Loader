@@ -60,7 +60,7 @@ void BitFile::readFile(char const * fname, bool flip)
     if(!fp)
         throw  io_exception(std::string("Cannot open file ") );
     filename = fname;
-    int ret;
+    size_t rsize;
 
     try
     {
@@ -73,7 +73,9 @@ void BitFile::readFile(char const * fname, bool flip)
 
         while(!feof(fp))
         {
-            ret = fread(&key, 1, 1, fp);
+            rsize = fread(&key, 1, 1, fp);
+            if (rsize != 1)
+                throw io_exception("Unexpected end of file");
             switch(key)
             {
                 case 'a': field = &ncdFilename; break;
@@ -101,10 +103,11 @@ void BitFile::readFile(char const * fname, bool flip)
 
 void BitFile::processData(FILE *fp, bool flip)
 {
-    int ret;
-
     byte t[4];
-    ret = fread(t,1,4,fp);
+    size_t rsize;
+    rsize = fread(t,1,4,fp);
+    if (rsize != 4)
+        throw  io_exception("Unexpected end of file");
     length=(t[0]<<24)+(t[1]<<16)+(t[2]<<8)+t[3];
     if(buffer)
         delete [] buffer;
@@ -113,14 +116,18 @@ void BitFile::processData(FILE *fp, bool flip)
     for(unsigned int i=0; i<length&&!feof(fp); i++)
     {
         byte b;
-        int ret;
-        ret = fread(&b,1,1,fp);
+        rsize = fread(&b,1,1,fp);
+	if (rsize != 1)
+            throw  io_exception("Unexpected end of file");
         buffer[i]=(flip?bitRevTable[b]:b); // Reverse the bit order.
     }
     if(feof(fp))
         throw  io_exception("Unexpected end of file");
 
-    ret = fread(t,1,1,fp);
+    rsize = fread(t,1,1,fp);
+    if (rsize != 0)
+        throw  io_exception("Expected end of file");
+
     if(!feof(fp))
         error("Ignoring extra data at end of file");
 }
@@ -170,7 +177,7 @@ void BitFile::append(unsigned long val, unsigned cnt)
 
 void BitFile::append(char const *fname, bool flip)
 {
-    int ret;
+    size_t rsize;
     FILE *const  fp=fopen(fname,"rb");
     if(!fp)
         throw  io_exception(std::string("Cannot open file ") + fname);
@@ -196,7 +203,9 @@ void BitFile::append(char const *fname, bool flip)
             if(feof(fp))
                 throw  io_exception("Unexpected end of file");
             byte  b;
-            ret = fread(&b, 1, 1, fp);
+            rsize = fread(&b, 1, 1, fp);
+            if (rsize != 1)
+                throw  io_exception("Unexpected end of file");
             buffer[i]=(flip?bitRevTable[b]:b); // Reverse the bit order.
         }
         length = nlen;
@@ -255,14 +264,18 @@ void BitFile::error(const string &str)
 
 void BitFile::readField(string &field, FILE *fp)
 {
-    int ret;
+    size_t rsize;
     byte t[2];
-    ret = fread(t,1,2,fp);
+    rsize = fread(t,1,2,fp);
+    if (rsize != 2)
+        throw  io_exception("Unexpected end of file");
     unsigned short len=(t[0]<<8)+t[1];
     for(int i=0; i<len; i++)
     {
         byte b;
-        ret = fread(&b,1,1,fp);
+        rsize = fread(&b,1,1,fp);
+        if (rsize != 1)
+            throw  io_exception("1 Unexpected end of file");
         field+=(char)b;
     }
 }

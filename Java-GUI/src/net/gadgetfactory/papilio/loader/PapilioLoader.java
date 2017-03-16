@@ -60,7 +60,7 @@ import net.gadgetfactory.papilio.loader.LoaderProject.PPJProject;
 
 public class PapilioLoader extends JFrame implements ActionListener
 {
-	private static final String LOADER_NAME = "Papilio Loader 2.6";
+	private static final String LOADER_NAME = "Papilio Loader 2.8";
 	public static final String AUTO_DETECT_FPGA = "Auto-detect onboard FPGA device";
 	public static final boolean DEBUG = false;
 	public static final boolean ECHO_COMMAND = false;
@@ -106,7 +106,9 @@ public class PapilioLoader extends JFrame implements ActionListener
 	private boolean unloadAfterBurn = false;
 	
 	private Properties settings;
-	private boolean bSimpleMode;
+	private boolean bSimpleMode = true;
+	private int targetBoard;
+
 
 	
 // GIRISH: Review various MsgBox strings and titles 
@@ -230,6 +232,9 @@ public class PapilioLoader extends JFrame implements ActionListener
 		ReadSettings();
 		
 		this.setIconImage(Toolkit.getDefaultToolkit().createImage(ICON_IMAGE));
+		File icon = new File(AppPath, "papilio_48.png");
+		if (icon.exists())
+			this.setIconImage(Toolkit.getDefaultToolkit().getImage(icon.toString()));
 		this.setJMenuBar(CreateMenuBar());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter() {
@@ -388,6 +393,8 @@ public class PapilioLoader extends JFrame implements ActionListener
 			}
 			this.setTitle(LOADER_NAME + currProject.getProjectTitle() );
 		}
+	    pnlTarget.setTargetBoard(targetBoard);
+	    this.setTitle(LOADER_NAME);
 	}
 
 	private void CleanupAndExit()
@@ -475,8 +482,10 @@ public class PapilioLoader extends JFrame implements ActionListener
 				writeSwitch = WRITE_SWITCH;
 			else
 				writeSwitch = ""; // Ignore it
-			if (targetSwitch.equals(QUIT_SWITCH))
+			if (targetSwitch.equals(QUIT_SWITCH)) {
 				quitSwitch = QUIT_SWITCH;
+			}
+				
 			else
 				quitSwitch = ""; // Ignore it
 			// Set target to be SPI flash
@@ -518,6 +527,7 @@ public class PapilioLoader extends JFrame implements ActionListener
 	    			// => 3rd command-line argument is quit switch.
 	        			// Sanitize switches.
 	    				quitSwitch = QUIT_SWITCH;
+	    				bSimpleMode = false;
 	            		targetSwitch = "";
 	    			}
 	    			else {
@@ -688,8 +698,11 @@ public class PapilioLoader extends JFrame implements ActionListener
 				this.setTitle(LOADER_NAME + currProject.getProjectTitle() );
 			}
 
-			if (quitSwitch.equals(QUIT_SWITCH))
+			if (quitSwitch.equals(QUIT_SWITCH)){
+				bSimpleMode = false;
 				unloadAfterBurn = true;
+			}
+				
 
 			if (writeSwitch.equals(WRITE_SWITCH))
 			// Burn .ppj file passed as 1st argument immediately.
@@ -701,7 +714,8 @@ public class PapilioLoader extends JFrame implements ActionListener
     	{
     		// Erase switch is on its own, no document instertUpdate event is triggered
     		// So we must set the buttons ourselves
-    		pnlOperations.setEraseButton(true);
+    		//pnlOperations.setEraseButton(true);
+    		eraseSelected = true;
     	}
     	else
     	{
@@ -1107,6 +1121,7 @@ public class PapilioLoader extends JFrame implements ActionListener
 		defaultSettings.setProperty("WindowY", "80");
 		defaultSettings.setProperty("WindowWidth", "450");
 		defaultSettings.setProperty("WindowHeight", "400");
+		defaultSettings.setProperty("TargetBoard", "0");
 
 		settings = new Properties(defaultSettings);
 
@@ -1140,6 +1155,9 @@ public class PapilioLoader extends JFrame implements ActionListener
 		}
 
 		bSimpleMode = settings.getProperty("UserMode").equalsIgnoreCase(UserModes.Simple.toString());
+		targetBoard = Integer.parseInt(settings.getProperty("TargetBoard"));
+		//pnlTarget.setTargetBoard(targetBoard);
+		
 
 	}
 	
@@ -1212,6 +1230,8 @@ public class PapilioLoader extends JFrame implements ActionListener
 		settings.setProperty("WindowY", "" + this.getY());
 		settings.setProperty("WindowWidth", "" + this.getWidth());
 		settings.setProperty("WindowHeight", "" + this.getHeight());
+		
+		settings.setProperty("TargetBoard", pnlTarget.getTargetBoard());
 
 		pnlTarget.StoreLastFiles(settings);
 		if (bSimpleMode)
@@ -1273,6 +1293,13 @@ public class PapilioLoader extends JFrame implements ActionListener
 	public void BurningOver() {
 		if (unloadAfterBurn && nErrorCount == 0)
 			CleanupAndExit();
+	}
+	
+	public void Erase(){
+		//pnlOperations.setEraseButton(true);
+		eraseSelected = true;
+		btnProceed.doClick();
+		//EraseSPIFlash();
 	}
 
 	public void BurnUsingProgrammer(WriteTargets selTarget)
@@ -1364,7 +1391,7 @@ public class PapilioLoader extends JFrame implements ActionListener
 	public class AsyncProgrammer implements Runnable, MessageConsumer
 	{
 		private File finalBitFile, bscanSPIBitFile;
-		private String q_papilio_prog_exe, q_srec_cat_exe, q_data_2_mem_exe;
+		private String q_papilio_prog_exe, q_srec_cat_exe, q_data_2_mem_exe, boardName;
 		private WriteTargets useTarget;
 		private boolean lookforDesc; private String deviceID;
 
@@ -1413,12 +1440,21 @@ public class PapilioLoader extends JFrame implements ActionListener
 		    // => [Scan] is always implied.
 		    // => [Erase] and [Verify], if selected, are applicable in the context of [Write to].
 		    {
+//		    	if (eraseSelected){
+//		    		bscanSPIBitFile = DetectJTAGchain();
+//		    		if (bscanSPIBitFile != null) {
+//		    			EraseSPIFlash();	// Erase also does verification
+//		    		}
+//		    		btnProceed.setEnabled(true);
+//		    		return;
+//		    	}
 			    if (!mergeSelected)
 		    	// => The file specified in "Target .bit file:" text box is the final .bit
 			    //	  file to be burned, i.e. the result of .bit + .bmm + .hex merging. 
 				// Even if user has specified "Target .bmm file:" and/or "Program .hex file:",
 			    // they are ignored.
 			    	finalBitFile = targetBitFile.get(0);
+			    
 			    else {
 			    	if (!MergeBitBmmHexFiles()) {
 						btnProceed.setEnabled(true);
@@ -1431,8 +1467,8 @@ public class PapilioLoader extends JFrame implements ActionListener
 					BurnToFPGA();
 					break;
 				case SPI_FLASH:
-					if (!verifySelected && !eraseSelected)
-						BurnToSPIFlash();
+					if (!verifySelected && !eraseSelected && !bSimpleMode)
+						BurnToSPIFlashOnly();
 					else
 						BurnToSPIFlash();
 					break;
@@ -1548,7 +1584,14 @@ public class PapilioLoader extends JFrame implements ActionListener
 		private File DetectJTAGchain()
 		{
 			File bscanBitFile = null;
-			String[] scanJTAG = {q_papilio_prog_exe, "-j"};
+			String[] scanJTAG;
+			String[] scanJTAGOrig = {q_papilio_prog_exe, "-j"};
+			String[] scanJTAGID = {q_papilio_prog_exe, "-j", "-d", "\"" + pnlTarget.getBoardName() + "\""};
+			
+			if (pnlTarget.getBoardName().isEmpty())
+				scanJTAG = scanJTAGOrig;
+			else
+				scanJTAG = scanJTAGID;
 
 			execSynchronously(scanJTAG, programmerPath, true);
 			
@@ -1573,19 +1616,37 @@ public class PapilioLoader extends JFrame implements ActionListener
 		
 		private void BurnToFPGA()
 		{
-			String[] commandLine = {q_papilio_prog_exe, "-v", 
+			String[] commandLine;
+			String[] commandLineID = {q_papilio_prog_exe, "-v", "-d", "\"" + pnlTarget.getBoardName() + "\"",
 									"-f", HelperFunctions.CanonicalPath(finalBitFile)};
-
+			String[] commandLineOrig = {q_papilio_prog_exe, "-v",
+									"-f", HelperFunctions.CanonicalPath(finalBitFile)};
+			
+			if (pnlTarget.getBoardName().isEmpty())
+				commandLine = commandLineOrig;
+			else
+				commandLine = commandLineID;
+			
 			execSynchronously(commandLine, programmerPath, false);
 		}
 
-		private void EraseSPIFlash()
+		public void EraseSPIFlash()
 		{
-			String[] commandLine = {q_papilio_prog_exe, "-v", 
+			String[] commandLine;
+			String[] commandLineOrig = {q_papilio_prog_exe, "-v", 
 									"-b", HelperFunctions.CanonicalPath(bscanSPIBitFile), 
 									"-se"};
+			String[] commandLineID = {q_papilio_prog_exe, "-v", "-d", "\"" + pnlTarget.getBoardName() + "\"", 
+					"-b", HelperFunctions.CanonicalPath(bscanSPIBitFile), 
+					"-se"};
+			
+			if (pnlTarget.getBoardName().isEmpty())
+				commandLine = commandLineOrig;
+			else
+				commandLine = commandLineID;
 
 			execSynchronously(commandLine, programmerPath, false);
+			eraseSelected = false;
 		}
 		
 		private void BurnToSPIFlash()
@@ -1594,10 +1655,20 @@ public class PapilioLoader extends JFrame implements ActionListener
 						
 			if (bscanSPIBitFile != null)
 			{
-				String[] commandLine = {q_papilio_prog_exe, "-v", 
+				String[] commandLine;
+				String[] commandLineOrig = {q_papilio_prog_exe, "-v", 
 										"-f", HelperFunctions.CanonicalPath(finalBitFile), 
 										"-b", HelperFunctions.CanonicalPath(bscanSPIBitFile), 
 										"-sa", "-r"};
+				String[] commandLineID = {q_papilio_prog_exe, "-v", "-d", "\"" + pnlTarget.getBoardName() + "\"",  
+						"-f", HelperFunctions.CanonicalPath(finalBitFile), 
+						"-b", HelperFunctions.CanonicalPath(bscanSPIBitFile), 
+						"-sa", "-r"};				
+				if (pnlTarget.getBoardName().isEmpty())
+					commandLine = commandLineOrig;
+				else
+					commandLine = commandLineID;
+				
 				execSynchronously(commandLine, programmerPath, false);
 
 				execSynchronously(new String[] {q_papilio_prog_exe, "-c"}, programmerPath, false);
@@ -1611,10 +1682,20 @@ public class PapilioLoader extends JFrame implements ActionListener
 			
 			if (bscanSPIBitFile != null)
 			{
-				String[] commandLine = {q_papilio_prog_exe, "-v", 
+				String[] commandLine;
+				String[] commandLineOrig = {q_papilio_prog_exe, "-v", 
 										"-f", HelperFunctions.CanonicalPath(finalBitFile), 
 										"-b", HelperFunctions.CanonicalPath(bscanSPIBitFile), 
-										"-sa", "-r"};
+										"-sp", "-r"};
+				String[] commandLineID = {q_papilio_prog_exe, "-v", "-d", "\"" + pnlTarget.getBoardName() + "\"",
+						"-f", HelperFunctions.CanonicalPath(finalBitFile), 
+						"-b", HelperFunctions.CanonicalPath(bscanSPIBitFile), 
+						"-sp", "-r"};
+				if (pnlTarget.getBoardName().isEmpty())
+					commandLine = commandLineOrig;
+				else
+					commandLine = commandLineID;
+				
 				execSynchronously(commandLine, programmerPath, false);
 
 				execSynchronously(new String[] {q_papilio_prog_exe, "-c"}, programmerPath, false);
@@ -1623,9 +1704,18 @@ public class PapilioLoader extends JFrame implements ActionListener
 		
 		private void VerifySPIFlash()
 		{
-			String[] commandLine = {q_papilio_prog_exe, "-v", 
+			String[] commandLine;
+			String[] commandLineOrig = {q_papilio_prog_exe, "-v", 
 									"-b", HelperFunctions.CanonicalPath(bscanSPIBitFile), 
 									"-sv"};
+			String[] commandLineID = {q_papilio_prog_exe, "-v", "-d", "\"" + pnlTarget.getBoardName() + "\"",
+					"-b", HelperFunctions.CanonicalPath(bscanSPIBitFile), 
+					"-sv"};
+			
+			if (pnlTarget.getBoardName().isEmpty())
+				commandLine = commandLineOrig;
+			else
+				commandLine = commandLineID;
 
 			execSynchronously(commandLine, programmerPath, false);
 		}

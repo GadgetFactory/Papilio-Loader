@@ -1,4 +1,4 @@
-Papilio Loader - Current Version 2.6
+Papilio Loader - Current Version 2.7
 
 The Papilio Loader is a branch of xc3sprog (http://sourceforge.net/projects/xc3sprog/) that is used to load bit files to the Open Source Papilio FPGA boards (http://papilio.cc) made by Gadget Factory (http://www.gadgetfactory.net).
 
@@ -14,6 +14,22 @@ Directories:
 	
 
 CHANGELOG
+4/1/2015 Version 2.8
+	Papilio GUO
+		-Fix for SPI Flash not programming correctly in simple mode.
+		-Change the Operations buttons to check boxes.
+
+2/24/2015 Version 2.7
+	Papilio GUI
+		-Add Board Name field so you can manually specify the board name.
+		-Added Papilio Pro, Papilio One, and Papilio DUO to Target Board dropdown.
+		-Removed .bmm and .hex fields from simple mode.
+		-Updated Icon
+		-Drivers are signed for easy install in Windows 8
+		
+	papilio-prog
+		-Support for the Papilio DUO VID/PID
+
 1/2/2014 Version 2.6
 	Papilio GUI
 		-Changed the default behavior to write to SPI flash.

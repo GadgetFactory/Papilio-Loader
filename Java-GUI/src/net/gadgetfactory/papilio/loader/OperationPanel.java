@@ -38,7 +38,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
+import javax.swing.JCheckBox;
 import javax.swing.border.Border;
 import net.gadgetfactory.papilio.loader.LoaderProject.PPJProject;
 
@@ -46,11 +46,11 @@ public class OperationPanel extends JPanel implements ItemListener
 {
 	private PapilioLoader parentFrame;
 
-	private JToggleButton btnScan = new JToggleButton("Scan");
-	private JToggleButton btnMerge = new JToggleButton("Merge");
-	private JToggleButton btnErase = new JToggleButton("Erase");
-	private JToggleButton btnWrite = new JToggleButton("Write to");
-	private JToggleButton btnVerify = new JToggleButton("Verify");
+	private JCheckBox btnScan = new JCheckBox("Scan");
+	private JCheckBox btnMerge = new JCheckBox("Merge");
+	private JCheckBox btnErase = new JCheckBox("Erase");
+	private JCheckBox btnWrite = new JCheckBox("Write to");
+	private JCheckBox btnVerify = new JCheckBox("Verify");
 	private Icon imgRightArrow = new ImageIcon("images/right_arrow.png");
 /*	------------------------------------------------------------------------------------
  * 	NOTE:	When you specify a filename or URL to an ImageIcon constructor, processing is 
@@ -202,7 +202,7 @@ public class OperationPanel extends JPanel implements ItemListener
 			}
 		});
 		
-		// Associate ItemEvent listener for JToggleButtons.
+		// Associate ItemEvent listener for JCheckBox.
 		btnWrite.addItemListener(this);
 		/*
 		 * To hook to "ItemChange" event for Combobox and find out the selected element in 
@@ -218,17 +218,17 @@ public class OperationPanel extends JPanel implements ItemListener
 	{
 	/*
 	 * The itemStateChanged will be called by JVM as a result of - 
-	 * 		a) Change in the state of JToggleButton(s) from on <--> off. 
+	 * 		a) Change in the state of JCheckBox(es) from on <--> off. 
 	 * 		b) Change in the selected item of cboWriteTargets JComboBox. 
 	 * However, in case of 
-	 * 		a) e.getItem() returns a reference to the actual JToggleButton 
+	 * 		a) e.getItem() returns a reference to the actual JCheckBox 
 	 * 		   which fired the event. 
 	 * 		b) e.getItem() returns the item being selected / deselected in 
 	 * 		   JComboBox and NOT a reference to cboWriteTargets JComboBox.
 	 */
 
-		if (e.getSource() instanceof JToggleButton) {
-			JToggleButton btnOperation = (JToggleButton) e.getItem();
+		if (e.getSource() instanceof JCheckBox) {
+			JCheckBox btnOperation = (JCheckBox) e.getItem();
 
 			if (btnOperation == btnWrite) {
 				cboWriteTargets.setEnabled(e.getStateChange() == ItemEvent.SELECTED);
@@ -331,7 +331,7 @@ public class OperationPanel extends JPanel implements ItemListener
 		/* 	If we check whether contents of textboxes refer to non-existent, invalid files and try 
 			to adjust the operation flow based on that, it will be overkill. So it is best to 
 			consider contents of Target XXX file textboxes as blank or non-blank and adjust the
-			state of JToggleButtons to display suggested flow.
+			state of JCheckBoxes to display suggested flow.
 		 */
 
 		if (editedTargetBitFile.isEmpty()) {
@@ -346,7 +346,7 @@ public class OperationPanel extends JPanel implements ItemListener
 				// state here. Rather keep its previous state.
 
 /*	------------------------------------------------------------------------------------
- *  JToggleButton.setSelected(b) 
+ *  JCheckBox.setSelected(b) 
  *  	Sets the state of the button. Note that this method does not trigger
  * 		an actionEvent. Call doClick to perform a programatic action change.
  *	------------------------------------------------------------------------------------ */

@@ -6,16 +6,16 @@ To bootstrap the build system:
 	./autogen.sh
 
 This will generate the configure string and various autotools dependencies.
-Then, to compile a linux binary ("butterflyprog"):
+Then, to compile a linux binary ("papilio-prog"):
 
 	./configure && make
 
-Or to generate a windows binary ("butterflyprog.exe"):
+Or to generate a windows binary ("papilio-prog.exe"):
 
-	./configure --host=i586-mingw32msvc --build=i686-linux && make
+	./configure --host=i686-w64-mingw32 --build=i686-linux && make
 
 That is assuming you have MinGW installed. On Debian and Ubuntu systems,
-"apt-get mingw32" should be all that's needed.
+"apt-get mingw64" should be all that's needed.
 
 The windows binary will still need the FTDI driver DLL installed on the
 system to work.

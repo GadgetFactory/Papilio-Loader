@@ -50,7 +50,7 @@ public class TargetPanel extends JPanel implements ActionListener, FocusListener
 	private PapilioLoader parentFrame;
 
 	private JComboBox cboBoards;
-	private JTextField txtQBitFile, txtQBmmFile, txtQHexFile;
+	private JTextField txtQBitFile, txtBoardName, txtQBmmFile, txtQHexFile;
 	
 	private JComboBox cboWriteTargets;
 	private JButton btnProceed;
@@ -63,13 +63,16 @@ public class TargetPanel extends JPanel implements ActionListener, FocusListener
 			new FileNameExtensionFilter("Bmm files", "bmm"), 
 			new FileNameExtensionFilter("Hex files", "hex")};
 
+	private String[] labelCaptions;
 	private String[] targetBoards = 
-			{AUTO_DETECT_FPGA};
-	private final String[] labelCaptions = {"Target board:", 
-	  				"Target .bit file:", "Target .bmm file:", "Program .hex file:"};
-	private final String[] buttonTexts = {"Info", "Select...", "Select...", "Select..."};
+			{AUTO_DETECT_FPGA, "Papilio DUO", "Papilio One or Papilio Pro"};
+	private final String[] labelCaptionsSimple = {"Target board:", 
+				"Target .bit file:", "Board Name"};	
+	private final String[] labelCaptionsExpert = {"Target board:", 
+	  				"Target .bit file:", "Board Name", "Target .bmm file:", "Program .hex file:"};
+	private final String[] buttonTexts = {"Erase", "Select...", "None", "Select...", "Select..."};
 	// All the actions, except 1st one, must specify the Extension of file to open. 
-	private final String[] buttonActions = {"Display Info", ".bit", ".bmm", ".hex"};
+	private final String[] buttonActions = {"Erase SPI Flash", "None", ".bit", ".bmm", ".hex"};
 	
 	private boolean bSimpleMode;
 
@@ -80,7 +83,25 @@ public class TargetPanel extends JPanel implements ActionListener, FocusListener
 	public JButton getProceedButton() {
 		return this.btnProceed;
 	}
+	
+	public String getBoardName(){
+		txtBoardName.getText();
+		if (!txtBoardName.getText().isEmpty()) {
+			return txtBoardName.getText();
+		}
+		else {
+			return "";
+		}
+	}
 
+	public String getTargetBoard() {
+		return Integer.toString(cboBoards.getSelectedIndex());
+	}
+	
+	public void setTargetBoard(int board) {
+		cboBoards.setSelectedIndex(board);
+	}	
+	
 	public void setBitFile(String bit_file) {
 		txtQBitFile.setText(bit_file);
 	}
@@ -105,6 +126,12 @@ public class TargetPanel extends JPanel implements ActionListener, FocusListener
 		
 		parentFrame = plframe;
 		bSimpleMode = simpleMode;
+		
+		
+		if (bSimpleMode)
+			labelCaptions = labelCaptionsSimple;
+		else 
+			labelCaptions = labelCaptionsExpert;
 
 		// Create margin and Titled border around this panel. 
 		Border bdrMargin = 
@@ -143,15 +170,19 @@ public class TargetPanel extends JPanel implements ActionListener, FocusListener
 				case 1:			// "Target .bit file:"
 					txtQBitFile = txtQFile;
 					break;
-				case 2:			// "Target .bmm file:"
+				case 2:			// "Target board name:"
+					txtBoardName = txtQFile;
+					break;					
+				case 3:			// "Target .bmm file:"
 					txtQBmmFile = txtQFile;
 					break;
-				case 3:			// "Program .hex file:"
+				case 4:			// "Program .hex file:"
 					txtQHexFile = txtQFile;
 					break;
 				}
 			}
 			
+
 			btnSelect = new JButton(buttonTexts[i]);
 			
 /*	------------------------------------------------------------------------------------
@@ -178,6 +209,8 @@ public class TargetPanel extends JPanel implements ActionListener, FocusListener
 			btnSelect.setActionCommand(buttonActions[i]);
 			btnSelect.addActionListener(this);
 			this.add(btnSelect);
+			if (buttonTexts[i].contains("None"))
+				btnSelect.hide();;
 		}
 
 		/*	If program is running in Simple mode, then there won't be any Operations panel.
@@ -226,6 +259,23 @@ public class TargetPanel extends JPanel implements ActionListener, FocusListener
 			this.add(btnProceed);
 		}
 
+		// Associate ActionEvent listener with [Run] button.
+		cboBoards.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				
+				
+				if (cboBoards.getSelectedItem().toString().equals("Papilio DUO"))
+					txtBoardName.setText("Papilio DUO A");
+				else if (cboBoards.getSelectedItem().toString().equals("Papilio One or Papilio Pro"))
+					txtBoardName.setText("Dual RS232 A");
+				else
+					txtBoardName.setText("");
+
+			}
+		});		
+		
         // Lay out the panel.
         HelperFunctions.makeCompactGrid(this,
                                         labelCaptions.length + (bSimpleMode ? 1 : 0),	//rows 
@@ -255,6 +305,9 @@ public class TargetPanel extends JPanel implements ActionListener, FocusListener
 		
 		if (currExtension.equals(buttonActions[0])) {
 		// Action Command = "Display Info"
+			//parentFrame.BurnUsingProgrammer(selTarget);
+			parentFrame.Erase();
+			//parentFrame.BurnUsingProgrammer(selTarget);
 		}
 		else 
 		{
@@ -340,15 +393,15 @@ public class TargetPanel extends JPanel implements ActionListener, FocusListener
 					if (!sQFile.isEmpty())
 					{
 						txtQFile.setText(sQFile);
-						if ((currExtension.equals(buttonActions[1])) && (txtQBmmFile.getText().trim().isEmpty())) {
-						// => Action Command = ".bit" and Target .bmm File text box is blank.
-// TODO: Better move .bmm file code to DocumentListener - fired when contents of Target .bit File textbox change
-// Thus, the .bmm file will be suggested even when user changes / edits contents of Target .bit File textbox.
-							sQSuggestedBmmFile = sQFile.substring(0, sQFile.lastIndexOf(currExtension)) + "_bd.bmm";
-							suggestedBmmFile = new File(sQSuggestedBmmFile);
-							if (suggestedBmmFile.isFile())
-								txtQBmmFile.setText(sQSuggestedBmmFile);
-						}
+//						if ((currExtension.equals(buttonActions[1])) && (txtQBmmFile.getText().trim().isEmpty())) {
+//						// => Action Command = ".bit" and Target .bmm File text box is blank.
+//// TODO: Better move .bmm file code to DocumentListener - fired when contents of Target .bit File textbox change
+//// Thus, the .bmm file will be suggested even when user changes / edits contents of Target .bit File textbox.
+//							sQSuggestedBmmFile = sQFile.substring(0, sQFile.lastIndexOf(currExtension)) + "_bd.bmm";
+//							suggestedBmmFile = new File(sQSuggestedBmmFile);
+//							if (suggestedBmmFile.isFile())
+//								txtQBmmFile.setText(sQSuggestedBmmFile);
+//						}
 					}
 				}
 			}
@@ -392,14 +445,18 @@ public class TargetPanel extends JPanel implements ActionListener, FocusListener
 	
 	public void StoreLastFiles(Properties settings) {
 		settings.setProperty("LastBitFile", txtQBitFile.getText().trim());
-		settings.setProperty("LastBmmFile", txtQBmmFile.getText().trim());
-		settings.setProperty("LastHexFile", txtQHexFile.getText().trim());
+		if (!bSimpleMode){
+			settings.setProperty("LastBmmFile", txtQBmmFile.getText().trim());
+			settings.setProperty("LastHexFile", txtQHexFile.getText().trim());
+		}
 	}
 
 	public void SaveCurrentFiles(Properties ppjProject) {
 		ppjProject.setProperty(PPJProject.BitFile.toString(), txtQBitFile.getText().trim());
-		ppjProject.setProperty(PPJProject.BmmFile.toString(), txtQBmmFile.getText().trim());
-		ppjProject.setProperty(PPJProject.HexFile.toString(), txtQHexFile.getText().trim());
+		if (!bSimpleMode){
+			ppjProject.setProperty(PPJProject.BmmFile.toString(), txtQBmmFile.getText().trim());
+			ppjProject.setProperty(PPJProject.HexFile.toString(), txtQHexFile.getText().trim());
+		}
 	}
 
 	public void PopulateLastWriteto(String operationsList)
@@ -699,13 +756,14 @@ public class TargetPanel extends JPanel implements ActionListener, FocusListener
 									   boolean[] writeSelected)
 	{
 		String sQBitFile = txtQBitFile.getText().trim();
-		String sQBmmFile = txtQBmmFile.getText().trim();
-		String sQHexFile = txtQHexFile.getText().trim();
-		boolean noFileSpecified = (sQBitFile.isEmpty() && sQBmmFile.isEmpty() && sQHexFile.isEmpty());
+		//String sQBmmFile = txtQBmmFile.getText().trim();
+		//String sQHexFile = txtQHexFile.getText().trim();
+		//boolean noFileSpecified = (sQBitFile.isEmpty() && sQBmmFile.isEmpty() && sQHexFile.isEmpty());
+		boolean noFileSpecified = (sQBitFile.isEmpty());
 
 		targetBitFile.set(0, new File(sQBitFile));
-		targetBmmFile.set(0, new File(sQBmmFile));
-		programHexFile.set(0, new File(sQHexFile));
+		//targetBmmFile.set(0, new File(sQBmmFile));
+		//programHexFile.set(0, new File(sQHexFile));
 		
 		if (noFileSpecified) {
 		// => All 3 Target XXX file textboxes are blank.
@@ -729,58 +787,58 @@ public class TargetPanel extends JPanel implements ActionListener, FocusListener
 			}
 			// TODO: Check whether extension of the file specified in Target .bit file text box is .bit.
 
-			if (sQBmmFile.isEmpty()) {
-				if (sQHexFile.isEmpty()) {
-				// => Both target .bmm file and program .hex file, are blank.
-					mergeSelected[0] = false;
-					return true;
-				}
-				else {
-				// => target .bmm file is blank and program .hex file is specified 
-					JOptionPane.showMessageDialog(getTopLevelAncestor(), 
-							"Please enter a valid Bmm file. Bmm file cannot be kept blank.", 
-							"Blank Bmm File", 
-							 JOptionPane.WARNING_MESSAGE);
-					txtQBmmFile.requestFocusInWindow();
-					return false;
-				}
-			}
-			else if (sQHexFile.isEmpty()) {
-			// => target .bmm file is specified and program .hex file is blank
-				JOptionPane.showMessageDialog(getTopLevelAncestor(), 
-						"Please enter a valid Hex file. Hex file cannot be kept blank.", 
-						"Blank Hex File", 
-						 JOptionPane.WARNING_MESSAGE);
-				txtQHexFile.requestFocusInWindow();
-				return false;
-			}
+//			if (sQBmmFile.isEmpty()) {
+//				if (sQHexFile.isEmpty()) {
+//				// => Both target .bmm file and program .hex file, are blank.
+//					mergeSelected[0] = false;
+//					return true;
+//				}
+//				else {
+//				// => target .bmm file is blank and program .hex file is specified 
+//					JOptionPane.showMessageDialog(getTopLevelAncestor(), 
+//							"Please enter a valid Bmm file. Bmm file cannot be kept blank.", 
+//							"Blank Bmm File", 
+//							 JOptionPane.WARNING_MESSAGE);
+//					txtQBmmFile.requestFocusInWindow();
+//					return false;
+//				}
+//			}
+//			else if (sQHexFile.isEmpty()) {
+//			// => target .bmm file is specified and program .hex file is blank
+//				JOptionPane.showMessageDialog(getTopLevelAncestor(), 
+//						"Please enter a valid Hex file. Hex file cannot be kept blank.", 
+//						"Blank Hex File", 
+//						 JOptionPane.WARNING_MESSAGE);
+//				txtQHexFile.requestFocusInWindow();
+//				return false;
+//			}
 			
 			// At this point, we are sure that user has specified both .bmm and .hex files.
 			// It is implied that user has specified a valid .bit file.
 
-			mergeSelected[0] = true;
-			if (!targetBmmFile.get(0).isFile()) {
-			// Invalid Bmm File
-				JOptionPane.showMessageDialog(getTopLevelAncestor(), 
-								"The specified Bmm file " + sQBmmFile + " is invalid and does not exist on disk. " + 
-								"Please enter a valid Bit file.", 
-								"Bmm File Not Found", 
-								 JOptionPane.WARNING_MESSAGE);
-				txtQBmmFile.requestFocusInWindow();
-				return false;
-			}
-			// TODO: Check whether extension of the file specified in Target .bmm file text box is .bmm.
-			else if (!programHexFile.get(0).isFile()) {
-			// Invalid Hex File
-				JOptionPane.showMessageDialog(getTopLevelAncestor(), 
-								"The specified Hex file " + sQHexFile + " is invalid and does not exist on disk. " + 
-								"Please enter a valid Bit file.", 
-								"Hex File Not Found", 
-								 JOptionPane.WARNING_MESSAGE);
-				txtQHexFile.requestFocusInWindow();
-				return false;
-			}
-			// TODO: Check whether extension of the file specified in Program .hex file text box is .hex.
+//			mergeSelected[0] = true;
+//			if (!targetBmmFile.get(0).isFile()) {
+//			// Invalid Bmm File
+//				JOptionPane.showMessageDialog(getTopLevelAncestor(), 
+//								"The specified Bmm file " + sQBmmFile + " is invalid and does not exist on disk. " + 
+//								"Please enter a valid Bit file.", 
+//								"Bmm File Not Found", 
+//								 JOptionPane.WARNING_MESSAGE);
+//				txtQBmmFile.requestFocusInWindow();
+//				return false;
+//			}
+//			// TODO: Check whether extension of the file specified in Target .bmm file text box is .bmm.
+//			else if (!programHexFile.get(0).isFile()) {
+//			// Invalid Hex File
+//				JOptionPane.showMessageDialog(getTopLevelAncestor(), 
+//								"The specified Hex file " + sQHexFile + " is invalid and does not exist on disk. " + 
+//								"Please enter a valid Bit file.", 
+//								"Hex File Not Found", 
+//								 JOptionPane.WARNING_MESSAGE);
+//				txtQHexFile.requestFocusInWindow();
+//				return false;
+//			}
+//			// TODO: Check whether extension of the file specified in Program .hex file text box is .hex.
 		}
 		
 		return true;
