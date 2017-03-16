@@ -251,6 +251,13 @@ bool ProgAlgSpi::Spi_Identify(bool verbose)
             } if (tdo[2] == 0x20) { //N25PXXX
                 switch(tdo[3])
                 {
+                    case 0x13: /* N25P40 */
+                        Pages=2048;
+                        PageSize=256;
+                        BulkErase=20;
+                        SectorErase=3;
+                        FlashType=GENERIC;
+                        break;
                     case 0x14: /* N25P80 */
                         Pages=4096;
                         PageSize=256;
