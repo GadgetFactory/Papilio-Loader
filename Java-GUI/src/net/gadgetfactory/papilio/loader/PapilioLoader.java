@@ -60,7 +60,7 @@ import net.gadgetfactory.papilio.loader.LoaderProject.PPJProject;
 
 public class PapilioLoader extends JFrame implements ActionListener
 {
-	private static final String LOADER_NAME = "Papilio Loader 2.8";
+	private static final String LOADER_NAME = "Papilio Loader 2.8a";
 	public static final String AUTO_DETECT_FPGA = "Auto-detect onboard FPGA device";
 	public static final boolean DEBUG = false;
 	public static final boolean ECHO_COMMAND = false;
@@ -1609,6 +1609,8 @@ public class PapilioLoader extends JFrame implements ActionListener
 					bscanBitFile = new File(rootProgrammerPath, "bscan_spi_xc6slx9.bit");
 				else if (deviceID.equals("XC6SLX4"))
 					bscanBitFile = new File(rootProgrammerPath, "bscan_spi_xc6slx4.bit");
+				else if (deviceID.equals("XA7A100T"))
+					bscanBitFile = new File(rootProgrammerPath, "bscan_spi_xc7a100t.bit");	
 			}
 			
 			return bscanBitFile;
