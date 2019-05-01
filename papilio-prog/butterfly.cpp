@@ -237,7 +237,6 @@ int main(int argc, char **argv)
         case 'b':
             cBscan_fn=(char*)malloc(strlen(optarg)+1);
             strcpy(cBscan_fn,optarg);
-            printf("DEBUG: '%s'\n", cBscan_fn);
             break;
         case 's':
             switch(optarg[0])
