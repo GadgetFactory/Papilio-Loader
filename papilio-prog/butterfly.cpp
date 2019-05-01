@@ -171,6 +171,36 @@ const char* map_desc_to_bscan(const char* dd)
     return NULL;
 }
 
+int getExeLocation(char* buf, int len)
+{
+    // Read /proc/self/exe
+    char temp[PATH_MAX];
+    int tempLen = readlink("/proc/self/exe", temp, sizeof(temp));
+    if (tempLen == 0)
+        return 0;
+    temp[tempLen] = '\0';
+
+    // Get file stat
+    struct stat file_stat;
+    if (lstat(temp, &file_stat) != 0) 
+        return 0;
+    
+    // Is it a link?
+    if (!S_ISREG(file_stat.st_mode)) 
+    {
+        // Yes,
+        int bufLen = readlink(temp, buf, len);
+        buf[bufLen] = '0';
+        return len;
+    }
+    else
+    {
+        // No, regular file
+        strncpy(buf, temp, len);   
+        return len;
+    }
+}
+
 int main(int argc, char **argv)
 {
     int chainpos = 0;
@@ -366,7 +396,7 @@ int main(int argc, char **argv)
                 }
 
                 char buf[PATH_MAX];
-                if (!readlink("/proc/self/exe", buf, sizeof(buf)))
+                if (!getExeLocation(buf, PATH_MAX))
                 {
                     fprintf(stderr, "Auto bscan failed - can't read /proc/self/exe\n");
                     return 7;
