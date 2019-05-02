@@ -175,4 +175,4 @@ pip-log.txt
 .DS_Store
 
 # Temp files while making linux package
-./linux-package/GadgetFactory/
+linux-package/GadgetFactory/
