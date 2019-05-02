@@ -410,7 +410,18 @@ int main(int argc, char **argv)
                 }
                 else
                 {
-                    fprintf(stderr, "Auto bscan failed: %s doesn't exist\n", buf);
+                    strcpy(p+1, "../");
+                    strcat(p, bscanFile);
+                    if (file_exist(buf))
+                    {
+                        if (verbose)
+                            printf("Using bscan file: %s\n", buf);
+                    }
+                    else
+                    {
+                        fprintf(stderr, "Auto bscan failed: %s doesn't exist\n", buf);
+                        return 7;
+                    }
                 }
 
                 // Use the discovered file name
