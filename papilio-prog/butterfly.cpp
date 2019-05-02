@@ -26,6 +26,7 @@ Mike Field [hamster@snap.net.nz] 15 Oct 2012
 */
 
 
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 // C standard libraries
 #include <stdio.h> // fprintf() printf() stderr
@@ -356,14 +357,14 @@ int main(int argc, char **argv)
     }
 
     Jtag jtag = Jtag(io.operator->());
-    unsigned int family, manufacturer;
+    unsigned int family;//, manufacturer;
     fprintf(stderr, "Using %s\n", db.getFile().c_str());
 
     id = get_id (jtag, db, chainpos, true, &dd);
     if (id == 0)
       return 1;
     family = (id>>21) & 0x7f;
-    manufacturer = (id>>1) & 0x3ff;
+    //manufacturer = (id>>1) & 0x3ff;
     if(detectchain)
         return 0;
 
