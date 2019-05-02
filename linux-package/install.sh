@@ -19,4 +19,4 @@ rulestr2="SUBSYSTEMS==\"usb\", ATTRS{idVendor}==\"0403\", ATTRS{idProduct}==\"7b
 echo $rulestr1 > /etc/udev/rules.d/papilio.rules
 echo $rulestr2 >> /etc/udev/rules.d/papilio.rules
 echo
-echo "Note: logout and log back in for papilio-prog to work without sudo"
+echo "Note: to work without sudo, logout/login and replug any connected boards (or reboot)"
