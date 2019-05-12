@@ -26,6 +26,7 @@ Mike Field [hamster@snap.net.nz] 15 Oct 2012
 */
 
 
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 // C standard libraries
 #include <stdio.h> // fprintf() printf() stderr
@@ -35,6 +36,7 @@ Mike Field [hamster@snap.net.nz] 15 Oct 2012
 
 // C POSIX
 #include <unistd.h> // getopt()
+#include <sys/stat.h>
 
 // C++ standard libraries
 #include <iostream>
@@ -51,7 +53,7 @@ Mike Field [hamster@snap.net.nz] 15 Oct 2012
 #include "bitfile.h"
 
 
-unsigned int get_id(Jtag &jtag, DeviceDB &db, int chainpos, bool verbose)
+unsigned int get_id(Jtag &jtag, DeviceDB &db, int chainpos, bool verbose, const char** pdd)
 {
     int num=jtag.getChain();
     unsigned int id;
@@ -83,11 +85,11 @@ unsigned int get_id(Jtag &jtag, DeviceDB &db, int chainpos, bool verbose)
         return 0;
     }
 
-    const char *dd=db.getDeviceDescription(chainpos);
+    *pdd=db.getDeviceDescription(chainpos);
     id = jtag.getDeviceID(chainpos);
     if (verbose)
     {
-        printf("JTAG chainpos: %d Device IDCODE = 0x%08x\tDesc: %s\n", chainpos,id, dd);
+        printf("JTAG chainpos: %d Device IDCODE = 0x%08x\tDesc: %s\n", chainpos,id, *pdd);
         fflush(stdout);
     }
     return id;
@@ -96,13 +98,13 @@ unsigned int get_id(Jtag &jtag, DeviceDB &db, int chainpos, bool verbose)
 void usage(char *name)
 {
     fprintf(stderr,
-      "\nUsage:\%s [-v] [-j] [-f <bitfile>] [-b <bitfile>] [-s e|v|p|a] [-c] [-C] [-r] [-A <addr>:<binfile>]\n"
+      "\nUsage:\%s [-v] [-j] [-f <bitfile>] [-b <bitfile>|auto] [-s e|v|p|a] [-c] [-C] [-r] [-A <addr>:<binfile>]\n"
       "   -h\t\t\tprint this help\n"
       "   -v\t\t\tverbose output\n"
       "   -j\t\t\tDetect JTAG chain, nothing else\n"
       "   -d\t\t\tFTDI device name\n"
       "   -f <bitfile>\t\tMain bit file\n"
-      "   -b <bitfile>\t\tbscan_spi bit file (enables spi access via JTAG)\n"
+      "   -b <bitfile>|auto\tbscan_spi bit file (enables spi access via JTAG)\n"
       "   -s [e|v|p|a]\t\tSPI Flash options: e=Erase Only, v=Verify Only,\n"
       "               \t\tp=Program Only or a=ALL (Default)\n"
       "   -c\t\t\tDisplay current status of FPGA\n"
@@ -146,6 +148,60 @@ int append_data(BitFile &fpga_bit, char *append_str, bool flip, int verbose)
     return 1;
 }
 
+// Helper to check if file exists
+int file_exist (char *filename)
+{
+  struct stat   buffer;   
+  return (stat (filename, &buffer) == 0);
+}
+
+const char* map_desc_to_bscan(const char* dd)
+{
+    if (!dd)
+     return NULL;
+    if (strcmp(dd, "XC3S250E")==0)
+        return "bscan_spi_xc3s250e.bit";
+    if (strcmp(dd, "XC3S500E")==0)
+        return "bscan_spi_xc3s500e.bit";
+    if (strcmp(dd, "XC3S100E")==0)
+        return "bscan_spi_xc3s100e.bit";
+    if (strcmp(dd, "XC6SLX9")==0)
+        return "bscan_spi_xc6slx9.bit";
+    if (strcmp(dd, "XC6SLX4")==0)
+        return "bscan_spi_xc6slx4.bit";
+    return NULL;
+}
+
+int getExeLocation(char* buf, int len)
+{
+    // Read /proc/self/exe
+    char temp[PATH_MAX];
+    int tempLen = readlink("/proc/self/exe", temp, sizeof(temp));
+    if (tempLen == 0)
+        return 0;
+    temp[tempLen] = '\0';
+
+    // Get file stat
+    struct stat file_stat;
+    if (lstat(temp, &file_stat) != 0) 
+        return 0;
+    
+    // Is it a link?
+    if (!S_ISREG(file_stat.st_mode)) 
+    {
+        // Yes,
+        int bufLen = readlink(temp, buf, len);
+        buf[bufLen] = '0';
+        return len;
+    }
+    else
+    {
+        // No, regular file
+        strncpy(buf, temp, len);   
+        return len;
+    }
+}
+
 int main(int argc, char **argv)
 {
     int chainpos = 0;
@@ -159,6 +215,7 @@ int main(int argc, char **argv)
     int displaystatus = 0; // 0=no status, 1=JTAG IR data, 2=STAT Register readback
     bool result;
     char *desc = 0;
+    const char* dd = 0;
     char const *serial = 0;
     int subtype = FTDI_NO_EN;
     char *devicedb = NULL;
@@ -171,7 +228,6 @@ int main(int argc, char **argv)
     DeviceDB db(devicedb);
 
     std::auto_ptr<IOBase>  io;
-
 
     while ((c = getopt (argc, argv, "hd:b:f:s:A:a:jvcCr")) != EOF)
         switch (c)
@@ -301,16 +357,17 @@ int main(int argc, char **argv)
     }
 
     Jtag jtag = Jtag(io.operator->());
-    unsigned int family, manufacturer;
+    unsigned int family;//, manufacturer;
     fprintf(stderr, "Using %s\n", db.getFile().c_str());
 
-    id = get_id (jtag, db, chainpos, true);
+    id = get_id (jtag, db, chainpos, true, &dd);
     if (id == 0)
       return 1;
     family = (id>>21) & 0x7f;
-    manufacturer = (id>>1) & 0x3ff;
+    //manufacturer = (id>>1) & 0x3ff;
     if(detectchain)
         return 0;
+
 
 
     ProgAlgXC3S alg(jtag,io.operator*(), family);
@@ -328,11 +385,55 @@ int main(int argc, char **argv)
     {
         if(spiflash)
         {
+            // Auto fpga bit file?
+            if (strcmp(cBscan_fn, "auto") == 0)
+            {
+                // Work out name of bscan_spi_*.bit file from device description
+                const char* bscanFile = map_desc_to_bscan(dd);
+                if (!bscanFile)
+                {
+                    fprintf(stderr, "Auto bscan file not found for device: '%s'\n", dd);
+                    return 7;
+                }
+
+                char buf[PATH_MAX];
+                if (!getExeLocation(buf, PATH_MAX))
+                {
+                    fprintf(stderr, "Auto bscan failed - can't read /proc/self/exe\n");
+                    return 7;
+                }
+                char* p = strrchr(buf, '/');
+                strcpy(p+1, bscanFile);
+                if (file_exist(buf))
+                {
+                    if (verbose)
+                        printf("Using bscan file: %s\n", buf);
+                }
+                else
+                {
+                    strcpy(p+1, "../");
+                    strcat(p, bscanFile);
+                    if (file_exist(buf))
+                    {
+                        if (verbose)
+                            printf("Using bscan file: %s\n", buf);
+                    }
+                    else
+                    {
+                        fprintf(stderr, "Auto bscan failed: %s doesn't exist\n", buf);
+                        return 7;
+                    }
+                }
+
+                // Use the discovered file name
+                cBscan_fn = buf;
+            }
+
             BitFile fpga_bit;
             fpga_bit.readFile(cBscan_fn);
             //fpga_bit.print();
         
-            printf("\nUploading \"%s\". ", cBscan_fn);
+            printf("\nUploading \"%s\". \n", cBscan_fn);
             alg.array_program(fpga_bit);
 
             BitFile flash_bit;
@@ -380,7 +481,7 @@ int main(int argc, char **argv)
 
             fpga_bit.print();
 
-            printf("\nUploading \"%s\". ", cFpga_fn);
+            printf("\nUploading \"%s\". \n", cFpga_fn);
             alg.array_program(fpga_bit);
             return 0;
         }

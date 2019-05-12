@@ -174,3 +174,5 @@ pip-log.txt
 # Mac crap
 .DS_Store
 
+# Temp files while making linux package
+linux-package/GadgetFactory/

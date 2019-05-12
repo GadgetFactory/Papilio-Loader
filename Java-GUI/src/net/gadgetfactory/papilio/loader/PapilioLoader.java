@@ -223,7 +223,7 @@ public class PapilioLoader extends JFrame implements ActionListener
 		}
 		else
 		{
-			programmerPath = new File(rootProgrammerPath, "linux32");
+			programmerPath = new File(rootProgrammerPath, "linux");
 			papilioProgrammerFile = new File(programmerPath, "papilio-prog");
 			srecCatFile = new File(programmerPath, "srec_cat");
 			dataToMemFile = new File(programmerPath, "data2mem");

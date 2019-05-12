@@ -1,0 +1,3 @@
+#!/bin/sh
+rm -f papilio-prog-linux64.zip
+zip -j papilio-prog-linux64.zip papilio-prog ../Java-GUI/programmer/bscan_spi_*.*
