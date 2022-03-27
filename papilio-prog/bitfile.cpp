@@ -232,7 +232,7 @@ unsigned long BitFile::saveAs(int style, const char  *device, const char *fname)
     if(length<=0)
         return length;
     unsigned int clip;
-    /* Don't store 0xff uint8_ts from the end of the flash */
+    /* Don't store 0xff bytes from the end of the flash */
     for(clip=length-1; (buffer[clip] == 0xff) && clip>0; clip--){};
     FILE *fp=fopen(fname,"wb");
     if(fp == 0)
