@@ -103,7 +103,7 @@ void BitFile::readFile(char const * fname, bool flip)
 
 void BitFile::processData(FILE *fp, bool flip)
 {
-    byte t[4];
+    uint8_t t[4];
     size_t rsize;
     rsize = fread(t,1,4,fp);
     if (rsize != 4)
@@ -111,11 +111,11 @@ void BitFile::processData(FILE *fp, bool flip)
     length=(t[0]<<24)+(t[1]<<16)+(t[2]<<8)+t[3];
     if(buffer)
         delete [] buffer;
-    buffer=new byte[length];
+    buffer=new uint8_t[length];
 
     for(unsigned int i=0; i<length&&!feof(fp); i++)
     {
-        byte b;
+        uint8_t b;
         rsize = fread(&b,1,1,fp);
 	if (rsize != 1)
             throw  io_exception("Unexpected end of file");
@@ -136,7 +136,7 @@ void BitFile::appendZeros(unsigned cnt)
 {
     size_t i;
     size_t const  nlen = length + cnt;
-    byte  *const  nbuf = new byte[nlen];
+    uint8_t  *const  nbuf = new uint8_t[nlen];
 
     // copy old part
     for(i = 0; i < length; i++)
@@ -156,7 +156,7 @@ void BitFile::append(unsigned long val, unsigned cnt)
 {
     size_t i;
     size_t const  nlen = length + 4*cnt;
-    byte  *const  nbuf = new byte[nlen];
+    uint8_t  *const  nbuf = new uint8_t[nlen];
 
     // copy old part
     for(i = 0; i < length; i++)
@@ -189,7 +189,7 @@ void BitFile::append(char const *fname, bool flip)
         size_t i;
 
         size_t const  nlen = length + stats.st_size;
-        byte  *const  nbuf = new byte[nlen];
+        uint8_t  *const  nbuf = new uint8_t[nlen];
 
         // copy old part
         for(i = 0; i < length; i++)
@@ -202,7 +202,7 @@ void BitFile::append(char const *fname, bool flip)
         {
             if(feof(fp))
                 throw  io_exception("Unexpected end of file");
-            byte  b;
+            uint8_t  b;
             rsize = fread(&b, 1, 1, fp);
             if (rsize != 1)
                 throw  io_exception("Unexpected end of file");
@@ -224,7 +224,7 @@ void BitFile::setLength(unsigned int size)
     length = (size+7)>>3;
     if(buffer)
         delete [] buffer;
-    buffer=new byte[length];
+    buffer=new uint8_t[length];
 }
 
 unsigned long BitFile::saveAs(int style, const char  *device, const char *fname)
@@ -248,7 +248,7 @@ unsigned long BitFile::saveAs(int style, const char  *device, const char *fname)
     }
     for(unsigned int i=0; i<clip; i++)
     {
-        byte b=bitRevTable[buffer[i]]; // Reverse bit order
+        uint8_t b=bitRevTable[buffer[i]]; // Reverse bit order
         fwrite(&b,1,1,fp);
     }
     fclose(fp);
@@ -265,14 +265,14 @@ void BitFile::error(const string &str)
 void BitFile::readField(string &field, FILE *fp)
 {
     size_t rsize;
-    byte t[2];
+    uint8_t t[2];
     rsize = fread(t,1,2,fp);
     if (rsize != 2)
         throw  io_exception("Unexpected end of file");
     unsigned short len=(t[0]<<8)+t[1];
     for(int i=0; i<len; i++)
     {
-        byte b;
+        uint8_t b;
         rsize = fread(&b,1,1,fp);
         if (rsize != 1)
             throw  io_exception("1 Unexpected end of file");

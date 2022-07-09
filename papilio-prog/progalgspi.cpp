@@ -251,6 +251,13 @@ bool ProgAlgSpi::Spi_Identify(bool verbose)
             } if (tdo[2] == 0x20) { //N25PXXX
                 switch(tdo[3])
                 {
+                    case 0x13: /* N25P40 */
+                        Pages=2048;
+                        PageSize=256;
+                        BulkErase=20;
+                        SectorErase=3;
+                        FlashType=GENERIC;
+                        break;
                     case 0x14: /* N25P80 */
                         Pages=4096;
                         PageSize=256;
@@ -265,7 +272,29 @@ bool ProgAlgSpi::Spi_Identify(bool verbose)
                 if(verbose)
                   printf("Found Numonyx/Micron Flash (Pages=%d, Page Size=%d bytes, %d bits).\n",Pages,PageSize,Pages*PageSize*8);
                 break;
-            } else {
+            }
+            else if (tdo[2] == 0x20)
+            {
+                /* ST */
+                if (tdo[3] == 0x13)
+                {
+                    Pages = 2048;
+                    PageSize = 256;
+                    BulkErase = 40;
+                    SectorErase = 10;
+                    FlashType = GENERIC;
+                }
+                else
+                {
+                    printf("Unknown ST Flash Size (0x%.2x)\n", tdo[3]);
+                }
+                if(verbose)
+                {
+                    printf("Found ST M25Pxx Flash (Pages=%d, Page Size=%d bytes, %d bits).\n",Pages,PageSize,Pages*PageSize*8);
+                }
+            }
+            else
+            {
                 printf("Unknown Numonyx/Micron Flash Type (0x%.2x)\n", tdo[2]);
                 return false;
             }
@@ -353,7 +382,7 @@ bool ProgAlgSpi::Spi_Identify(bool verbose)
                 printf("Found SST Flash (Pages=%d, Page Size=%d bytes, %d bits).\n",Pages,PageSize,Pages*PageSize*8);
             break;			
         default:
-            printf("Uknown Flash Manufacturer (0x%.2x)\n", tdo[1]);
+            printf("Uknown Flash Manufacturer (0x%.2x, 0x%02X, 0x%02X)\n", tdo[1], tdo[2], tdo[3]);
             return false;
     }
 
